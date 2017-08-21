@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_name_yichu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@+id/iv_shujia_adapter"
+            android:text="斗破苍穹"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_auther_yichu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_name_yichu"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_name_yichu"
+            android:text="天蚕土豆"
+            android:textColor="@color/color_666666"
+            android:textSize="13dp" />
+
+
+        <TextView
+            android:id="@+id/tv_state_yichu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name_yichu"
+            android:layout_alignLeft="@+id/tv_name_yichu"
+            android:layout_marginTop="5dp"
+            android:text="连载中_"
+            android:textColor="@color/hometextcolor_hover"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/tv_lastchart_yichu"
+            android:layout_below="@+id/tv_name_yichu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/tv_state_yichu"
+            android:text="更新至 第1000章 诡异的刀"
+            android:textColor="@color/color_666666"
+            android:textSize="12dp" />
+        <TextView
+            android:id="@+id/tv_currentchart_yichu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_name_yichu"
+            android:layout_below="@+id/tv_state_yichu"
+            android:layout_marginTop="5dp"
+            android:text="你读到 第999章"
+            android:textColor="@color/color_666666"
+            android:textSize="12dp"
+            android:visibility="visible" />
+        <TextView
+            android:id="@+id/tv_manydownload_yichu"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/tv_state_yichu"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="已缓存20章"
+            android:textColor="@color/color_666666"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_jiarudate_yichu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20天前加入"
+            android:layout_alignLeft="@+id/tv_name_yichu"
+            android:layout_below="@+id/tv_currentchart_yichu"
+            android:textColor="@color/color_666666"
+            android:layout_marginTop="5dp"
+            android:textSize="12dp"
+            />
+
+        <ImageView
+            android:id="@+id/iv_isxuanze_yichu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="15dp"
+            android:background="@mipmap/me_anquan_xz" />
+    </RelativeLayout>
+</LinearLayout>

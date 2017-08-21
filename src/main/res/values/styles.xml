@@ -1,0 +1,74 @@
+<resources>
+
+    <style name="BilibiliBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme" parent="BilibiliBaseTheme">
+        <item name="android:windowBackground">@color/color_f7f7f7</item>
+    </style>
+
+    <style name="TranslucentBackground">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">#55000000</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+
+    <style name="defaultTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textScaleX">1.1</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="ActionSheetDialogStyle" >
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+    <style name="textinputlayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/color_008dfe</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="canusemoney_large">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#ff8f19</item>
+    </style>
+
+    <style name="canusemoney_small">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_333333</item>
+    </style>
+
+    <style name="home_text_gray">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#999999</item>
+    </style>
+
+    <style name="home_text_color">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ff8f19</item>
+    </style>
+    <style name="register_anim_enter" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+    <style name="register_anim_exit" parent="@android:style/Animation.Dialog">
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+
+</resources>

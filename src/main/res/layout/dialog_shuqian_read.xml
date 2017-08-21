@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <RelativeLayout
+        android:id="@+id/rl_outside_shuqian"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rl_content_shuqian"
+        >
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_content_shuqian"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@color/chapter_title_night"
+        android:layout_height="300dp">
+        <RelativeLayout
+            android:id="@+id/rl_conten_read_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           >
+            <RelativeLayout
+                android:id="@+id/ll_title_shuqian_read"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的书签"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/color_999999"
+                    android:textSize="20dp" />
+             <RelativeLayout
+                 android:id="@+id/rl_new_shuqian_read"
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+                 android:layout_alignParentRight="true"
+                 >
+                 <TextView
+                     android:id="@+id/tv_new_shuqian"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="新增书签"
+                     android:layout_marginRight="15dp"
+                     android:paddingTop="8dp"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:textColor="@color/color_999999"
+                     />
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textColor="@color/white"
+                     android:text="+"
+                     android:textSize="30dp"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="5dp"
+                     android:layout_toLeftOf="@+id/tv_new_shuqian"
+                     />
+             </RelativeLayout>
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/ls_shuqian_read"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_title_shuqian_read"
+                android:layout_marginTop="10dp"
+                ></ListView>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

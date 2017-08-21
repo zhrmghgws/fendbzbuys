@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_name_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_shujia_adapter"
+            android:text="斗破苍穹"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_auther_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_name_down"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_name_down"
+            android:text="天蚕土豆"
+            android:textColor="@color/color_666666"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/tv_manydownload_down"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/tv_name_down"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="已缓存20章"
+            android:textColor="@color/color_666666"
+            android:textSize="12dp" />
+        <TextView
+            android:id="@+id/tv_down_down"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:text="下载"
+            android:textColor="@color/color_DBDBDB"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:background="@drawable/yuanjiao_button_lanse_down"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            />
+       <View
+           android:id="@+id/view_jindu_base_down"
+           android:layout_below="@+id/tv_manydownload_down"
+           android:layout_width="100dp"
+           android:layout_height="3dp"
+           android:background="@color/color_999999"
+           android:layout_marginTop="10dp"
+           android:visibility="gone"
+           android:layout_marginBottom="10dp"
+           />
+        <View
+            android:layout_below="@+id/tv_manydownload_down"
+            android:id="@+id/view_jindu_down"
+            android:layout_width="50dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:background="@color/hometextcolor_hover"
+            android:layout_marginBottom="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_jindu_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="@color/color_666666"
+            android:layout_toRightOf="@+id/view_jindu_base_down"
+            android:layout_below="@id/tv_manydownload_down"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="30%"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+</LinearLayout>

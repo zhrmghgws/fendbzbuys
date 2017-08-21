@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/shujia_bj14">
+
+    <ListView
+        android:id="@+id/lv_paihang"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparentwhite_60"
+        android:layout_toRightOf="@+id/rl_bangdan"></ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:visibility="gone"
+        android:layout_marginLeft="60dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_nan_paihang"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#99ffffff"
+            android:elevation="5dp">
+
+            <TextView
+                android:id="@+id/tv_nan_paihang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="男生"
+                android:textColor="@color/hometextcolor_hover"
+                android:textSize="20dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_nv_paihang"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#99ffffff">
+
+            <TextView
+                android:id="@+id/tv_nv_paihang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="女生"
+                android:textColor="@color/color_bdbdbd"
+                android:textSize="15dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/rl_bangdan"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:background="@color/transparentwhite_60">
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="165dp"
+                android:visibility="visible"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/hometextcolor_hover_light"
+                    android:elevation="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="最热榜"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_fengyunzong_paihang"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/white">
+
+                        <View
+                            android:id="@+id/view_fengyunzong"
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#03b5ff" />
+
+                        <TextView
+                            android:id="@+id/tv_fengyunzong"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="总榜"
+                            android:textColor="@color/hometextcolor_hover"
+                            android:textSize="@dimen/text_size_17dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_fengyunyue_paihang"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/scrim_16000000">
+
+                        <View
+                            android:id="@+id/view_fengyunyue"
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#03b5ff"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_fengyunyue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="月榜"
+                            android:textColor="@color/hometextcolor"
+                            android:textSize="@dimen/text_size_14dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_fengyunzhou_paihang"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/scrim_16000000">
+
+                        <View
+                            android:id="@+id/view_fengyunzhou"
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#03b5ff"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_fengyunzhou"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="周榜"
+                            android:textColor="@color/hometextcolor"
+                            android:textSize="@dimen/text_size_14dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/color_bdbdbd" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="165dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/hometextcolor_hover_light"
+                    android:elevation="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="潜力榜"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_zonghengzong_paihang"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/scrim_16000000">
+
+                        <View
+                            android:id="@+id/view_zonghengzong"
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#03b5ff"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_zonghengzong"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="总榜"
+                            android:textColor="@color/hometextcolor"
+                            android:textSize="@dimen/text_size_14dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_zonghengyue_paihang"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/scrim_16000000">
+
+                        <View
+                            android:id="@+id/view_zonghengyue"
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#03b5ff"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_zonghengyue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="月榜"
+                            android:textColor="@color/hometextcolor"
+                            android:textSize="@dimen/text_size_14dp" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/rl_zonghengzhou_paihang"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/scrim_16000000">
+
+                        <View
+                            android:id="@+id/view_zonghengzhou"
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#03b5ff"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_zonghengzhou"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="周榜"
+                            android:textColor="@color/hometextcolor"
+                            android:textSize="@dimen/text_size_14dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/color_bdbdbd" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="165dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/hometextcolor_hover_light"
+                    android:elevation="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="完结榜"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_wanjiezong_paihang"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/scrim_16000000">
+
+                        <View
+                            android:id="@+id/view_wanjiezong"
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#03b5ff"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_wanjiezong"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="总榜"
+                            android:textColor="@color/hometextcolor"
+                            android:textSize="@dimen/text_size_14dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_wanjieyue_paihang"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/scrim_16000000">
+
+                        <View
+                            android:id="@+id/view_wanjieyue"
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#03b5ff"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_wanjieyue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="月榜"
+                            android:textColor="@color/hometextcolor"
+                            android:textSize="@dimen/text_size_14dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_wanjiezhou_paihang"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/scrim_16000000">
+
+                        <View
+                            android:id="@+id/view_wanjiezhou"
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#03b5ff"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_wanjiezhou"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="周榜"
+                            android:textColor="@color/hometextcolor"
+                            android:textSize="@dimen/text_size_14dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
