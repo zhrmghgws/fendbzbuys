@@ -11,6 +11,7 @@ import com.hxd.fendbzbuys.domain.AutherBooksList;
 import com.hxd.fendbzbuys.domain.BookContentInfo;
 import com.hxd.fendbzbuys.domain.BookInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
+import com.hxd.fendbzbuys.domain.BookTotalInfo;
 import com.hxd.fendbzbuys.domain.GenderInfo;
 import com.hxd.fendbzbuys.domain.ShuSourceInfo;
 import com.hxd.fendbzbuys.domain.StatisticsInfo;
@@ -205,6 +206,10 @@ public class Network {
     }
     public Flowable<BookContentInfo> getContent(String url){
         Flowable<BookContentInfo> malezuirezong=xdApi.getContent(url);
+        return malezuirezong.compose(mBaseHttpresultFunc);
+    }
+    public Flowable<List<BookTotalInfo>> getTotalCount(String bookID){
+        Flowable<List<BookTotalInfo>> malezuirezong=xdApi.gettotalCount(bookID);
         return malezuirezong.compose(mBaseHttpresultFunc);
     }
 
