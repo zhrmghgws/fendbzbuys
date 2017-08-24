@@ -62,7 +62,7 @@ public class BangdanBooksBeanDao extends AbstractDao<BangdanBooksBean, Long> {
                 "\"LATELY_FOLLOWER\" TEXT," + // 9: latelyFollower
                 "\"RETENTION_RATIO\" TEXT);"); // 10: retentionRatio
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_BANGDAN_BOOKS_BEAN_TYPE ON BANGDAN_BOOKS_BEAN" +
+        db.execSQL("CREATE INDEX " + constraint + "IDX_BANGDAN_BOOKS_BEAN_TYPE ON \"BANGDAN_BOOKS_BEAN\"" +
                 " (\"TYPE\" ASC);");
     }
 

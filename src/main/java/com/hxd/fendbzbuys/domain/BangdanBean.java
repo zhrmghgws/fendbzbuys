@@ -8,17 +8,17 @@ import org.greenrobot.greendao.annotation.Generated;
  * Created by lichao on 17/8/2.
  */
 @Entity
-public class BangdansBean {
+public class BangdanBean {
     @Id
     public long id;
     public String sourceID;
-    @Generated(hash = 864609476)
-    public BangdansBean(long id, String sourceID) {
+    @Generated(hash = 380532760)
+    public BangdanBean(long id, String sourceID) {
         this.id = id;
         this.sourceID = sourceID;
     }
-    @Generated(hash = 556655092)
-    public BangdansBean() {
+    @Generated(hash = 259068103)
+    public BangdanBean() {
     }
     public long getId() {
         return this.id;
@@ -32,6 +32,7 @@ public class BangdansBean {
     public void setSourceID(String sourceID) {
         this.sourceID = sourceID;
     }
+
 
 
 

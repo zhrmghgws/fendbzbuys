@@ -1,27 +1,20 @@
 package com.hxd.fendbzbuys.moduler.shudetail_moduler;
 
-import android.app.DownloadManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.stream.StreamResourceLoader;
 import com.hxd.fendbzbuys.Common;
 import com.hxd.fendbzbuys.Constant;
-import com.hxd.fendbzbuys.MyApplication;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.BasePresenter;
 import com.hxd.fendbzbuys.base.DownLoadCallBack;
-import com.hxd.fendbzbuys.base.HttpResult;
 import com.hxd.fendbzbuys.base.MyCallBack;
 import com.hxd.fendbzbuys.domain.AutherBooksList;
 import com.hxd.fendbzbuys.domain.BangdanBooksBean;
@@ -29,28 +22,19 @@ import com.hxd.fendbzbuys.domain.BookInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
 import com.hxd.fendbzbuys.domain.ShuSourceInfo;
 import com.hxd.fendbzbuys.domain.ShujiaBookBean;
-import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
 import com.hxd.fendbzbuys.manager.BookDownLoadManager;
 import com.hxd.fendbzbuys.manager.DaoManager;
 import com.hxd.fendbzbuys.manager.DialogManager;
-import com.hxd.fendbzbuys.moduler.laon_moduler.PaihangPresenter;
 import com.hxd.fendbzbuys.moduler.read_moduler.ReadActivity;
-import com.hxd.fendbzbuys.moduler.read_moduler.ReadPresenter;
-import com.hxd.fendbzbuys.network.Network;
+import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
-import com.hxd.fendbzbuys.ui.ExToast;
-import com.hxd.fendbzbuys.ui.MiExToast;
 import com.hxd.fendbzbuys.utils.UIUtils;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -109,7 +93,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
     }
 
     private void getBookInfo() {
-        Network.getInstance().getBookInfo(view.bookInfo.bookID).subscribe(new ProcressSubsciber<BookInfo>(false, false) {
+        FBNetwork.getInstance().getBookInfo(view.bookInfo.bookID).subscribe(new ProcressSubsciber<BookInfo>(false, false) {
             @Override
             public void onNext(BookInfo bookInfo) {
                 super.onNext(bookInfo);
@@ -121,7 +105,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
     }
 
     private void getTuijianshuOne() {
-        Network.getInstance().getAutherBooks(view.bookInfo.author).subscribe(new ProcressSubsciber<AutherBooksList>(false, false) {
+        FBNetwork.getInstance().getAutherBooks(view.bookInfo.author).subscribe(new ProcressSubsciber<AutherBooksList>(false, false) {
             @Override
             public void onNext(AutherBooksList httpResult) {
                 super.onNext(httpResult);
@@ -141,7 +125,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
     }
 
     public void getShuSources() {
-        Network.getInstance().getShuSources(view.bookInfo.bookID).subscribe(new ProcressSubsciber<List<ShuSourceInfo>>(false, false) {
+        FBNetwork.getInstance().getShuSources(view.bookInfo.bookID).subscribe(new ProcressSubsciber<List<ShuSourceInfo>>(false, false) {
             @Override
             public void onNext(List<ShuSourceInfo> httpResult) {
                 super.onNext(httpResult);
@@ -157,7 +141,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
     }
 
     private void getTuijianshuTwo() {
-        Network.getInstance().getBooksTuijian(view.bookInfo.bookID).subscribe(new ProcressSubsciber<AutherBooksList>(false, false) {
+        FBNetwork.getInstance().getBooksTuijian(view.bookInfo.bookID).subscribe(new ProcressSubsciber<AutherBooksList>(false, false) {
             @Override
             public void onNext(AutherBooksList autherBooksList) {
                 super.onNext(autherBooksList);
@@ -219,9 +203,9 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
     }
 
     public void clickXiazai() {
-        if(DownLoadToastManager.miToast!=null){
+        if (DownLoadToastManager.miToast != null) {
             UIUtils.showToast("请稍后,当前有任务正在缓存中...");
-        }else{
+        } else {
             clickJiarushujia(true);
         }
     }
@@ -347,14 +331,14 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
                         DownLoadToastManager.miToast.setErrorHintGone();
                         DownLoadToastManager.miToast.setJinduText("缓存中:");
                         DownLoadToastManager.miToast.setJindu(widthNew);
-                        DownLoadToastManager.miToast.setJinduText(shuzhi+"%");
+                        DownLoadToastManager.miToast.setJinduText(shuzhi + "%");
                     }
                 });
             }
 
             @Override
             public void update(int sucess) {
-                if (sucess>=100 && sucess % 100 == 0) {
+                if (sucess >= 100 && sucess % 100 == 0) {
                     Log.e("sucess", "::::::: " + sucess);
                     Log.e("sucess", "::::::: " + muluList.size());
                     BigDecimal value = new BigDecimal(sucess).divide(new BigDecimal(muluList.size()), 2, BigDecimal.ROUND_UP);
@@ -376,43 +360,48 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
 
             @Override
             public void finish() {
-                    singleflag = 3;
-                    goneDownLoadHintNew();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            DownLoadToastManager.miToast.setTvText("已完毕:");
-                            DownLoadToastManager.miToast.setJindu(UIUtils.dip2px(180));
-                            DownLoadToastManager.miToast.setJinduText(100 + "%");
-                            //downloadManager = null;
-                        }
-                    });
+                singleflag = 3;
+                goneDownLoadHintNew();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DownLoadToastManager.miToast.setTvText("已完毕:");
+                        DownLoadToastManager.miToast.setJindu(UIUtils.dip2px(180));
+                        DownLoadToastManager.miToast.setJinduText(100 + "%");
+                        //downloadManager = null;
+                    }
+                });
             }
 
             @Override
             public void finishWithError(int sucess, int error) {
                 Log.e("缓存完毕", ":::::::有错误:::::::::::: ");
-                    Log.e("缓存完毕", ":::::::toast还在:::::::::::: ");
-                    singleflag = 30;
-                    goneDownLoadHintNew();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            DownLoadToastManager.miToast.setErrorHintVisible();
-                            DownLoadToastManager.miToast.tv_error_floattips.setText("有" + error + "章缓存失败,请确认你的网络连接正常,然后点击重新缓存失败章节");
-                            DownLoadToastManager.miToast.setErrorOnclick(new MyCallBack() {
-                                @Override
-                                public void next() {
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            downloadManager.downLoad();
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
+                Log.e("缓存完毕", ":::::::toast还在:::::::::::: ");
+                if(DownLoadToastManager.miToast.toast==null){
+                    Log.e("缓存完毕", ":::::::toase为空:::::::::::: ");
+                }else{
+                    Log.e("缓存完毕", ":::::::toase不为空:::::::::::: ");
+                }
+                singleflag = 30;
+                goneDownLoadHintNew();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DownLoadToastManager.miToast.setErrorHintVisible();
+                        DownLoadToastManager.miToast.tv_error_floattips.setText("有" + error + "章缓存失败,请确认你的网络连接正常,然后点击重新缓存失败章节");
+                        DownLoadToastManager.miToast.setErrorOnclick(new MyCallBack() {
+                            @Override
+                            public void next() {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        downloadManager.downLoad();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
 
 
             }
@@ -424,7 +413,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
     private BookDownLoadManager downloadManager;
 
     private void downLoadPre(int bookPathid, DownLoadCallBack callBack, String bookId) {
-        Network.getInstance().getBookmulu(this.bookSourceID).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+        FBNetwork.getInstance().getBookmulu(this.bookSourceID).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
             @Override
             public void onNext(BookMuluInfo httpResult) {
                 super.onNext(httpResult);
@@ -522,7 +511,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
                                 DownLoadToastManager.miToast = null;
 
                             }
-                            downloadManager=null;
+                            downloadManager = null;
                         }
 
                     }

@@ -60,23 +60,25 @@ public class DialogManager {
         loadingDialog.setContentView(inflate);
         return loadingDialog;
     }
-    private static Map<Integer,String> bookIDList;
-    public static void createYiChuShujiaDialog(Activity activity, boolean isCanCancle,boolean isShouye) {
-        ShujiaBookBeanDao shujiaBookBeanDao=DaoManager.getInstance().getShujiaBookBeanDao();
-        List<ShujiaBookBean> shujiaBookBeanList=shujiaBookBeanDao.queryBuilder().where(ShujiaBookBeanDao.Properties.BookpathBean.gt(0)).list();
-        bookIDList=new HashMap<Integer,String>();
+
+    private static Map<Integer, String> bookIDList;
+
+    public static void createYiChuShujiaDialog(Activity activity, boolean isCanCancle, boolean isShouye) {
+        ShujiaBookBeanDao shujiaBookBeanDao = DaoManager.getInstance().getShujiaBookBeanDao();
+        List<ShujiaBookBean> shujiaBookBeanList = shujiaBookBeanDao.queryBuilder().where(ShujiaBookBeanDao.Properties.BookpathBean.gt(0)).list();
+        bookIDList = new HashMap<Integer, String>();
         Dialog loadingDialog = new Dialog(activity, R.style.TranslucentBackground);
         View inflate = View.inflate(activity, R.layout.yichushujia_dialog, null);
-        TextView tv_yichu_ok_dialog= (TextView) inflate.findViewById(R.id.tv_yichu_ok_dialog);
-        TextView tv_yichu_no_dialog= (TextView) inflate.findViewById(R.id.tv_yichu_no_dialog);
-        TextView tv2_yichushujia= (TextView) inflate.findViewById(R.id.tv2_yichushujia);
+        TextView tv_yichu_ok_dialog = (TextView) inflate.findViewById(R.id.tv_yichu_ok_dialog);
+        TextView tv_yichu_no_dialog = (TextView) inflate.findViewById(R.id.tv_yichu_no_dialog);
+        TextView tv2_yichushujia = (TextView) inflate.findViewById(R.id.tv2_yichushujia);
         ListView lv_yichu = (ListView) inflate.findViewById(R.id.lv_yichushujia);
         View view_outside_yichudialog = inflate.findViewById(R.id.view_outside_yichudialog);
-        if(isShouye){
+        if (isShouye) {
             tv2_yichushujia.setText("点击选中后,可以批量移出书架");
             tv2_yichushujia.setTextColor(activity.getResources().getColor(R.color.color_999999));
         }
-        YichuShujiaAdapter adapter=new YichuShujiaAdapter(activity,shujiaBookBeanList);
+        YichuShujiaAdapter adapter = new YichuShujiaAdapter(activity, shujiaBookBeanList);
         lv_yichu.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         view_outside_yichudialog.setOnClickListener(new View.OnClickListener() {
@@ -94,15 +96,20 @@ public class DialogManager {
         tv_yichu_ok_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(bookIDList.size()>0){
-                    for(Map.Entry<Integer,String> entry:bookIDList.entrySet()){
-                        BookPathBeanDaoManager.cleanBookPathBeanDao(shujiaBookBeanList.get(entry.getKey()).bookpathBean);
-                        shujiaBookBeanDao.deleteByKey(entry.getValue());
-                        Log.e("entry.getKey()", "::::::: "+ entry.getKey()+"::::::entry.getValue"+":::::"+entry.getValue());
-                    }
+                if (bookIDList.size() > 0) {
                     loadingDialog.dismiss();
+                    for (Map.Entry<Integer, String> entry : bookIDList.entrySet()) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                BookPathBeanDaoManager.cleanBookPathBeanDao(shujiaBookBeanList.get(entry.getKey()).bookpathBean);
+                                shujiaBookBeanDao.deleteByKey(entry.getValue());
+                            }
+                        }).start();
+                        Log.e("entry.getKey()", "::::::: " + entry.getKey() + "::::::entry.getValue" + ":::::" + entry.getValue());
+                    }
                     UIUtils.showToast("移除成功");
-                }else {
+                } else {
                     UIUtils.showToast("请先选中你要移除书架的书");
                 }
 
@@ -111,12 +118,12 @@ public class DialogManager {
         lv_yichu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ImageView iv= (ImageView) view.findViewById(R.id.iv_isxuanze_yichu);
-                if(bookIDList.containsKey(i)){
+                ImageView iv = (ImageView) view.findViewById(R.id.iv_isxuanze_yichu);
+                if (bookIDList.containsKey(i)) {
                     bookIDList.remove(i);
                     iv.setBackgroundResource(R.mipmap.me_anquan_xz);
-                }else{
-                    bookIDList.put(i,shujiaBookBeanList.get(i).bookId);
+                } else {
+                    bookIDList.put(i, shujiaBookBeanList.get(i).bookId);
                     iv.setBackgroundResource(R.mipmap.me_anquan_xzh);
                 }
             }
@@ -127,13 +134,16 @@ public class DialogManager {
         loadingDialog.show();
 
     }
-    static class YichuShujiaAdapter extends BaseAdapter{
+
+    static class YichuShujiaAdapter extends BaseAdapter {
         Activity activity;
         List<ShujiaBookBean> shujiaBookBeanList;
-        public YichuShujiaAdapter(Activity activity,List<ShujiaBookBean> list){
-            this.activity=activity;
-            this.shujiaBookBeanList=list;
+
+        public YichuShujiaAdapter(Activity activity, List<ShujiaBookBean> list) {
+            this.activity = activity;
+            this.shujiaBookBeanList = list;
         }
+
         @Override
         public int getCount() {
             return shujiaBookBeanList.size();
@@ -152,40 +162,40 @@ public class DialogManager {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
 
-            View viewItem=View.inflate(activity,R.layout.item_yichushujia_dialog,null);
-            TextView tv_name_yichu= (TextView) viewItem.findViewById(R.id.tv_name_yichu);
-            TextView tv_auther_yichu= (TextView) viewItem.findViewById(R.id.tv_auther_yichu);
-            TextView tv_state_yichu= (TextView) viewItem.findViewById(R.id.tv_state_yichu);
-            TextView tv_lastchart_yichu= (TextView) viewItem.findViewById(R.id.tv_lastchart_yichu);
-            TextView tv_manydownload_yichu= (TextView) viewItem.findViewById(R.id.tv_manydownload_yichu);
-            TextView tv_currentchart_yichu= (TextView) viewItem.findViewById(R.id.tv_currentchart_yichu);
-            TextView tv_jiarudate_yichu= (TextView) viewItem.findViewById(R.id.tv_jiarudate_yichu);
-            ImageView iv_isxuanze_yichu= (ImageView) viewItem.findViewById(R.id.iv_isxuanze_yichu);
+            View viewItem = View.inflate(activity, R.layout.item_yichushujia_dialog, null);
+            TextView tv_name_yichu = (TextView) viewItem.findViewById(R.id.tv_name_yichu);
+            TextView tv_auther_yichu = (TextView) viewItem.findViewById(R.id.tv_auther_yichu);
+            TextView tv_state_yichu = (TextView) viewItem.findViewById(R.id.tv_state_yichu);
+            TextView tv_lastchart_yichu = (TextView) viewItem.findViewById(R.id.tv_lastchart_yichu);
+            TextView tv_manydownload_yichu = (TextView) viewItem.findViewById(R.id.tv_manydownload_yichu);
+            TextView tv_currentchart_yichu = (TextView) viewItem.findViewById(R.id.tv_currentchart_yichu);
+            TextView tv_jiarudate_yichu = (TextView) viewItem.findViewById(R.id.tv_jiarudate_yichu);
+            ImageView iv_isxuanze_yichu = (ImageView) viewItem.findViewById(R.id.iv_isxuanze_yichu);
 
             tv_name_yichu.setText(shujiaBookBeanList.get(i).bookName);
             tv_auther_yichu.setText(shujiaBookBeanList.get(i).author);
-            long time=shujiaBookBeanList.get(i).jiaruDate;
-            int data= (int) ((System.currentTimeMillis()-time)/(1000*60*60));
-            if(data>24){
-               tv_jiarudate_yichu.setText((int)data/24+"天前加入");
-            }else{
-                if(data==0){
-                   tv_jiarudate_yichu.setText("刚刚加入");
-                }else{
-                    tv_jiarudate_yichu.setText(data+"小时前加入");
+            long time = shujiaBookBeanList.get(i).jiaruDate;
+            int data = (int) ((System.currentTimeMillis() - time) / (1000 * 60 * 60));
+            if (data > 24) {
+                tv_jiarudate_yichu.setText((int) data / 24 + "天前加入");
+            } else {
+                if (data == 0) {
+                    tv_jiarudate_yichu.setText("刚刚加入");
+                } else {
+                    tv_jiarudate_yichu.setText(data + "小时前加入");
                 }
             }
-            tv_currentchart_yichu.setText("你读到 第"+(Integer.parseInt(shujiaBookBeanList.get(i).currentZhangjie)+1)+"章");
-            tv_lastchart_yichu.setText("更新至 "+shujiaBookBeanList.get(i).lastChapter);
-            if(shujiaBookBeanList.get(i).isSerial){
+            tv_currentchart_yichu.setText("你读到 第" + (Integer.parseInt(shujiaBookBeanList.get(i).currentZhangjie) + 1) + "章");
+            tv_lastchart_yichu.setText("更新至 " + shujiaBookBeanList.get(i).lastChapter);
+            if (shujiaBookBeanList.get(i).isSerial) {
                 tv_state_yichu.setText("连载中_");
-            }else{
+            } else {
                 tv_state_yichu.setText("已完结_");
             }
-            tv_manydownload_yichu.setText("已缓存 "+shujiaBookBeanList.get(i).manyDownload+"章");
-            if(bookIDList.containsKey(i)){
+            tv_manydownload_yichu.setText("已缓存 " + BookPathBeanDaoManager.getDuiyingTitleCount(shujiaBookBeanList.get(i).bookpathBean) + "章");
+            if (bookIDList.containsKey(i)) {
                 iv_isxuanze_yichu.setBackgroundResource(R.mipmap.me_anquan_xzh);
-            }else{
+            } else {
                 iv_isxuanze_yichu.setBackgroundResource(R.mipmap.me_anquan_xz);
             }
             return viewItem;

@@ -1,10 +1,17 @@
 package com.hxd.fendbzbuys;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -19,8 +26,19 @@ import android.widget.TextView;
 
 import com.hxd.fendbzbuys.base.ActionbarAtrribute;
 import com.hxd.fendbzbuys.base.MVPBaseActivity;
+import com.hxd.fendbzbuys.domain.BookTotalInfo;
+import com.hxd.fendbzbuys.domain.ShujiaBookBean;
+import com.hxd.fendbzbuys.manager.DaoManager;
+import com.hxd.fendbzbuys.moduler.account_moduler.ShujiaPresenter;
 import com.hxd.fendbzbuys.moduler.laon_moduler.PaihangFragment;
+import com.hxd.fendbzbuys.network.FBNetwork;
+import com.hxd.fendbzbuys.network.ProcressSubsciber;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -92,6 +110,7 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
         width = wm.getDefaultDisplay().getWidth();//屏幕宽度
         height = wm.getDefaultDisplay().getHeight();//屏幕高度
         Log.e("屏幕::", "::::::::宽"+width+"::::高" +height);
+        Constant.taskID=this.getTaskId();
     }
 
     @Override
@@ -110,8 +129,7 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
                 e.printStackTrace();
             }
         }
-    //   registerMessageReceiver();
-
+        delayRUN();
     }
     @OnClick(R.id.rl_xiazai_main) void xiazai_click(){
         presenter.downLoadMain();
@@ -202,6 +220,109 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             }else if(presenter.currentPage==2){
 
             }
+        }
+    }
+    private void delayRUN(){
+        Timer mTimer=new Timer();
+        TimerTask task=new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getBookUpdate();
+                    }
+                });
+            }
+        };
+        mTimer.schedule(task,1000,1000*60*60);
+    }
+    List<ShujiaBookBean> shujiaBookBeanList;
+    List<ShujiaBookBean> shujiaBookJiaruBeanList=new ArrayList<>();
+    private void getBookUpdate(){
+        shujiaBookBeanList= DaoManager.getInstance().getShujiaBookBeanDao().loadAll();
+        shujiaBookJiaruBeanList.clear();
+        if(shujiaBookBeanList.size()>0){
+            for(int i=0;i<shujiaBookBeanList.size();i++){
+                if(shujiaBookBeanList.get(i).bookpathBean>0){
+                    shujiaBookJiaruBeanList.add(shujiaBookBeanList.get(i));
+                }
+            }}
+
+        String bookids="";
+        if(shujiaBookJiaruBeanList.size()>0){
+            for(int i=0;i<shujiaBookJiaruBeanList.size();i++){
+                if(i==0){
+                    bookids=shujiaBookJiaruBeanList.get(i).bookId;
+                }else{
+                    bookids=bookids+","+shujiaBookJiaruBeanList.get(i).bookId;
+                }
+
+            }
+            FBNetwork.getInstance().getTotalCount(bookids).subscribe(new ProcressSubsciber<List<BookTotalInfo>>(false,false) {
+                @Override
+                public void onNext(List<BookTotalInfo> bookTotalInfos) {
+                    super.onNext(bookTotalInfos);
+                    for(int i=0;i<bookTotalInfos.size();i++){
+                        for(int j=0;j<shujiaBookJiaruBeanList.size();j++){
+                            if(shujiaBookJiaruBeanList.get(j).bookId.equals(bookTotalInfos.get(i)._id+"")){
+                                ShujiaBookBean shujiaBookBean=shujiaBookJiaruBeanList.get(i);
+                                if(bookTotalInfos.get(i).chaptersCount.equals(shujiaBookBean.bookTotakCount))
+                                    shujiaBookBean.lastChapter=bookTotalInfos.get(i).lastChapter;
+                                shujiaBookBean.bookTotakCount=Integer.parseInt(bookTotalInfos.get(i).chaptersCount);
+                                DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
+                                if(isBackground(getApplicationContext())){
+                                    sentNotification(shujiaBookBean);
+                                }
+                            }
+                        }
+
+                    }
+                }
+            });
+        }
+
+
+    }
+    private ActivityManager am;
+    public boolean isBackground(Context context) {
+        am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                Log.e("后台", "::::::::::::");
+                am.moveTaskToFront(Constant.taskID, ActivityManager.MOVE_TASK_WITH_HOME);
+                return true;
+            }
+        }
+        Log.e("前台", "::::::::");
+        return false;
+    }
+    private void sentNotification(ShujiaBookBean shujiaBookBean){
+        NotificationManager notificationManager = (NotificationManager) MyApplication.getMyapplication().getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent contentIntent = new Intent(MyApplication.getMyapplication(), MainActivity.class);
+        contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        MyApplication.getMyapplication(),
+                        0,
+                        contentIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getMyapplication().getApplicationContext());
+        Notification notification = builder.setTicker("你的书有更新了")
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setWhen(System.currentTimeMillis())
+                .setContentIntent(resultPendingIntent)
+                .setContentTitle(shujiaBookBean.bookName+"有新更新了")
+                .setContentText(shujiaBookBean.lastChapter)
+                .setAutoCancel(true)
+                .build();
+        if(notificationManager != null && notification != null) {
+            notificationManager.notify(1, notification);
         }
     }
 }

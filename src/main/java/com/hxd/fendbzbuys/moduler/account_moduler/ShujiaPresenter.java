@@ -1,5 +1,14 @@
 package com.hxd.fendbzbuys.moduler.account_moduler;
 
+import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +19,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hxd.fendbzbuys.Common;
+import com.hxd.fendbzbuys.Constant;
+import com.hxd.fendbzbuys.MainActivity;
+import com.hxd.fendbzbuys.MyApplication;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.BasePresenter;
+import com.hxd.fendbzbuys.domain.BookTotalInfo;
 import com.hxd.fendbzbuys.domain.ShujiaBookBean;
-import com.hxd.fendbzbuys.domain.gen.DaoMaster;
 import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
+import com.hxd.fendbzbuys.manager.BookPathBeanDaoManager;
 import com.hxd.fendbzbuys.manager.DaoManager;
 import com.hxd.fendbzbuys.moduler.read_moduler.ReadActivity;
+import com.hxd.fendbzbuys.network.FBNetwork;
+import com.hxd.fendbzbuys.network.ProcressSubsciber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +94,16 @@ public class ShujiaPresenter extends BasePresenter<ShujiaFragment> {
                 }else{
                     ShujiaPresenter.this.view.tv_shujiahint_fragment.setVisibility(View.GONE);
                 }
+                String bookids="";
+                for(int i=0;i<shujiaBookJiaruBeanList.size();i++){
+                    if(i==0){
+                        bookids=shujiaBookJiaruBeanList.get(i).bookId;
+                    }else{
+                        bookids=bookids+","+shujiaBookJiaruBeanList.get(i).bookId;
+                    }
+
+                }
+                getUpdatedata(bookids);
             }else{
                 view.lv_shujia_main.setVisibility(View.GONE);
                 view.rl_shujiakong_main.setVisibility(View.VISIBLE);
@@ -102,6 +127,26 @@ public class ShujiaPresenter extends BasePresenter<ShujiaFragment> {
             view.rl_lishizujikong_main.setVisibility(View.VISIBLE);
         }
 
+    }
+    private void getUpdatedata(String bookids){
+        FBNetwork.getInstance().getTotalCount(bookids).subscribe(new ProcressSubsciber<List<BookTotalInfo>>(false,false) {
+            @Override
+            public void onNext(List<BookTotalInfo> bookTotalInfos) {
+                super.onNext(bookTotalInfos);
+                for(int i=0;i<bookTotalInfos.size();i++){
+                    for(int j=0;j<shujiaBookJiaruBeanList.size();j++){
+                        if(shujiaBookJiaruBeanList.get(j).bookId.equals(bookTotalInfos.get(i)._id+"")){
+                            ShujiaBookBean shujiaBookBean=shujiaBookJiaruBeanList.get(i);
+                            if(bookTotalInfos.get(i).chaptersCount.equals(shujiaBookBean.bookTotakCount))
+                                shujiaBookBean.lastChapter=bookTotalInfos.get(i).lastChapter;
+                            shujiaBookBean.bookTotakCount=Integer.parseInt(bookTotalInfos.get(i).chaptersCount);
+                            DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
+                        }
+                    }
+
+                }
+            }
+        });
     }
 
     class ShujiaAdapter extends BaseAdapter {
@@ -164,7 +209,7 @@ public class ShujiaPresenter extends BasePresenter<ShujiaFragment> {
                         holder.tv_datatime_adapter.setText(data+"小时前加入");
                     }
                 }
-                holder.tv_jiarudate_adapter.setText("已缓存"+(list.get(i).manyDownload+1)+"章");
+                holder.tv_jiarudate_adapter.setText("已缓存"+(BookPathBeanDaoManager.getDuiyingTitleCount(list.get(i).bookpathBean))+"章");
 
             }else{
                 holder.tv_state_adapter.setVisibility(View.GONE);

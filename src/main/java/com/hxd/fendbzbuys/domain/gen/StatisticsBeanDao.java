@@ -46,7 +46,7 @@ public class StatisticsBeanDao extends AbstractDao<StatisticsBean, Void> {
                 "\"NAME\" TEXT," + // 1: name
                 "\"BOOK_COUNT\" TEXT);"); // 2: bookCount
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_STATISTICS_BEAN_TYPE ON STATISTICS_BEAN" +
+        db.execSQL("CREATE INDEX " + constraint + "IDX_STATISTICS_BEAN_TYPE ON \"STATISTICS_BEAN\"" +
                 " (\"TYPE\" ASC);");
     }
 

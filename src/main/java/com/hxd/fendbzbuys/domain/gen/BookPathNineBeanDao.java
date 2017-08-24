@@ -62,7 +62,7 @@ public class BookPathNineBeanDao extends AbstractDao<BookPathNineBean, Long> {
                 "\"TITLE\" TEXT," + // 5: title
                 "\"ZHANGJIE_ID\" INTEGER NOT NULL );"); // 6: zhangjieID
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_BOOK_PATH_NINE_BEAN_BOOK_ID ON BOOK_PATH_NINE_BEAN" +
+        db.execSQL("CREATE INDEX " + constraint + "IDX_BOOK_PATH_NINE_BEAN_BOOK_ID ON \"BOOK_PATH_NINE_BEAN\"" +
                 " (\"BOOK_ID\" ASC);");
     }
 

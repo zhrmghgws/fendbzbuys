@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.hxd.fendbzbuys.Constant;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.manager.SystemBarTintManager;
@@ -193,66 +193,68 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Activi
         if(tv_hint != null) {
             tv_hint.setVisibility(View.VISIBLE);
             tv_hint.setText(text);
-        }
-        final LinearLayout.LayoutParams lphint = (LinearLayout.LayoutParams) tv_hint.getLayoutParams();
-        lphint.height = 0;
-        tv_hint.setLayoutParams(lphint);
-        ValueAnimator va = ValueAnimator.ofInt(0, UIUtils.dip2px(30));
-        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                lphint.height = value;
-                if(tv_hint != null) {
-                    tv_hint.setLayoutParams(lphint);
+            final LinearLayout.LayoutParams lphint = (LinearLayout.LayoutParams) tv_hint.getLayoutParams();
+            lphint.height = 0;
+            tv_hint.setLayoutParams(lphint);
+            ValueAnimator va = ValueAnimator.ofInt(0, UIUtils.dip2px(30));
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    int value = (int) animation.getAnimatedValue();
+                    lphint.height = value;
+                    if(tv_hint != null) {
+                        tv_hint.setLayoutParams(lphint);
+                    }
                 }
-            }
-        });
-        va.setDuration(300);
-        va.start();
-        UIUtils.executeDelay(new Runnable() {
-            @Override
-            public void run() {
-                ValueAnimator va = ValueAnimator.ofInt(UIUtils.dip2px(30), 0);
-                va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        int value = (int) animation.getAnimatedValue();
-                        lphint.height = value;
-                        if (tv_hint!=null){
-                            tv_hint.setLayoutParams(lphint);
+            });
+            va.setDuration(300);
+            va.start();
+            UIUtils.executeDelay(new Runnable() {
+                @Override
+                public void run() {
+                    ValueAnimator va = ValueAnimator.ofInt(UIUtils.dip2px(30), 0);
+                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            int value = (int) animation.getAnimatedValue();
+                            lphint.height = value;
+                            if (tv_hint!=null){
+                                tv_hint.setLayoutParams(lphint);
+                            }
                         }
-                    }
-                });
-                va.setDuration(300);
-                va.start();
-                va.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
+                    });
+                    va.setDuration(300);
+                    va.start();
+                    va.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
 
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        flag = true;
-                        if(tv_hint!=null){
-                            tv_hint.setVisibility(GONE);
                         }
-                    }
 
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            flag = true;
+                            if(tv_hint!=null){
+                                tv_hint.setVisibility(GONE);
+                            }
+                        }
 
-                    }
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
 
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
 
-            }
-        }, 1500);
+                        }
+                    });
 
+                }
+            }, 1500);
+
+        }else{
+            UIUtils.showToast(text);
+        }
     }
 }

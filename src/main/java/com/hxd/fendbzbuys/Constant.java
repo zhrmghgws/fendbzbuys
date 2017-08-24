@@ -64,6 +64,7 @@ public class Constant {
     public static List<BookMuluInfo.ChaptersEntity> muluList;
     public static String sourceid;
     public static List<ShuSourceInfo> sourceList;
+    public static int taskID;
 
     public enum MainPostion{
         SHUJIA_POSITION,PAIHANG_POSITION,FENLEISHUKU_POSITION,NONE_POSITION

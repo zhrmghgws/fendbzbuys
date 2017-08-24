@@ -1,22 +1,15 @@
 package com.hxd.fendbzbuys.manager;
 
 import android.util.Log;
-import android.view.View;
 
-import com.hxd.fendbzbuys.Constant;
-import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.DownLoadCallBack;
 import com.hxd.fendbzbuys.domain.BookContentInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
-import com.hxd.fendbzbuys.moduler.read_moduler.ReadPresenter;
-import com.hxd.fendbzbuys.network.Network;
+import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
 import com.hxd.fendbzbuys.utils.NetworkUtils;
 import com.hxd.fendbzbuys.utils.UIUtils;
 
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,10 +39,20 @@ public class BookDownLoadManager {
         tatleCount = (int) BookPathBeanDaoManager.getDuiyingTitleCount(bookPathid);
         downLoadTatle = (int) (muluList.size() - tatleCount);
         if (downLoadTatle == 0) {
-            UIUtils.showToast("老铁,你已经缓存过了!");
+           UIUtils.runOnUiThread(new Runnable() {
+               @Override
+               public void run() {
+                   UIUtils.showToast("老铁,你已经缓存过了!");
+               }
+           });
         } else {
             if(NetworkUtils.checkNetWorkType()==0){
-                UIUtils.showToast("请检查你的网络连接");
+               UIUtils.runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       UIUtils.showToast("请检查你的网络连接");
+                   }
+               });
             }else{
                 downSuccess.clear();
                 downError.clear();
@@ -65,7 +68,7 @@ public class BookDownLoadManager {
                 //view.rl_download_hint.setVisibility(View.VISIBLE);
                 for(int i=0;i<downList.size();i++){
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(15);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -80,7 +83,7 @@ public class BookDownLoadManager {
         boolean error:是否是重新下载错误的章节
      */
     private void getContentAndDownLoad(int j) {
-        Network.getNewInstance().getContent(muluList.get(j).link).subscribe(new ProcressSubsciber<BookContentInfo>(false, false) {
+        FBNetwork.getNewInstance().getContent(muluList.get(j).link).subscribe(new ProcressSubsciber<BookContentInfo>(false, false) {
             @Override
             public void onNext(BookContentInfo bookContentInfo) {
                 super.onNext(bookContentInfo);
@@ -97,15 +100,21 @@ public class BookDownLoadManager {
                       callBack.update(downSuccess.size()+(int) tatleCount);
 
                     }
-                    BookPathBeanDaoManager.getduiyingBookPathBeanDao(bookPathid, j, bookContentInfo,bookId,muluList);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            BookPathBeanDaoManager.getduiyingBookPathBeanDao(bookPathid, j, bookContentInfo,bookId,muluList);
+                        }
+                    }).start();
             }
 
             @Override
             public void onError(Throwable e) {
                  //super.onError(e);
-
+                Log.e("onError", ":::: 下载失败" );
                     downError.add(j);
                 if (downSuccess.size() + downError.size() == downLoadTatle) {
+                    Log.e("onError", ":::: 下载失败::总数相等:走finishWithError" );
                     callBack.finishWithError(downSuccess.size(),downError.size());
                 }
 

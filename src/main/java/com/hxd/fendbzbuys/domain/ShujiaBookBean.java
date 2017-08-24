@@ -32,14 +32,15 @@ public class ShujiaBookBean {
     public String longIntro;
     public int manyDownload;
     public int bookpathBean;
+    public int bookTotakCount;
     public boolean isZhudong;
     public long jiaruDate;
-    @Generated(hash = 1629945779)
+    @Generated(hash = 970344993)
     public ShujiaBookBean(String bookId, String bookName, String cover,
             String minorCate, String author, boolean isSerial, String shuqian,
             String bookSourceID, String currentZhangjie, String lastChapter,
-            String longIntro, int manyDownload, int bookpathBean, boolean isZhudong,
-            long jiaruDate) {
+            String longIntro, int manyDownload, int bookpathBean,
+            int bookTotakCount, boolean isZhudong, long jiaruDate) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.cover = cover;
@@ -53,6 +54,7 @@ public class ShujiaBookBean {
         this.longIntro = longIntro;
         this.manyDownload = manyDownload;
         this.bookpathBean = bookpathBean;
+        this.bookTotakCount = bookTotakCount;
         this.isZhudong = isZhudong;
         this.jiaruDate = jiaruDate;
     }
@@ -137,6 +139,12 @@ public class ShujiaBookBean {
     public void setBookpathBean(int bookpathBean) {
         this.bookpathBean = bookpathBean;
     }
+    public int getBookTotakCount() {
+        return this.bookTotakCount;
+    }
+    public void setBookTotakCount(int bookTotakCount) {
+        this.bookTotakCount = bookTotakCount;
+    }
     public boolean getIsZhudong() {
         return this.isZhudong;
     }
@@ -149,7 +157,6 @@ public class ShujiaBookBean {
     public void setJiaruDate(long jiaruDate) {
         this.jiaruDate = jiaruDate;
     }
-
 
 
 }

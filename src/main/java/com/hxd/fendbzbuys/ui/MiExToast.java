@@ -34,7 +34,7 @@ public class MiExToast {
     public static final int LENGTH_SHORT = 2;
     public static final int LENGTH_LONG = 4;
 
-    private Toast toast;
+    public Toast toast;
     private Context mContext;
     private int mDuration = LENGTH_SHORT;
     private int animations = -1;

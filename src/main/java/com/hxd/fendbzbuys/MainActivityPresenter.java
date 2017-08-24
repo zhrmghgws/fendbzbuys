@@ -6,12 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,11 +23,10 @@ import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
 import com.hxd.fendbzbuys.manager.BookDownLoadManager;
 import com.hxd.fendbzbuys.manager.BookPathBeanDaoManager;
 import com.hxd.fendbzbuys.manager.DaoManager;
-import com.hxd.fendbzbuys.manager.DialogManager;
 import com.hxd.fendbzbuys.moduler.account_moduler.ShujiaFragment;
 import com.hxd.fendbzbuys.moduler.fenlei_moduler.FenleiFragment;
 import com.hxd.fendbzbuys.moduler.laon_moduler.PaihangFragment;
-import com.hxd.fendbzbuys.network.Network;
+import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
 import com.hxd.fendbzbuys.utils.UIUtils;
 
@@ -186,28 +183,51 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
     public void downLoadMain() {
         createDownLoadDialog(view,true);
     }
+    ShujiaBookBeanDao shujiaBookBeanDao;
+    public Dialog loadingDialog;
+    public  DownLoadAdapter adapter;
+    List<ShujiaBookBean> shujiaBookBeanList;
+    Map<Integer,View> viewList;
+    Map<Integer,TextView> textViewList;
+    Map<Integer,TextView> textViewdownList;
+    Map<Integer,BookDownLoadManager> downloadManagerList=new HashMap<>();
+    Map<Integer,List<BookMuluInfo.ChaptersEntity>> mululistList;
     private   void createDownLoadDialog(Activity activity, boolean isCanCancle) {
-        ShujiaBookBeanDao shujiaBookBeanDao= DaoManager.getInstance().getShujiaBookBeanDao();
-        List<ShujiaBookBean> shujiaBookBeanList=shujiaBookBeanDao.queryBuilder().where(ShujiaBookBeanDao.Properties.BookpathBean.gt(0)).list();
-        Dialog loadingDialog = new Dialog(activity, R.style.TranslucentBackground);
+        mululistList=new HashMap<>();
+        shujiaBookBeanDao= DaoManager.getInstance().getShujiaBookBeanDao();
+        shujiaBookBeanList=shujiaBookBeanDao.queryBuilder().where(ShujiaBookBeanDao.Properties.BookpathBean.gt(0)).list();
+        loadingDialog= new Dialog(activity, R.style.TranslucentBackground);
         View inflate = View.inflate(activity, R.layout.shouye_download_dialog, null);
         TextView tv2_down= (TextView) inflate.findViewById(R.id.tv2_down);
         ListView lv_down = (ListView) inflate.findViewById(R.id.lv_down);
         View view_outside_down_dialog = inflate.findViewById(R.id.view_outside_down_dialog);
-       
-       DownLoadAdapter adapter=new DownLoadAdapter(activity,shujiaBookBeanList);
+
+        adapter=new DownLoadAdapter(activity,shujiaBookBeanList);
         lv_down.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         view_outside_down_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingDialog.dismiss();
+                loadingDialog=null;
+                adapter=null;
+                if(shujiaBookBeanList!=null){
+                    shujiaBookBeanList.clear();
+                    shujiaBookBeanList=null;
+                }
+                viewList.clear();
+                textViewList.clear();
+                textViewdownList.clear();
+                viewList=null;
+                textViewList=null;
+                textViewdownList=null;
+
             }
         });
         lv_down.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                
+
             }
         });
         loadingDialog.setCanceledOnTouchOutside(isCanCancle);
@@ -216,13 +236,16 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
         loadingDialog.show();
 
     }
-    static class DownLoadAdapter extends BaseAdapter {
+    class DownLoadAdapter extends BaseAdapter {
         Activity activity;
         List<ShujiaBookBean> shujiaBookBeanList;
         List<Integer> duilie=new ArrayList<>();
         public DownLoadAdapter(Activity activity,List<ShujiaBookBean> list){
             this.activity=activity;
             this.shujiaBookBeanList=list;
+            viewList=new HashMap<>();
+            textViewList=new HashMap<>();
+            textViewdownList=new HashMap<>();
         }
         @Override
         public int getCount() {
@@ -247,24 +270,37 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
             TextView tv_auther_down= (TextView) viewItem.findViewById(R.id.tv_auther_down);
             TextView tv_manydownload_down= (TextView) viewItem.findViewById(R.id.tv_manydownload_down);
             TextView tv_down_down= (TextView) viewItem.findViewById(R.id.tv_down_down);
+            textViewdownList.put(i,tv_down_down);
             TextView tv_jindu_down= (TextView) viewItem.findViewById(R.id.tv_jindu_down);
+            textViewList.put(i,tv_jindu_down);
             View view_jindu_down=  viewItem.findViewById(R.id.view_jindu_down);
+            viewList.put(i,view_jindu_down);
             View view_jindu_base_down=  viewItem.findViewById(R.id.view_jindu_base_down);
             tv_name_down.setText(shujiaBookBeanList.get(i).bookName);
             tv_auther_down.setText(shujiaBookBeanList.get(i).author);
-            tv_manydownload_down.setText("已缓存 "+shujiaBookBeanList.get(i).manyDownload+"章");
+            int tatolCount= (int) BookPathBeanDaoManager.getDuiyingTitleCount(shujiaBookBeanList.get(i).bookpathBean);
+            tv_manydownload_down.setText("已缓存 "+tatolCount+"章");
             RelativeLayout.LayoutParams lp= (RelativeLayout.LayoutParams) view_jindu_down.getLayoutParams();
            /* BigDecimal value = new BigDecimal(tatleCount).divide(new BigDecimal(muluList.size()), 2, BigDecimal.ROUND_UP);
             int widthNew = new BigDecimal(UIUtils.dip2px(180)).multiply(value).intValue();
             int shuzhi = (int) (value.floatValue() * 100);
             lp.width=*/
+
            if(duilie.contains(i)){
                view_jindu_base_down.setVisibility(View.VISIBLE);
                view_jindu_down.setVisibility(View.VISIBLE);
                tv_jindu_down.setVisibility(View.VISIBLE);
+               tv_manydownload_down.setVisibility(View.GONE);
                tv_down_down.setBackgroundResource(R.drawable.yuanjiao_button_gray_down);
                tv_down_down.setClickable(false);
+               BigDecimal value = new BigDecimal(tatolCount).divide(new BigDecimal(mululistList.get(i).size()), 2, BigDecimal.ROUND_UP);
+               int widthNew = new BigDecimal(UIUtils.dip2px(100)).multiply(value).intValue();
+               int shuzhi = (int) (value.floatValue() * 100);
+               lp.width=widthNew;
+               view_jindu_down.setLayoutParams(lp);
+               tv_jindu_down.setText(shuzhi+"%");
            }else{
+               tv_manydownload_down.setVisibility(View.VISIBLE);
                view_jindu_base_down.setVisibility(View.GONE);
                view_jindu_down.setVisibility(View.GONE);
                tv_jindu_down.setVisibility(View.GONE);
@@ -274,46 +310,118 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
             tv_down_down.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    duilie.add(i);
-                    view_jindu_base_down.setVisibility(View.VISIBLE);
-                    view_jindu_down.setVisibility(View.VISIBLE);
-                    tv_jindu_down.setVisibility(View.VISIBLE);
-                    tv_down_down.setBackgroundResource(R.drawable.yuanjiao_button_gray_down);
-                    /*Network.getInstance().getBookmulu(shujiaBookBeanList.get(i).bookSourceID).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
-                        @Override
-                        public void onNext(BookMuluInfo httpResult) {
-                            super.onNext(httpResult);
-                            List<BookMuluInfo.ChaptersEntity> muluList muluList = httpResult.chapters;
-                            BookDownLoadManager downloadManager = new BookDownLoadManager(shujiaBookBeanList.get(i).bookpathBean, new DownLoadCallBack() {
-                                @Override
-                                public void start(int tatleCount) {
+                    tv_manydownload_down.setVisibility(View.GONE);
+                    if(downloadManagerList.get(i)!=null){
+                        UIUtils.showToast("该书正在下载中...");
+                    }else{
+                        duilie.add(i);
+                        FBNetwork.getInstance().getBookmulu(shujiaBookBeanList.get(i).bookSourceID).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+                            @Override
+                            public void onNext(BookMuluInfo httpResult) {
+                                super.onNext(httpResult);
+                                List<BookMuluInfo.ChaptersEntity> muluList  = httpResult.chapters;
+                                mululistList.put(i,muluList);
+                                view_jindu_base_down.setVisibility(View.VISIBLE);
+                                view_jindu_down.setVisibility(View.VISIBLE);
+                                tv_jindu_down.setVisibility(View.VISIBLE);
+                                textViewdownList.get(i).setBackgroundResource(R.drawable.yuanjiao_button_gray_down);
+                                BigDecimal value = new BigDecimal(tatolCount).divide(new BigDecimal(muluList.size()), 2, BigDecimal.ROUND_UP);
+                                int widthNew = new BigDecimal(UIUtils.dip2px(100)).multiply(value).intValue();
+                                int shuzhi = (int) (value.floatValue() * 100);
+                                lp.width=widthNew;
+                                view_jindu_down.setLayoutParams(lp);
+                                tv_jindu_down.setText(shuzhi+"%");
+                                BookDownLoadManager downloadManager = new BookDownLoadManager(shujiaBookBeanList.get(i).bookpathBean, new DownLoadCallBack() {
+                                    @Override
+                                    public void start(int tatleCount) {
+                                        UIUtils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if(loadingDialog!=null&&loadingDialog.isShowing()){
+                                                    RelativeLayout.LayoutParams lpi= (RelativeLayout.LayoutParams) viewList.get(i).getLayoutParams();
+                                                    lpi.width=widthNew;
+                                                    viewList.get(i).setLayoutParams(lpi);
+                                                    textViewList.get(i).setText(shuzhi+"%");
+                                                }
+                                            }
+                                        });
+                                    }
 
-                                }
+                                    @Override
+                                    public void update(int sucess) {
+                                        UIUtils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if(loadingDialog!=null&&loadingDialog.isShowing()){
+                                                    if(sucess>=150 && sucess%150==0){
+                                                        RelativeLayout.LayoutParams lpi= (RelativeLayout.LayoutParams) viewList.get(i).getLayoutParams();
+                                                        BigDecimal value = new BigDecimal(sucess).divide(new BigDecimal(muluList.size()), 2, BigDecimal.ROUND_UP);
+                                                        int widthNew = new BigDecimal(UIUtils.dip2px(100)).multiply(value).intValue();
+                                                        int shuzhi = (int) (value.floatValue() * 100);
+                                                        lpi.width=widthNew;
+                                                        viewList.get(i).setLayoutParams(lpi);
+                                                        textViewList.get(i).setText(shuzhi+"%");
+                                                    }
+                                                }
+                                            }
+                                        });
 
-                                @Override
-                                public void update(int sucess) {
+                                    }
 
-                                }
+                                    @Override
+                                    public void finish() {
+                                        UIUtils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                downloadManagerList.remove(i);
+                                                if(loadingDialog!=null&&loadingDialog.isShowing()){
+                                                    lp.width=UIUtils.dip2px(100);
+                                                    viewList.get(i).setLayoutParams(lp);
+                                                    textViewList.get(i).setText(100+"%");
+                                                    textViewdownList.get(i).setBackgroundResource(R.drawable.yuanjiao_button_lanse_down);
+                                                    textViewdownList.get(i).setClickable(true);
+                                                }else{
+                                                    UIUtils.showToast("缓存完毕!");
+                                                }
+                                            }
+                                        });
+                                    }
 
-                                @Override
-                                public void finish() {
+                                    @Override
+                                    public void finishWithError(int sucess, int error) {
+                                        UIUtils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                downloadManagerList.remove(i);
+                                                if(loadingDialog!=null&&loadingDialog.isShowing()){
+                                                    BigDecimal value = new BigDecimal(sucess).divide(new BigDecimal(muluList.size()), 2, BigDecimal.ROUND_UP);
+                                                    int widthNew = new BigDecimal(UIUtils.dip2px(100)).multiply(value).intValue();
+                                                    int shuzhi = (int) (value.floatValue() * 100);
+                                                    lp.width=widthNew;
+                                                    viewList.get(i).setLayoutParams(lp);
+                                                    textViewList.get(i).setText(shuzhi+"%");
+                                                    textViewdownList.get(i).setBackgroundResource(R.drawable.yuanjiao_button_lanse_down);
+                                                    textViewdownList.get(i).setClickable(true);
+                                                }else{
+                                                    UIUtils.showToast("缓存完毕,有"+error+"章缓存失败");
+                                                }
+                                            }
+                                        });
 
-                                }
 
-                                @Override
-                                public void finishWithError(int sucess, int error) {
+                                    }
+                                }, muluList, shujiaBookBeanList.get(i).bookId);
+                                downloadManagerList.put(i,downloadManager);
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        downloadManager.downLoad();
+                                    }
+                                }).start();
 
-                                }
-                            }, muluList, shujiaBookBeanList.get(i).bookId);
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    downloadManager.downLoad();
-                                }
-                            }).start();
-
-                        }
-                    });*/
+                            }
+                        });
+                    }
                 }
             });
             return viewItem;

@@ -14,43 +14,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.apkfuns.logutils.utils.ArrayUtil;
 import com.hxd.fendbzbuys.Constant;
-import com.hxd.fendbzbuys.MyApplication;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.BasePresenter;
 import com.hxd.fendbzbuys.base.DownLoadCallBack;
 import com.hxd.fendbzbuys.domain.BookContentInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
 import com.hxd.fendbzbuys.domain.BookPathBean;
-import com.hxd.fendbzbuys.domain.BookPathEightBean;
-import com.hxd.fendbzbuys.domain.BookPathFiveBean;
-import com.hxd.fendbzbuys.domain.BookPathFourBean;
-import com.hxd.fendbzbuys.domain.BookPathNineBean;
-import com.hxd.fendbzbuys.domain.BookPathOneBean;
-import com.hxd.fendbzbuys.domain.BookPathSevenBean;
-import com.hxd.fendbzbuys.domain.BookPathSixBean;
-import com.hxd.fendbzbuys.domain.BookPathThreeBean;
-import com.hxd.fendbzbuys.domain.BookPathTwoBean;
 import com.hxd.fendbzbuys.domain.ShuSourceInfo;
 import com.hxd.fendbzbuys.domain.ShujiaBookBean;
-import com.hxd.fendbzbuys.domain.gen.BookPathBeanDao;
-import com.hxd.fendbzbuys.domain.gen.BookPathEightBeanDao;
-import com.hxd.fendbzbuys.domain.gen.BookPathFiveBeanDao;
-import com.hxd.fendbzbuys.domain.gen.BookPathFourBeanDao;
-import com.hxd.fendbzbuys.domain.gen.BookPathNineBeanDao;
-import com.hxd.fendbzbuys.domain.gen.BookPathOneBeanDao;
-import com.hxd.fendbzbuys.domain.gen.BookPathSevenBeanDao;
-import com.hxd.fendbzbuys.domain.gen.BookPathSixBeanDao;
-import com.hxd.fendbzbuys.domain.gen.BookPathThreeBeanDao;
-import com.hxd.fendbzbuys.domain.gen.BookPathTwoBeanDao;
 import com.hxd.fendbzbuys.manager.BookDownLoadManager;
 import com.hxd.fendbzbuys.manager.BookPathBeanDaoManager;
 import com.hxd.fendbzbuys.manager.DaoManager;
 import com.hxd.fendbzbuys.manager.DialogManager;
-import com.hxd.fendbzbuys.network.Network;
+import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
 import com.hxd.fendbzbuys.utils.NetworkUtils;
 import com.hxd.fendbzbuys.utils.UIUtils;
@@ -60,7 +38,6 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -82,11 +59,12 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
             if (NetworkUtils.checkNetWorkType() == 0) {
                 UIUtils.showToast("请先打开你的网络连接");
             } else {
-                Network.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+                FBNetwork.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
                     @Override
                     public void onNext(BookMuluInfo httpResult) {
                         super.onNext(httpResult);
                         Constant.muluList = httpResult.chapters;
+                        Log.e("muluList.size", "::::::: "+Constant.muluList.size() );
                         getContent(currentCount, false);
                     }
                 });
@@ -211,11 +189,12 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
 
     private void getShumulu() {
 
-        Network.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+        FBNetwork.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
             @Override
             public void onNext(BookMuluInfo httpResult) {
                 super.onNext(httpResult);
                 Constant.muluList = httpResult.chapters;
+                Log.e("muluList.size", "::::::: "+Constant.muluList.size() );
                 if (view.bookPathid == 0) {
                     getContents(0, 20);
                 } else {
@@ -240,7 +219,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
     }
 
     private void getContent(int j, boolean nomal) {
-        Network.getNewInstance().getContent(Constant.muluList.get(j).link).subscribe(new ProcressSubsciber<BookContentInfo>(false, false) {
+        FBNetwork.getNewInstance().getContent(Constant.muluList.get(j).link).subscribe(new ProcressSubsciber<BookContentInfo>(false, false) {
             @Override
             public void onNext(BookContentInfo bookContentInfo) {
                 super.onNext(bookContentInfo);
@@ -267,7 +246,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
         boolean error:是否是重新下载错误的章节
      */
     private void getContentAndDownLoad(int j, boolean error) {
-        Network.getNewInstance().getContent(Constant.muluList.get(j).link).subscribe(new ProcressSubsciber<BookContentInfo>(false, false) {
+        FBNetwork.getNewInstance().getContent(Constant.muluList.get(j).link).subscribe(new ProcressSubsciber<BookContentInfo>(false, false) {
             @Override
             public void onNext(BookContentInfo bookContentInfo) {
                 super.onNext(bookContentInfo);
@@ -407,7 +386,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
             if (NetworkUtils.checkNetWorkType() == 0) {
                 UIUtils.showToast("请先打开你的网络连接");
             } else {
-                Network.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+                FBNetwork.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
                     @Override
                     public void onNext(BookMuluInfo httpResult) {
                         super.onNext(httpResult);
@@ -873,7 +852,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
             if (NetworkUtils.checkNetWorkType() == 0) {
                 UIUtils.showToast("请先打开你的网络连接");
             } else {
-                Network.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+                FBNetwork.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
                     @Override
                     public void onNext(BookMuluInfo httpResult) {
                         super.onNext(httpResult);
@@ -968,7 +947,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
             if (NetworkUtils.checkNetWorkType() == 0) {
                 UIUtils.showToast("请先打开你的网络连接");
             } else {
-                Network.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+                FBNetwork.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
                     @Override
                     public void onNext(BookMuluInfo httpResult) {
                         super.onNext(httpResult);
@@ -987,7 +966,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
             if (NetworkUtils.checkNetWorkType() == 0) {
                 UIUtils.showToast("请先打开你的网络连接");
             } else {
-                Network.getInstance().getShuSources(view.bookid).subscribe(new ProcressSubsciber<List<ShuSourceInfo>>(false, false) {
+                FBNetwork.getInstance().getShuSources(view.bookid).subscribe(new ProcressSubsciber<List<ShuSourceInfo>>(false, false) {
                     @Override
                     public void onNext(List<ShuSourceInfo> httpResult) {
                         super.onNext(httpResult);
@@ -1021,7 +1000,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 if (Constant.sourceList.get(i).source.contains("vip")) {
                     UIUtils.showToast("老铁,此书源是收费的,换个吧");
                 } else {
-                    Network.getInstance().getBookmulu(Constant.sourceList.get(i)._id).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+                    FBNetwork.getInstance().getBookmulu(Constant.sourceList.get(i)._id).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
                         @Override
                         public void onNext(BookMuluInfo httpResult) {
                             super.onNext(httpResult);
@@ -1138,7 +1117,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
             if (NetworkUtils.checkNetWorkType() == 0) {
                 UIUtils.showToast("请先打开你的网络连接");
             } else {
-                Network.getInstance().getShuSources(view.bookid).subscribe(new ProcressSubsciber<List<ShuSourceInfo>>(false, false) {
+                FBNetwork.getInstance().getShuSources(view.bookid).subscribe(new ProcressSubsciber<List<ShuSourceInfo>>(false, false) {
                     @Override
                     public void onNext(List<ShuSourceInfo> httpResult) {
                         super.onNext(httpResult);

@@ -52,7 +52,7 @@ public class BookPathBeanDao extends AbstractDao<BookPathBean, Long> {
                 "\"LOCAL_PATH\" TEXT," + // 4: localPath
                 "\"TITLE\" TEXT);"); // 5: title
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_BOOK_PATH_BEAN_BOOK_ID ON BOOK_PATH_BEAN" +
+        db.execSQL("CREATE INDEX " + constraint + "IDX_BOOK_PATH_BEAN_BOOK_ID ON \"BOOK_PATH_BEAN\"" +
                 " (\"BOOK_ID\" ASC);");
     }
 

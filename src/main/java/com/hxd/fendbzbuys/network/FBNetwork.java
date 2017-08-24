@@ -2,11 +2,9 @@ package com.hxd.fendbzbuys.network;
 
 import android.util.Log;
 
-import com.apkfuns.logutils.LogUtils;
 import com.google.gson.Gson;
 import com.hxd.fendbzbuys.Common;
 import com.hxd.fendbzbuys.Constant;
-import com.hxd.fendbzbuys.base.HttpResult;
 import com.hxd.fendbzbuys.domain.AutherBooksList;
 import com.hxd.fendbzbuys.domain.BookContentInfo;
 import com.hxd.fendbzbuys.domain.BookInfo;
@@ -36,14 +34,14 @@ import retrofit2.Retrofit;
 /**
  * Created by lichao on 16/9/22.
  */
-public class Network {
+public class FBNetwork {
     private Retrofit retrofit;
     private XDApi xdApi;
     BasicParamsInterceptor basicParamsInterceptor;
     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(this::showRetrofitLog);
 
 
-    private Network(int i) {
+    private FBNetwork(int i) {
         basicParamsInterceptor = new BasicParamsInterceptor.Builder()
                 .build();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -56,14 +54,14 @@ public class Network {
         xdApi = retrofit.create(XDApi.class);
     }
     private static class SingletonHolder {
-        private static final Network INSTANCE = new Network(0);
-        private static final Network INSTANCE_NEW = new Network(1);
+        private static final FBNetwork INSTANCE = new FBNetwork(0);
+        private static final FBNetwork INSTANCE_NEW = new FBNetwork(1);
     }
 
-    public static Network getInstance() {
+    public static FBNetwork getInstance() {
         return SingletonHolder.INSTANCE;
     }
-    public static Network getNewInstance() {
+    public static FBNetwork getNewInstance() {
         return SingletonHolder.INSTANCE_NEW;
     }
     private static final class HttpResultFuncC<T> implements FlowableTransformer<T, T> {
@@ -209,7 +207,7 @@ public class Network {
         return malezuirezong.compose(mBaseHttpresultFunc);
     }
     public Flowable<List<BookTotalInfo>> getTotalCount(String bookID){
-        Flowable<List<BookTotalInfo>> malezuirezong=xdApi.gettotalCount(bookID);
+        Flowable<List<BookTotalInfo>> malezuirezong=xdApi.gettotalCount("updated",bookID);
         return malezuirezong.compose(mBaseHttpresultFunc);
     }
 

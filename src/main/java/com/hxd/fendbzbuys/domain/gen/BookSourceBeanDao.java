@@ -58,7 +58,7 @@ public class BookSourceBeanDao extends AbstractDao<BookSourceBean, Void> {
                 "\"SANJIANGGE_SRCID\" TEXT," + // 7: sanjianggeSrcid
                 "\"LUOQIU_SRCID\" TEXT);"); // 8: luoqiuSrcid
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_BOOK_SOURCE_BEAN_BOOK_ID ON BOOK_SOURCE_BEAN" +
+        db.execSQL("CREATE INDEX " + constraint + "IDX_BOOK_SOURCE_BEAN_BOOK_ID ON \"BOOK_SOURCE_BEAN\"" +
                 " (\"BOOK_ID\" ASC);");
     }
 

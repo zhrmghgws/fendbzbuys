@@ -1,5 +1,6 @@
 package com.hxd.fendbzbuys;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,9 +19,10 @@ import com.hxd.fendbzbuys.domain.gen.BangdanBeanDao;
 import com.hxd.fendbzbuys.domain.gen.BangdanBooksBeanDao;
 import com.hxd.fendbzbuys.domain.gen.DaoMaster;
 import com.hxd.fendbzbuys.manager.DaoManager;
-import com.hxd.fendbzbuys.network.Network;
+import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
-import com.hxd.fendbzbuys.utils.GsonUtils;
+import com.hxd.fendbzbuys.utils.UIUtils;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,12 +38,13 @@ public class SplashActivity extends BaseActivity {
     TextView textview;
     Timer mTimer;
     int flag=3;
-    BangdanBeanDao bangdanBeanDao;
+    BangdanBeanDao BangdanBeanDao;
     BangdanBooksBeanDao bangdanBooksBeanDao;
 
     boolean isUpdate;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if(Constant.sp==null){
             Constant.sp=getPreferences(MODE_PRIVATE);
         }
@@ -56,14 +59,17 @@ public class SplashActivity extends BaseActivity {
         }else {
             isUpdate=false;
         }
-        super.onCreate(savedInstanceState);
-
+        isinitdata();
         Log.e("isUpdate:::::", "-----------"+isUpdate);
         textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             }
         });
+        delayFinish();
+
+    }
+    private void delayFinish(){
         mTimer=new Timer();
         TimerTask task=new TimerTask() {
             @Override
@@ -84,9 +90,7 @@ public class SplashActivity extends BaseActivity {
             }
         };
         mTimer.schedule(task,1000,1000);
-
     }
-
     @Override
     public ActionbarAtrribute getActionbarAtrribute() {
         return  new ActionbarAtrribute(View.GONE);
@@ -99,9 +103,12 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void init() {
+
+    }
+    private void isinitdata(){
         if (isUpdate) {
             Log.e("更新", "-----------------------------------------------");
-            Network.getInstance().getGender().subscribe(new ProcressSubsciber<GenderInfo>(false,false) {
+            FBNetwork.getInstance().getGender().subscribe(new ProcressSubsciber<GenderInfo>(false,false) {
                 @Override
                 public void onNext(GenderInfo genderInfo) {
                     super.onNext(genderInfo);
@@ -126,10 +133,28 @@ public class SplashActivity extends BaseActivity {
                         }
                     }
                     //
-                    bangdanBeanDao= DaoManager.getInstance().getBangdanBeanDao();
+                    /*new RxPermissions(SplashActivity.this).request(
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_SETTINGS).subscribe(granted->{
+                        if(granted){
+                            UIUtils.showToast("获取权限成功");
+
+                        }else{
+                            UIUtils.showToast("本应用需要存储权限才能使用");
+                        }
+                    });*/
+                    BangdanBeanDao= DaoManager.getInstance().getBangdanBeanDao();
                     bangdanBooksBeanDao=DaoManager.getInstance().getBangdanBooksBeanDao();
                     savaBangDanData();
+
                     getMaleAndFemalAll();
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    delayFinish();
                 }
             });
             getFenleiInfo();
@@ -137,8 +162,8 @@ public class SplashActivity extends BaseActivity {
 
     }
     private void savaBangDanData() {
-        if(bangdanBeanDao.loadAll().size()>0){
-            bangdanBeanDao.deleteAll();
+        if(BangdanBeanDao.loadAll().size()>0){
+            BangdanBeanDao.deleteAll();
         }
         for(int i=1;i<19;i++){
             BangdanBean bangdanbean=new BangdanBean();
@@ -146,92 +171,92 @@ public class SplashActivity extends BaseActivity {
                 case 1:
                     bangdanbean.id=Constant.STYPE_maleZuirezong;
                     bangdanbean.sourceID=Constant.male_zuire._id;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 2:
                     bangdanbean.id=Constant.STYPE_maleZuireyue;
                     bangdanbean.sourceID=Constant.male_zuire.totalRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 3:
                     bangdanbean.id=Constant.STYPE_maleZuirezhou;
                     bangdanbean.sourceID=Constant.male_zuire.monthRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 4:
                     bangdanbean.id=Constant.STYPE_maleQianlizong;
                     bangdanbean.sourceID=Constant.male_qianli._id;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 5:
                     bangdanbean.id=Constant.STYPE_maleQianliyue;
                     bangdanbean.sourceID=Constant.male_qianli.totalRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 6:
                     bangdanbean.id=Constant.STYPE_maleQianlizhou;
                     bangdanbean.sourceID=Constant.male_qianli.monthRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 7:
                     bangdanbean.id=Constant.STYPE_maleWanjiezong;
                     bangdanbean.sourceID=Constant.male_qianli._id;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 8:
                     bangdanbean.id=Constant.STYPE_maleWanjieyue;
                     bangdanbean.sourceID=Constant.male_qianli.totalRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 9:
                     bangdanbean.id=Constant.STYPE_maleWanjiezhou;
                     bangdanbean.sourceID=Constant.male_qianli.monthRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 10:
                     bangdanbean.id=Constant.STYPE_femaleZuirezong;
                     bangdanbean.sourceID=Constant.female_zuire._id;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 11:
                     bangdanbean.id=Constant.STYPE_femaleZuirezhou;
                     bangdanbean.sourceID=Constant.female_zuire.monthRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 12:
                     bangdanbean.id=Constant.STYPE_femalZuireyue;
                     bangdanbean.sourceID=Constant.female_zuire.totalRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 13:
                     bangdanbean.id=Constant.STYPE_femaleQianlizong;
                     bangdanbean.sourceID=Constant.female_qianli._id;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 14:
                     bangdanbean.id=Constant.STYPE_femalQianliyue;
                     bangdanbean.sourceID=Constant.female_qianli.totalRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 15:
                     bangdanbean.id=Constant.STYPE_femalQianlizho;
                     bangdanbean.sourceID=Constant.female_qianli.monthRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 16:
                     bangdanbean.id=Constant.STYPE_femalWanjiezong;
                     bangdanbean.sourceID=Constant.female_wanjie._id;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 17:
                     bangdanbean.id=Constant.STYPE_femalWanjieyue;
                     bangdanbean.sourceID=Constant.female_wanjie.totalRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
                 case 18:
                     bangdanbean.id=Constant.STYPE_femalWanjiezho;
                     bangdanbean.sourceID=Constant.female_wanjie.monthRank;
-                    bangdanBeanDao.insert(bangdanbean);
+                    BangdanBeanDao.insert(bangdanbean);
                     break;
 
             }
@@ -239,7 +264,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void getFenleiInfo(){
-        Network.getInstance().getStatistics().subscribe(new ProcressSubsciber<StatisticsInfo>(false,false) {
+        FBNetwork.getInstance().getStatistics().subscribe(new ProcressSubsciber<StatisticsInfo>(false,false) {
             @Override
             public void onNext(StatisticsInfo statisticsInfo) {
                 Log.e("bbbbb", "-----------------------------------------------");
@@ -271,7 +296,7 @@ public class SplashActivity extends BaseActivity {
         getFemalZuirezong();
     }
     private void getMaleZuireyue(){
-        Network.getInstance().getMaleZuireyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getMaleZuireyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -306,7 +331,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getMaleZuirezong(){
-        Network.getInstance().getMaleZuirezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getMaleZuirezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -339,7 +364,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getMaleZuirezhou(){
-        Network.getInstance().getMaleZuirezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getMaleZuirezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -372,7 +397,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getMaleQianlizhou(){
-        Network.getInstance().getMaleQianlizhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getMaleQianlizhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -404,7 +429,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getMaleQianliyue(){
-        Network.getInstance().getMaleQianliyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getMaleQianliyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -436,7 +461,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getMaleQianlizong(){
-        Network.getInstance().getMaleQianlizong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getMaleQianlizong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -468,7 +493,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getMaleWanjiezong(){
-        Network.getInstance().getMaleWanjiezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getMaleWanjiezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -500,7 +525,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getMaleWanjieyue(){
-        Network.getInstance().getMaleWanjieyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getMaleWanjieyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -532,7 +557,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getMaleWanjiezhou(){
-        Network.getInstance().getMaleWanjiezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getMaleWanjiezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -564,7 +589,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getFemalWanjiezhou(){
-        Network.getInstance().getFemaleWanjiezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getFemaleWanjiezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -596,7 +621,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getFemalWanjieyue(){
-        Network.getInstance().getFemaleWanjieyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getFemaleWanjieyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -628,7 +653,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getFemalWanjiezong(){
-        Network.getInstance().getFemaleWanjiezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getFemaleWanjiezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -660,7 +685,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getFemalQianlizong(){
-        Network.getInstance().getFemaleQianlizong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getFemaleQianlizong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -692,7 +717,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getFemalQianliyue(){
-        Network.getInstance().getFemaleQianliyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getFemaleQianliyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -724,7 +749,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getFemalQianlizhou(){
-        Network.getInstance().getFemaleQianlizhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getFemaleQianlizhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -756,7 +781,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getFemalZuirezhou(){
-        Network.getInstance().getFemaleZuirezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getFemaleZuirezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -788,7 +813,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getFemalZuireyue(){
-        Network.getInstance().getFemaleZuireyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getFemaleZuireyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);
@@ -820,7 +845,7 @@ public class SplashActivity extends BaseActivity {
         });
     }
     private void getFemalZuirezong(){
-        Network.getInstance().getFemaleZuirezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+        FBNetwork.getInstance().getFemaleZuirezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
             @Override
             public void onNext(ZuireBangInfo zuireBangInfo) {
                 super.onNext(zuireBangInfo);

@@ -7,10 +7,8 @@ import android.widget.TextView;
 
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.BasePresenter;
-import com.hxd.fendbzbuys.base.HttpResult;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
-import com.hxd.fendbzbuys.domain.ShuSourceInfo;
-import com.hxd.fendbzbuys.network.Network;
+import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
 
 import java.util.List;
@@ -32,7 +30,7 @@ public class ShuMuluPresenter extends BasePresenter<ShuMuluActivity> {
         getBookMuLu();
     }
     private void getBookMuLu(){
-        Network.getInstance().getBookmulu(view.bookSourceId).subscribe(new ProcressSubsciber<BookMuluInfo>(false,false) {
+        FBNetwork.getInstance().getBookmulu(view.bookSourceId).subscribe(new ProcressSubsciber<BookMuluInfo>(false,false) {
             @Override
             public void onNext(BookMuluInfo httpResult) {
                 super.onNext(httpResult);

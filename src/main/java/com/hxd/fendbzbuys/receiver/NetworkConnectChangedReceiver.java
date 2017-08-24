@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.hxd.fendbzbuys.Constant;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
-import com.hxd.fendbzbuys.network.Network;
+import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
 
 /**
@@ -28,7 +28,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
             if (activeNetwork != null) { // connected to the internet
                 if (activeNetwork.isConnected()) {
                     if(!TextUtils.isEmpty(Constant.sourceid) && Constant.muluList==null){
-                        Network.getInstance().getBookmulu(Constant.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+                        FBNetwork.getInstance().getBookmulu(Constant.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
                             @Override
                             public void onNext(BookMuluInfo httpResult) {
                                 super.onNext(httpResult);

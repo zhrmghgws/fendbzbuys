@@ -1,14 +1,6 @@
 package com.hxd.fendbzbuys.manager;
 
-import android.app.Activity;
-import android.util.Log;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.hxd.fendbzbuys.Constant;
 import com.hxd.fendbzbuys.MyApplication;
-import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.domain.BookContentInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
 import com.hxd.fendbzbuys.domain.BookPathBean;
@@ -31,39 +23,24 @@ import com.hxd.fendbzbuys.domain.gen.BookPathSevenBeanDao;
 import com.hxd.fendbzbuys.domain.gen.BookPathSixBeanDao;
 import com.hxd.fendbzbuys.domain.gen.BookPathThreeBeanDao;
 import com.hxd.fendbzbuys.domain.gen.BookPathTwoBeanDao;
-import com.hxd.fendbzbuys.moduler.read_moduler.ReadPresenter;
-import com.hxd.fendbzbuys.network.Network;
-import com.hxd.fendbzbuys.network.ProcressSubsciber;
-import com.hxd.fendbzbuys.utils.NetworkUtils;
-import com.hxd.fendbzbuys.utils.UIUtils;
 
-import org.w3c.dom.Text;
-
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import static com.hxd.fendbzbuys.utils.UIUtils.runOnUiThread;
 
 /**
  * Created by lichao on 17/8/19.
  */
 
 public class BookPathBeanDaoManager {
-    public static BookPathBeanDao bookPathBeanDao = MyApplication.daoSession.getBookPathBeanDao();
-    public static BookPathOneBeanDao bookPathBeanDao1 = MyApplication.daoSession.getBookPathOneBeanDao();
-    public static BookPathTwoBeanDao bookPathBeanDao2 = MyApplication.daoSession.getBookPathTwoBeanDao();
-    public static BookPathThreeBeanDao bookPathBeanDao3 = MyApplication.daoSession.getBookPathThreeBeanDao();
-    public static BookPathFourBeanDao bookPathBeanDao4 = MyApplication.daoSession.getBookPathFourBeanDao();
-    public static BookPathFiveBeanDao bookPathBeanDao5 = MyApplication.daoSession.getBookPathFiveBeanDao();
-    public static BookPathSixBeanDao bookPathBeanDao6 = MyApplication.daoSession.getBookPathSixBeanDao();
-    public static BookPathSevenBeanDao bookPathBeanDao7 = MyApplication.daoSession.getBookPathSevenBeanDao();
-    public static BookPathEightBeanDao bookPathBeanDao8 = MyApplication.daoSession.getBookPathEightBeanDao();
-    public static BookPathNineBeanDao bookPathBeanDao9 = MyApplication.daoSession.getBookPathNineBeanDao();
+    public static BookPathBeanDao bookPathBeanDao = DaoManager.getInstance().daoSession.getBookPathBeanDao();
+    public static BookPathOneBeanDao bookPathBeanDao1 = DaoManager.getInstance().daoSession.getBookPathOneBeanDao();
+    public static BookPathTwoBeanDao bookPathBeanDao2 = DaoManager.getInstance().daoSession.getBookPathTwoBeanDao();
+    public static BookPathThreeBeanDao bookPathBeanDao3 = DaoManager.getInstance().daoSession.getBookPathThreeBeanDao();
+    public static BookPathFourBeanDao bookPathBeanDao4 = DaoManager.getInstance().daoSession.getBookPathFourBeanDao();
+    public static BookPathFiveBeanDao bookPathBeanDao5 = DaoManager.getInstance().daoSession.getBookPathFiveBeanDao();
+    public static BookPathSixBeanDao bookPathBeanDao6 = DaoManager.getInstance().daoSession.getBookPathSixBeanDao();
+    public static BookPathSevenBeanDao bookPathBeanDao7 = DaoManager.getInstance().daoSession.getBookPathSevenBeanDao();
+    public static BookPathEightBeanDao bookPathBeanDao8 = DaoManager.getInstance().daoSession.getBookPathEightBeanDao();
+    public static BookPathNineBeanDao bookPathBeanDao9 = DaoManager.getInstance().daoSession.getBookPathNineBeanDao();
     public static void saveduiyingBookPathBeanDao(int bookpathid, List<BookPathBean> beanlist) {
         switch (bookpathid) {
             case 0:

@@ -37,8 +37,9 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
         public final static Property LongIntro = new Property(10, String.class, "longIntro", false, "LONG_INTRO");
         public final static Property ManyDownload = new Property(11, int.class, "manyDownload", false, "MANY_DOWNLOAD");
         public final static Property BookpathBean = new Property(12, int.class, "bookpathBean", false, "BOOKPATH_BEAN");
-        public final static Property IsZhudong = new Property(13, boolean.class, "isZhudong", false, "IS_ZHUDONG");
-        public final static Property JiaruDate = new Property(14, long.class, "jiaruDate", false, "JIARU_DATE");
+        public final static Property BookTotakCount = new Property(13, int.class, "bookTotakCount", false, "BOOK_TOTAK_COUNT");
+        public final static Property IsZhudong = new Property(14, boolean.class, "isZhudong", false, "IS_ZHUDONG");
+        public final static Property JiaruDate = new Property(15, long.class, "jiaruDate", false, "JIARU_DATE");
     }
 
 
@@ -67,10 +68,11 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
                 "\"LONG_INTRO\" TEXT," + // 10: longIntro
                 "\"MANY_DOWNLOAD\" INTEGER NOT NULL ," + // 11: manyDownload
                 "\"BOOKPATH_BEAN\" INTEGER NOT NULL ," + // 12: bookpathBean
-                "\"IS_ZHUDONG\" INTEGER NOT NULL ," + // 13: isZhudong
-                "\"JIARU_DATE\" INTEGER NOT NULL );"); // 14: jiaruDate
+                "\"BOOK_TOTAK_COUNT\" INTEGER NOT NULL ," + // 13: bookTotakCount
+                "\"IS_ZHUDONG\" INTEGER NOT NULL ," + // 14: isZhudong
+                "\"JIARU_DATE\" INTEGER NOT NULL );"); // 15: jiaruDate
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_SHUJIA_BOOK_BEAN_BOOK_ID ON SHUJIA_BOOK_BEAN" +
+        db.execSQL("CREATE INDEX " + constraint + "IDX_SHUJIA_BOOK_BEAN_BOOK_ID ON \"SHUJIA_BOOK_BEAN\"" +
                 " (\"BOOK_ID\" ASC);");
     }
 
@@ -136,8 +138,9 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
         }
         stmt.bindLong(12, entity.getManyDownload());
         stmt.bindLong(13, entity.getBookpathBean());
-        stmt.bindLong(14, entity.getIsZhudong() ? 1L: 0L);
-        stmt.bindLong(15, entity.getJiaruDate());
+        stmt.bindLong(14, entity.getBookTotakCount());
+        stmt.bindLong(15, entity.getIsZhudong() ? 1L: 0L);
+        stmt.bindLong(16, entity.getJiaruDate());
     }
 
     @Override
@@ -196,8 +199,9 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
         }
         stmt.bindLong(12, entity.getManyDownload());
         stmt.bindLong(13, entity.getBookpathBean());
-        stmt.bindLong(14, entity.getIsZhudong() ? 1L: 0L);
-        stmt.bindLong(15, entity.getJiaruDate());
+        stmt.bindLong(14, entity.getBookTotakCount());
+        stmt.bindLong(15, entity.getIsZhudong() ? 1L: 0L);
+        stmt.bindLong(16, entity.getJiaruDate());
     }
 
     @Override
@@ -221,8 +225,9 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // longIntro
             cursor.getInt(offset + 11), // manyDownload
             cursor.getInt(offset + 12), // bookpathBean
-            cursor.getShort(offset + 13) != 0, // isZhudong
-            cursor.getLong(offset + 14) // jiaruDate
+            cursor.getInt(offset + 13), // bookTotakCount
+            cursor.getShort(offset + 14) != 0, // isZhudong
+            cursor.getLong(offset + 15) // jiaruDate
         );
         return entity;
     }
@@ -242,8 +247,9 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
         entity.setLongIntro(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setManyDownload(cursor.getInt(offset + 11));
         entity.setBookpathBean(cursor.getInt(offset + 12));
-        entity.setIsZhudong(cursor.getShort(offset + 13) != 0);
-        entity.setJiaruDate(cursor.getLong(offset + 14));
+        entity.setBookTotakCount(cursor.getInt(offset + 13));
+        entity.setIsZhudong(cursor.getShort(offset + 14) != 0);
+        entity.setJiaruDate(cursor.getLong(offset + 15));
      }
     
     @Override

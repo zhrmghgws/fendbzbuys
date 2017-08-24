@@ -18,6 +18,8 @@ import com.hxd.fendbzbuys.domain.gen.BookPathSevenBeanDao;
 import com.hxd.fendbzbuys.domain.gen.BookPathSixBeanDao;
 import com.hxd.fendbzbuys.domain.gen.BookPathThreeBeanDao;
 import com.hxd.fendbzbuys.domain.gen.BookPathTwoBeanDao;
+import com.hxd.fendbzbuys.domain.gen.DaoMaster;
+import com.hxd.fendbzbuys.domain.gen.DaoSession;
 import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
 
 import org.greenrobot.greendao.AbstractDao;
@@ -30,21 +32,12 @@ import java.util.List;
  */
 
 public class DaoManager {
-    private BangdanBeanDao bangdanBeanDao=MyApplication.daoSession.getBangdanBeanDao();
-    private BangdanBooksBeanDao bangdanBooksBeanDao=MyApplication.daoSession.getBangdanBooksBeanDao();
-    private  ShujiaBookBeanDao  shujiaBookBeanDao = MyApplication.daoSession.getShujiaBookBeanDao();
-    private  BookPathBeanDao bookPathBeanDao = MyApplication.daoSession.getBookPathBeanDao();
-    private  BookPathOneBeanDao bookPathBeanDao1 = MyApplication.daoSession.getBookPathOneBeanDao();
-    private  BookPathTwoBeanDao bookPathBeanDao2 = MyApplication.daoSession.getBookPathTwoBeanDao();
-    private  BookPathThreeBeanDao bookPathBeanDao3 = MyApplication.daoSession.getBookPathThreeBeanDao();
-    private  BookPathFourBeanDao bookPathBeanDao4 = MyApplication.daoSession.getBookPathFourBeanDao();
-    private  BookPathFiveBeanDao bookPathBeanDao5 = MyApplication.daoSession.getBookPathFiveBeanDao();
-    private  BookPathSixBeanDao bookPathBeanDao6 = MyApplication.daoSession.getBookPathSixBeanDao();
-    private  BookPathSevenBeanDao bookPathBeanDao7 = MyApplication.daoSession.getBookPathSevenBeanDao();
-    private  BookPathEightBeanDao bookPathBeanDao8 = MyApplication.daoSession.getBookPathEightBeanDao();
-    private  BookPathNineBeanDao bookPathBeanDao9 = MyApplication.daoSession.getBookPathNineBeanDao();
-
-
+    public  DaoSession daoSession;
+    public DaoManager(){
+        DaoMaster.DevOpenHelper devOpenHelper=new DaoMaster.DevOpenHelper(MyApplication.getMyapplication().getApplicationContext(),"fendbzbuys.db",null);
+        DaoMaster daoMaster=new DaoMaster(devOpenHelper.getWritableDb());
+        this.daoSession=daoMaster.newSession();
+    }
 
 
     private static class SingleClass{
@@ -54,52 +47,52 @@ public class DaoManager {
         return SingleClass.DAO_MANAGER;
     }
     public   BookPathOneBeanDao getBookPathBeanDao1() {
-        return bookPathBeanDao1;
+        return daoSession.getBookPathOneBeanDao();
     }
 
     public   BookPathTwoBeanDao getBookPathBeanDao2() {
-        return bookPathBeanDao2;
+        return daoSession.getBookPathTwoBeanDao();
     }
 
     public   BookPathThreeBeanDao getBookPathBeanDao3() {
-        return bookPathBeanDao3;
+        return daoSession.getBookPathThreeBeanDao();
     }
 
     public   BookPathFourBeanDao getBookPathBeanDao4() {
-        return bookPathBeanDao4;
+        return daoSession.getBookPathFourBeanDao();
     }
 
     public   BookPathFiveBeanDao getBookPathBeanDao5() {
-        return bookPathBeanDao5;
+        return daoSession.getBookPathFiveBeanDao();
     }
 
     public   BookPathSixBeanDao getBookPathBeanDao6() {
-        return bookPathBeanDao6;
+        return daoSession.getBookPathSixBeanDao();
     }
 
     public   BookPathSevenBeanDao getBookPathBeanDao7() {
-        return bookPathBeanDao7;
+        return daoSession.getBookPathSevenBeanDao();
     }
 
     public  BookPathEightBeanDao getBookPathBeanDao8() {
-        return bookPathBeanDao8;
+        return daoSession.getBookPathEightBeanDao();
     }
 
     public  BookPathNineBeanDao getBookPathBeanDao9() {
-        return bookPathBeanDao9;
+        return daoSession.getBookPathNineBeanDao();
     }
 
     public   ShujiaBookBeanDao getShujiaBookBeanDao() {
-        return shujiaBookBeanDao;
+        return daoSession.getShujiaBookBeanDao();
     }
     public   BangdanBeanDao getBangdanBeanDao() {
-        return bangdanBeanDao;
+        return daoSession.getBangdanBeanDao();
     }public   BangdanBooksBeanDao getBangdanBooksBeanDao() {
-        return bangdanBooksBeanDao;
+        return daoSession.getBangdanBooksBeanDao();
     }
 
     public   BookPathBeanDao getBookPathBeanDao() {
-        return bookPathBeanDao;
+        return daoSession.getBookPathBeanDao();
     }
     public int getKongXianBookPathBeanDao(){
 
@@ -107,7 +100,7 @@ public class DaoManager {
         for(int i=0;i<10;i++){
             source.add(i);
         }
-        List<ShujiaBookBean>shujiaBookBeanList=shujiaBookBeanDao.loadAll();
+        List<ShujiaBookBean>shujiaBookBeanList=daoSession.getShujiaBookBeanDao().loadAll();
         for(int i=0;i<shujiaBookBeanList.size();i++){
           if(source.contains(shujiaBookBeanList.get(i).bookpathBean)){
               if(shujiaBookBeanList.get(i).bookpathBean!=0){

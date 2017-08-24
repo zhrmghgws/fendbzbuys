@@ -62,7 +62,7 @@ public class BookPathSevenBeanDao extends AbstractDao<BookPathSevenBean, Long> {
                 "\"TITLE\" TEXT," + // 5: title
                 "\"ZHANGJIE_ID\" INTEGER NOT NULL );"); // 6: zhangjieID
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_BOOK_PATH_SEVEN_BEAN_BOOK_ID ON BOOK_PATH_SEVEN_BEAN" +
+        db.execSQL("CREATE INDEX " + constraint + "IDX_BOOK_PATH_SEVEN_BEAN_BOOK_ID ON \"BOOK_PATH_SEVEN_BEAN\"" +
                 " (\"BOOK_ID\" ASC);");
     }
 
