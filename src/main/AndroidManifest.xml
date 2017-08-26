@@ -40,6 +40,9 @@
         <activity android:name=".moduler.read_moduler.ReadActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             />
+        <activity android:name=".moduler.sousu.SousuoActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            />
         <receiver android:name=".receiver.NetworkConnectChangedReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

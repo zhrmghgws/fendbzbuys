@@ -11,6 +11,7 @@ import com.hxd.fendbzbuys.domain.BookInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
 import com.hxd.fendbzbuys.domain.BookTotalInfo;
 import com.hxd.fendbzbuys.domain.GenderInfo;
+import com.hxd.fendbzbuys.domain.HotWordInfo;
 import com.hxd.fendbzbuys.domain.ShuSourceInfo;
 import com.hxd.fendbzbuys.domain.StatisticsInfo;
 import com.hxd.fendbzbuys.domain.ZuireBangInfo;
@@ -208,6 +209,10 @@ public class FBNetwork {
     }
     public Flowable<List<BookTotalInfo>> getTotalCount(String bookID){
         Flowable<List<BookTotalInfo>> malezuirezong=xdApi.gettotalCount("updated",bookID);
+        return malezuirezong.compose(mBaseHttpresultFunc);
+    }
+    public Flowable<HotWordInfo> getHotWord(){
+        Flowable<HotWordInfo> malezuirezong=xdApi.getHotWord();
         return malezuirezong.compose(mBaseHttpresultFunc);
     }
 

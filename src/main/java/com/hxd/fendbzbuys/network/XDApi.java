@@ -8,6 +8,7 @@ import com.hxd.fendbzbuys.domain.BookInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
 import com.hxd.fendbzbuys.domain.BookTotalInfo;
 import com.hxd.fendbzbuys.domain.GenderInfo;
+import com.hxd.fendbzbuys.domain.HotWordInfo;
 import com.hxd.fendbzbuys.domain.ShuSourceInfo;
 import com.hxd.fendbzbuys.domain.StatisticsInfo;
 import com.hxd.fendbzbuys.domain.ZuireBangInfo;
@@ -49,6 +50,8 @@ public interface XDApi {
 
     @GET("/chapter/{url}")
     Flowable<BookContentInfo> getContent(@Path("url") String url);
+    @GET("/book/hot-word")
+    Flowable<HotWordInfo> getHotWord();
     @GET("/book")
     Flowable<List<BookTotalInfo>> gettotalCount(@Query("view") String view, @Query("id") String bookid);
 

@@ -31,6 +31,7 @@ import com.hxd.fendbzbuys.domain.ShujiaBookBean;
 import com.hxd.fendbzbuys.manager.DaoManager;
 import com.hxd.fendbzbuys.moduler.account_moduler.ShujiaPresenter;
 import com.hxd.fendbzbuys.moduler.laon_moduler.PaihangFragment;
+import com.hxd.fendbzbuys.moduler.sousu.SousuoActivity;
 import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -135,7 +136,7 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
         presenter.downLoadMain();
     }
     @OnClick(R.id.rl_sousuo_main) void sousuo_click(){
-
+        SousuoActivity.invoke(this);
     }
     @Override
     protected void onDestroy() {
