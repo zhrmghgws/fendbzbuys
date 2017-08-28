@@ -43,6 +43,10 @@
         <activity android:name=".moduler.sousu.SousuoActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             />
+        <activity android:name=".moduler.fenlei_detail_moduler.FenLeiDetailActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            />
+
         <receiver android:name=".receiver.NetworkConnectChangedReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

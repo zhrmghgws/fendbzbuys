@@ -515,14 +515,14 @@ public class ReadActivity extends MVPBaseActivity<ReadPresenter> {
                     downX= (int) motionEvent.getX();
                     downY= (int) motionEvent.getY();
                     if(!flag){
-                        if(downX<width/3*2 &&downX>width/3 && motionEvent.getRawY()>height/3 && motionEvent.getRawY()<height/2){
+                        if(downX<width/3*2 &&downX>width/3 && motionEvent.getRawY()>height/3 && motionEvent.getRawY()<height*2/3){
                             clickCenter=true;
                         }else {
                             clickCenter=false;
                         }
                         return false;
                     }else{
-                        if(downX<width/3*2 &&downX>width/3 && motionEvent.getRawY()>height/3 && motionEvent.getRawY()<height/2){
+                        if(downX<width/3*2 &&downX>width/3 && motionEvent.getRawY()>height/3 && motionEvent.getRawY()<height*2/3){
                             clickCenter=true;
                             return false;
                         }

@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.hxd.fendbzbuys.base.ActionbarAtrribute;
 import com.hxd.fendbzbuys.base.BaseActivity;
+import com.hxd.fendbzbuys.base.OnSuccessCallback;
 import com.hxd.fendbzbuys.domain.BangdanBean;
 import com.hxd.fendbzbuys.domain.BangdanBooksBean;
+import com.hxd.fendbzbuys.domain.FenleiBookTypeInfo;
 import com.hxd.fendbzbuys.domain.GenderInfo;
 import com.hxd.fendbzbuys.domain.StatisticsInfo;
 import com.hxd.fendbzbuys.domain.ZuireBangInfo;
@@ -21,6 +23,7 @@ import com.hxd.fendbzbuys.domain.gen.DaoMaster;
 import com.hxd.fendbzbuys.manager.DaoManager;
 import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
+import com.hxd.fendbzbuys.receiver.NetworkConnectChangedReceiver;
 import com.hxd.fendbzbuys.utils.UIUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -38,13 +41,29 @@ public class SplashActivity extends BaseActivity {
     TextView textview;
     Timer mTimer;
     int flag=3;
-    BangdanBeanDao BangdanBeanDao;
+    BangdanBeanDao bangdanBeanDao;
     BangdanBooksBeanDao bangdanBooksBeanDao;
 
     boolean isUpdate;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*new RxPermissions(this).request(Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_SETTINGS,
+                Manifest.permission.WRITE_APN_SETTINGS).subscribe(granted->{
+            if(granted){
+                UIUtils.showToast("获取权限成功");
+            }else{
+                UIUtils.showToast("获取权限失败");
+            }
+        });*/
+       initApp();
+
+    }
+    private void initApp(){
         if(Constant.sp==null){
             Constant.sp=getPreferences(MODE_PRIVATE);
         }
@@ -66,10 +85,22 @@ public class SplashActivity extends BaseActivity {
             public void onClick(View view) {
             }
         });
-        delayFinish();
-
+        initNetWorkReceiver();
     }
+    private void initNetWorkReceiver() {
+        NetworkConnectChangedReceiver.netWorkOnlineDosomeThing(new OnSuccessCallback() {
+            @Override
+            public void nextStep() {
+                if(SplashActivity.this!=null&&!SplashActivity.this.isFinishing()){
+                    textview.setText(flag+"s 后进入");
+                    isinitdata();
+                }
+            }
+        });
+    }
+
     private void delayFinish(){
+        textview.setText(flag+"s 后进入");
         mTimer=new Timer();
         TimerTask task=new TimerTask() {
             @Override
@@ -112,6 +143,7 @@ public class SplashActivity extends BaseActivity {
                 @Override
                 public void onNext(GenderInfo genderInfo) {
                     super.onNext(genderInfo);
+                    delayFinish();
                     Constant.sp.edit().putLong("preupdate",System.currentTimeMillis()).commit();
                     Log.e("aaaaa", "-----------------------------------------------");
                     for(int i=0;i<genderInfo.male.size();i++){
@@ -143,7 +175,7 @@ public class SplashActivity extends BaseActivity {
                             UIUtils.showToast("本应用需要存储权限才能使用");
                         }
                     });*/
-                    BangdanBeanDao= DaoManager.getInstance().getBangdanBeanDao();
+                    bangdanBeanDao= DaoManager.getInstance().getBangdanBeanDao();
                     bangdanBooksBeanDao=DaoManager.getInstance().getBangdanBooksBeanDao();
                     savaBangDanData();
 
@@ -154,16 +186,18 @@ public class SplashActivity extends BaseActivity {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
-                    delayFinish();
+                    textview.setText("请检查你的网络连接");
                 }
             });
             getFenleiInfo();
+        }else{
+            delayFinish();
         }
 
     }
     private void savaBangDanData() {
-        if(BangdanBeanDao.loadAll().size()>0){
-            BangdanBeanDao.deleteAll();
+        if(bangdanBeanDao.loadAll().size()>0){
+            bangdanBeanDao.deleteAll();
         }
         for(int i=1;i<19;i++){
             BangdanBean bangdanbean=new BangdanBean();
@@ -171,92 +205,92 @@ public class SplashActivity extends BaseActivity {
                 case 1:
                     bangdanbean.id=Constant.STYPE_maleZuirezong;
                     bangdanbean.sourceID=Constant.male_zuire._id;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 2:
                     bangdanbean.id=Constant.STYPE_maleZuireyue;
                     bangdanbean.sourceID=Constant.male_zuire.totalRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 3:
                     bangdanbean.id=Constant.STYPE_maleZuirezhou;
                     bangdanbean.sourceID=Constant.male_zuire.monthRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 4:
                     bangdanbean.id=Constant.STYPE_maleQianlizong;
                     bangdanbean.sourceID=Constant.male_qianli._id;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 5:
                     bangdanbean.id=Constant.STYPE_maleQianliyue;
                     bangdanbean.sourceID=Constant.male_qianli.totalRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 6:
                     bangdanbean.id=Constant.STYPE_maleQianlizhou;
                     bangdanbean.sourceID=Constant.male_qianli.monthRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 7:
                     bangdanbean.id=Constant.STYPE_maleWanjiezong;
                     bangdanbean.sourceID=Constant.male_qianli._id;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 8:
                     bangdanbean.id=Constant.STYPE_maleWanjieyue;
                     bangdanbean.sourceID=Constant.male_qianli.totalRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 9:
                     bangdanbean.id=Constant.STYPE_maleWanjiezhou;
                     bangdanbean.sourceID=Constant.male_qianli.monthRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 10:
                     bangdanbean.id=Constant.STYPE_femaleZuirezong;
                     bangdanbean.sourceID=Constant.female_zuire._id;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 11:
                     bangdanbean.id=Constant.STYPE_femaleZuirezhou;
                     bangdanbean.sourceID=Constant.female_zuire.monthRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 12:
                     bangdanbean.id=Constant.STYPE_femalZuireyue;
                     bangdanbean.sourceID=Constant.female_zuire.totalRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 13:
                     bangdanbean.id=Constant.STYPE_femaleQianlizong;
                     bangdanbean.sourceID=Constant.female_qianli._id;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 14:
                     bangdanbean.id=Constant.STYPE_femalQianliyue;
                     bangdanbean.sourceID=Constant.female_qianli.totalRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 15:
                     bangdanbean.id=Constant.STYPE_femalQianlizho;
                     bangdanbean.sourceID=Constant.female_qianli.monthRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 16:
                     bangdanbean.id=Constant.STYPE_femalWanjiezong;
                     bangdanbean.sourceID=Constant.female_wanjie._id;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 17:
                     bangdanbean.id=Constant.STYPE_femalWanjieyue;
                     bangdanbean.sourceID=Constant.female_wanjie.totalRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
                 case 18:
                     bangdanbean.id=Constant.STYPE_femalWanjiezho;
                     bangdanbean.sourceID=Constant.female_wanjie.monthRank;
-                    BangdanBeanDao.insert(bangdanbean);
+                    bangdanBeanDao.insertOrReplace(bangdanbean);
                     break;
 
             }
@@ -264,9 +298,9 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void getFenleiInfo(){
-        FBNetwork.getInstance().getStatistics().subscribe(new ProcressSubsciber<StatisticsInfo>(false,false) {
+        FBNetwork.getInstance().getStatistics().subscribe(new ProcressSubsciber<FenleiBookTypeInfo>(false,false) {
             @Override
-            public void onNext(StatisticsInfo statisticsInfo) {
+            public void onNext(FenleiBookTypeInfo statisticsInfo) {
                 Log.e("bbbbb", "-----------------------------------------------");
                 super.onNext(statisticsInfo);
                 Constant.statisticsInfo=statisticsInfo;
@@ -322,7 +356,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
 
                 }
@@ -357,7 +391,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -390,7 +424,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -422,7 +456,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -454,7 +488,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -486,7 +520,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -518,7 +552,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -550,7 +584,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -582,7 +616,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -614,7 +648,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -646,7 +680,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -678,7 +712,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -710,7 +744,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -742,7 +776,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -774,7 +808,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -806,7 +840,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -838,7 +872,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }
@@ -870,7 +904,7 @@ public class SplashActivity extends BaseActivity {
                     if(isUpdate){
                         bangdanBooksBeanDao.update(bangdanBooksBean);
                     }else {
-                        bangdanBooksBeanDao.insert(bangdanBooksBean);
+                        bangdanBooksBeanDao.insertOrReplace(bangdanBooksBean);
                     }
                 }
             }

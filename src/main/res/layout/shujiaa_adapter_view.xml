@@ -17,24 +17,24 @@
             />
         <TextView
             android:id="@+id/tv_name_adapter"
-            android:layout_width="wrap_content"
+            android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:text="斗破苍穹"
             android:textSize="16dp"
             android:textColor="@color/black"
             android:layout_toRightOf="@+id/iv_shujia_adapter"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="5dp"
             />
         <TextView
             android:id="@+id/tv_auther_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_name_adapter"
-            android:textSize="14dp"
+            android:textSize="13dp"
+            android:layout_below="@+id/tv_name_adapter"
+            android:layout_alignLeft="@+id/tv_name_adapter"
             android:text="天蚕土豆"
+            android:layout_marginTop="5dp"
             android:textColor="@color/color_666666"
-            android:layout_marginLeft="10dp"
-            android:layout_alignBaseline="@+id/tv_name_adapter"
             />
         <TextView
             android:id="@+id/tv_datatime_adapter"
@@ -50,7 +50,7 @@
             />
         <TextView
             android:id="@+id/tv_state_adapter"
-            android:layout_below="@+id/tv_name_adapter"
+            android:layout_below="@+id/tv_auther_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="连载中_"
@@ -63,7 +63,7 @@
             />
         <TextView
             android:id="@+id/tv_lastchart_adapter"
-            android:layout_below="@+id/tv_name_adapter"
+            android:layout_below="@+id/tv_auther_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="更新至 第1000章 诡异的刀"
@@ -105,7 +105,7 @@
             android:id="@+id/tv_longchart_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_name_adapter"
+            android:layout_below="@+id/tv_auther_adapter"
             android:layout_alignLeft="@+id/tv_name_adapter"
             android:layout_marginTop="5dp"
             android:lineSpacingExtra="2dp"

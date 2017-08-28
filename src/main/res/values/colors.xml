@@ -182,6 +182,7 @@
     <color name="transparent">#50000000</color>
     <color name="transparentwhite">#50ffffff</color>
     <color name="transparentwhite_60">#60ffffff</color>
+    <color name="transparentwhite_80">#80ffffff</color>
     <color name="transparent00">#00000000</color>
     <color name="bg_page">#ffebebeb</color>
     <color name="color_37ba27">#37BA27</color>
@@ -225,6 +226,7 @@
     <color name="color_0091EA">#0091EA</color>
     <color name="hometextcolor_hover">#03b5ff</color>
     <color name="hometextcolor_hover_light">#5f03b5ff</color>
+    <color name="fenhong">#e4004f</color>
     <color name="hometextcolor">#666666</color>
     <color name="bgcolor">#f7f7f7</color>
     <color name="mytitlebar">#bacfa2</color>

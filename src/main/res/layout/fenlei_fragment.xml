@@ -1,10 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<TextView
-    android:id="@+id/tv_shopphonthint_account"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="分类"/>
-</LinearLayout>
+    android:background="@mipmap/shujia_bj14"
+   >
+    <ScrollView
+        android:id="@+id/sv_fenlei"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+            <RelativeLayout
+                android:id="@+id/rl_xiaoshu_fenlei"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/transparentwhite_60">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/hometextcolor_hover" />
+
+                <TextView
+                    android:id="@+id/tv_xiaoshuo_fenlei"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="25dp"
+                    android:text="小说"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <com.hxd.fendbzbuys.ui.MyGridView
+                android:id="@+id/gv_xiaoshuo_fenlei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_xiaoshu_fenlei"
+                android:gravity="center_horizontal"
+                android:numColumns="3"
+                android:verticalSpacing="10dp"
+                android:horizontalSpacing="10dp"
+                android:layout_margin="10dp"
+                android:stretchMode="columnWidth" />
+
+            <RelativeLayout
+                android:id="@+id/rl_chuban_fenlei"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/gv_xiaoshuo_fenlei"
+                android:layout_marginTop="20dp"
+                android:background="@color/transparentwhite_60">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/hometextcolor_hover" />
+
+                <TextView
+                    android:id="@+id/tv_chuban_fenlei"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="25dp"
+                    android:text="出版文学"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <com.hxd.fendbzbuys.ui.MyGridView
+                android:id="@+id/gv_chuban_fenlei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_chuban_fenlei"
+                android:gravity="center_horizontal"
+                android:numColumns="3"
+                android:verticalSpacing="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:horizontalSpacing="10dp"
+                android:layout_marginBottom="100dp"
+                android:stretchMode="columnWidth" />
+        </RelativeLayout>
+    </ScrollView>
+    <RelativeLayout
+        android:id="@+id/rl_dataerror_fenlei"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="数据加载失败,请点击重试"
+            android:textColor="@color/color_666666"
+            android:textSize="16dp"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

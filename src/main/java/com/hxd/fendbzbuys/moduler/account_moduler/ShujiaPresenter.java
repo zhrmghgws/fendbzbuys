@@ -47,6 +47,7 @@ public class ShujiaPresenter extends BasePresenter<ShujiaFragment> {
     List<ShujiaBookBean> shujiaBookZujiBeanList=new ArrayList<>();
     ShujiaAdapter jiaRuAdapter;
     ShujiaAdapter zuJiAdapter;
+    int cacheSize=20;
     public ShujiaPresenter(ShujiaFragment view) {
         super(view);
         shujiaBookBeanDao= DaoManager.getInstance().getShujiaBookBeanDao();
@@ -116,6 +117,26 @@ public class ShujiaPresenter extends BasePresenter<ShujiaFragment> {
                     view.lv_lishizuji_main.setAdapter(zuJiAdapter);
                 }
                 zuJiAdapter.notifyDataSetChanged();
+                if(shujiaBookZujiBeanList.size()>cacheSize){
+                    ShujiaBookBean  temp; // 记录临时中间值
+                    int size = shujiaBookZujiBeanList.size(); // 数组大小
+                    for (int i = 0; i < size - 1; i++) {
+                        for (int j = i + 1; j < size; j++) {
+                            if (shujiaBookZujiBeanList.get(i).jiaruDate > shujiaBookZujiBeanList.get(j).jiaruDate ) { // 交换两数的位置
+                                temp = shujiaBookZujiBeanList.get(i);
+                                shujiaBookZujiBeanList.add(i,shujiaBookZujiBeanList.get(j));
+                                shujiaBookZujiBeanList.add(j,temp);
+                            }
+                        }
+                    }
+                    for(int m=0;m<shujiaBookZujiBeanList.size();m++){
+                        Log.e("time::::", ":::::::: "+shujiaBookZujiBeanList.get(m).jiaruDate );
+                        if(m<shujiaBookZujiBeanList.size()-cacheSize){
+                            shujiaBookBeanDao.deleteByKey(shujiaBookZujiBeanList.get(m).bookId);
+                        }
+
+                    }
+                }
             }else{
                 view.lv_lishizuji_main.setVisibility(View.GONE);
                 view.rl_lishizujikong_main.setVisibility(View.VISIBLE);
@@ -183,7 +204,7 @@ public class ShujiaPresenter extends BasePresenter<ShujiaFragment> {
             }
             Glide.with(ShujiaPresenter.this.view.getActivity()).load(Common.getIonicCommonUrl()+list.get(i).cover).into(holder.iv_shujia_adapter);
             holder.tv_name_adapter.setText(list.get(i).bookName);
-            holder.tv_auther_adapter.setText(list.get(i).author);
+            holder.tv_auther_adapter.setText("作者: "+list.get(i).author);
             if(isJiaRu){
                 holder.tv_state_adapter.setVisibility(View.VISIBLE);
                 holder.tv_lastchart_adapter.setVisibility(View.VISIBLE);
@@ -197,7 +218,11 @@ public class ShujiaPresenter extends BasePresenter<ShujiaFragment> {
                     holder.tv_state_adapter.setText("已完结_");
                 }
                 holder.tv_lastchart_adapter.setText("更新至 "+list.get(i).lastChapter);
-                holder.tv_currentchart_adapter.setText("你读到 第"+(Integer.parseInt(list.get(i).currentZhangjie)+1)+"章");
+                if(TextUtils.isEmpty(list.get(i).currentZhangjie)){
+                    holder.tv_currentchart_adapter.setText("你读到 第1章");
+                }else{
+                    holder.tv_currentchart_adapter.setText("你读到 第"+(Integer.parseInt(list.get(i).currentZhangjie)+1)+"章");
+                }
                 long time=list.get(i).jiaruDate;
                 int data= (int) ((System.currentTimeMillis()-time)/(1000*60*60));
                 if(data>24){

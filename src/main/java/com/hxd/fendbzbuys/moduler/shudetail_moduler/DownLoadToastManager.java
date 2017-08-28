@@ -9,6 +9,8 @@ import com.hxd.fendbzbuys.ui.MiExToast;
 
 public class DownLoadToastManager {
     public static MiExToast miToast;
+    public static String bookid;
+
     public static void  creatToast(){
         miToast = new MiExToast(MyApplication.getMyapplication().getApplicationContext());
         miToast.setDuration(MiExToast.LENGTH_ALWAYS);

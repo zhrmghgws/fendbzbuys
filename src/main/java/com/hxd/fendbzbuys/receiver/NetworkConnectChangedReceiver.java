@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.hxd.fendbzbuys.Constant;
+import com.hxd.fendbzbuys.base.OnSuccessCallback;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
 import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
@@ -27,6 +28,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
             NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
             if (activeNetwork != null) { // connected to the internet
                 if (activeNetwork.isConnected()) {
+                    onSuccessCallback.nextStep();
                     if(!TextUtils.isEmpty(Constant.sourceid) && Constant.muluList==null){
                         FBNetwork.getInstance().getBookmulu(Constant.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
                             @Override
@@ -56,5 +58,9 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
 
 
         }
+    }
+    static OnSuccessCallback onSuccessCallback;
+    public static void netWorkOnlineDosomeThing(OnSuccessCallback callback){
+        onSuccessCallback=callback;
     }
 }

@@ -198,7 +198,11 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 if (view.bookPathid == 0) {
                     getContents(0, 20);
                 } else {
-                    currentCount = Integer.parseInt(shujiaBookBean.getCurrentZhangjie());
+                    if(TextUtils.isEmpty(shujiaBookBean.currentZhangjie)){
+                        currentCount=0;
+                    }else{
+                        currentCount = Integer.parseInt(shujiaBookBean.currentZhangjie);
+                    }
                     Log.e("getShumulu", ":::::::setData::::: "+view.bookPathid );
                     setData(view.bookPathid);
                 }
@@ -226,13 +230,15 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 // bookContexts.add(j,new BookAllZhangjie(Constant.muluList.get(j).title,bookContentInfo.chapter.body));
                 BookPathBeanDaoManager.getduiyingBookPathBeanDao(ReadPresenter.this.view.bookPathid, j, bookContentInfo,ReadPresenter.this.view.bookid,Constant.muluList);
                 //当setdata某一章为空时,nomal=false,单独请求的,需要设置展示数据
-                if (!nomal) {
-                    view.tv_read.setText(dealContent(bookContentInfo.chapter.body));
-                    view.tv_title_read.setText(Constant.muluList.get(j).title);
-                }
-                if (j == 0 && currentCount == 0) {
-                    view.tv_read.setText(dealContent(bookContentInfo.chapter.body));
-                    view.tv_title_read.setText(Constant.muluList.get(0).title);
+                if(!view.isFinishing()&&view!=null){
+                    if (!nomal) {
+                        view.tv_read.setText(dealContent(bookContentInfo.chapter.body));
+                        view.tv_title_read.setText(Constant.muluList.get(j).title);
+                    }
+                    if (j == 0 && currentCount == 0) {
+                        view.tv_read.setText(dealContent(bookContentInfo.chapter.body));
+                        view.tv_title_read.setText(Constant.muluList.get(0).title);
+                    }
                 }
             }
         });
@@ -314,17 +320,19 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 // super.onError(e);
                 if (e instanceof UnknownHostException || e instanceof ConnectException) {
                     Constant.runActivity.otherPophint("请检查您的网络连接");
-                    ReadPresenter.this.view.tv_download_hint.setTextColor(ReadPresenter.this.view.getResources().getColor(R.color.color_e73b47));
-                    ReadPresenter.this.view.tv_download_hint.setText("第" + (j + 1) + "章下载失败,请确认你的网络连接正常,然后点击重试");
-                    ReadPresenter.this.view.rl_download_hint.setClickable(true);
-                    ReadPresenter.this.view.rl_download_hint.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ReadPresenter.this.view.tv_download_hint.setTextColor(ReadPresenter.this.view.getResources().getColor(R.color.color_dadada));
-                            getContentAndDownLoad(j, false);
-                            ReadPresenter.this.view.rl_download_hint.setClickable(false);
-                        }
-                    });
+                    if(!ReadPresenter.this.view.isFinishing()){
+                        ReadPresenter.this.view.tv_download_hint.setTextColor(ReadPresenter.this.view.getResources().getColor(R.color.color_e73b47));
+                        ReadPresenter.this.view.tv_download_hint.setText("第" + (j + 1) + "章下载失败,请确认你的网络连接正常,然后点击重试");
+                        ReadPresenter.this.view.rl_download_hint.setClickable(true);
+                        ReadPresenter.this.view.rl_download_hint.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ReadPresenter.this.view.tv_download_hint.setTextColor(ReadPresenter.this.view.getResources().getColor(R.color.color_dadada));
+                                getContentAndDownLoad(j, false);
+                                ReadPresenter.this.view.rl_download_hint.setClickable(false);
+                            }
+                        });
+                    }
                 } else if (e instanceof SocketTimeoutException) {
                     downError.add(j);
                     int i = j + 1;
@@ -856,8 +864,10 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                     @Override
                     public void onNext(BookMuluInfo httpResult) {
                         super.onNext(httpResult);
-                        Constant.muluList = httpResult.chapters;
-                        showMulu();
+                        if(!ReadPresenter.this.view.isFinishing()){
+                            Constant.muluList = httpResult.chapters;
+                            showMulu();
+                        }
                     }
                 });
             }

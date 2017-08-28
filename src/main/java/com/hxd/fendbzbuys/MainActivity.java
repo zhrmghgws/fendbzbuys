@@ -77,6 +77,8 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
     TextView tv_nan_titlebar;
     @BindView(R.id.tv_nv_titlebar)
     TextView tv_nv_titlebar;
+    @BindView(R.id.tv_fengexian_titlebar)
+    TextView tv_fengexian_titlebar;
 
     @BindView(R.id.tv_fenlei_home)
     TextView tv_fenlei_home;
@@ -202,24 +204,31 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
         if(isNan){
             isNan=false;
             tv_nan_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,13);
-            tv_nv_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
+            tv_nv_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
+            tv_fengexian_titlebar.setTextColor(getResources().getColor(R.color.e99497));
+            tv_nan_titlebar.setTextColor(getResources().getColor(R.color.color_999999));
+            tv_nv_titlebar.setTextColor(getResources().getColor(R.color.e99497));
+
            // tv_nan_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
            // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
             if(presenter.currentPage==1){
                 presenter.paihangFragment.nvPaihang();
             }else if(presenter.currentPage==2){
-
+                presenter.fenleiFragment.nvPaihang();
             }
         }else{
             isNan=true;
-            tv_nan_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
+            tv_nan_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
+            tv_fengexian_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
+            tv_nan_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
+            tv_nv_titlebar.setTextColor(getResources().getColor(R.color.color_999999));
             tv_nv_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,13);
           //  tv_nan_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
            // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
             if(presenter.currentPage==1){
                 presenter.paihangFragment.nanPaihang();
             }else if(presenter.currentPage==2){
-
+                presenter.fenleiFragment.nanPaihang();
             }
         }
     }
@@ -268,11 +277,10 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
                         for(int j=0;j<shujiaBookJiaruBeanList.size();j++){
                             if(shujiaBookJiaruBeanList.get(j).bookId.equals(bookTotalInfos.get(i)._id+"")){
                                 ShujiaBookBean shujiaBookBean=shujiaBookJiaruBeanList.get(i);
-                                if(bookTotalInfos.get(i).chaptersCount.equals(shujiaBookBean.bookTotakCount))
+                                if(!bookTotalInfos.get(i).chaptersCount.equals(shujiaBookBean.bookTotakCount)){
                                     shujiaBookBean.lastChapter=bookTotalInfos.get(i).lastChapter;
-                                shujiaBookBean.bookTotakCount=Integer.parseInt(bookTotalInfos.get(i).chaptersCount);
-                                DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
-                                if(isBackground(getApplicationContext())){
+                                    shujiaBookBean.bookTotakCount=Integer.parseInt(bookTotalInfos.get(i).chaptersCount);
+                                    DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
                                     sentNotification(shujiaBookBean);
                                 }
                             }

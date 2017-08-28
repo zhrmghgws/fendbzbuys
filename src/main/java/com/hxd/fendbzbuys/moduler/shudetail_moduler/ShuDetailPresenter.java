@@ -328,6 +328,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
                     public void run() {
                         Log.e("初始化toast", "::::::: " + widthNew);
                         DownLoadToastManager.creatToast();
+                        DownLoadToastManager.bookid=bookInfo._id;
                         DownLoadToastManager.miToast.setErrorHintGone();
                         DownLoadToastManager.miToast.setJinduText("缓存中:");
                         DownLoadToastManager.miToast.setJindu(widthNew);
@@ -509,6 +510,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
                             if (DownLoadToastManager.miToast != null) {
                                 DownLoadToastManager.miToast.hide();
                                 DownLoadToastManager.miToast = null;
+                                DownLoadToastManager.bookid="";
 
                             }
                             downloadManager = null;

@@ -2,6 +2,7 @@ package com.hxd.fendbzbuys.network;
 
 import android.util.Log;
 
+import com.apkfuns.logutils.LogUtils;
 import com.google.gson.Gson;
 import com.hxd.fendbzbuys.Common;
 import com.hxd.fendbzbuys.Constant;
@@ -10,10 +11,14 @@ import com.hxd.fendbzbuys.domain.BookContentInfo;
 import com.hxd.fendbzbuys.domain.BookInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
 import com.hxd.fendbzbuys.domain.BookTotalInfo;
+import com.hxd.fendbzbuys.domain.FenleiBookTypeInfo;
+import com.hxd.fendbzbuys.domain.FenleiBooksInfo;
 import com.hxd.fendbzbuys.domain.GenderInfo;
 import com.hxd.fendbzbuys.domain.HotWordInfo;
+import com.hxd.fendbzbuys.domain.MohuSousuInfo;
 import com.hxd.fendbzbuys.domain.ShuSourceInfo;
 import com.hxd.fendbzbuys.domain.StatisticsInfo;
+import com.hxd.fendbzbuys.domain.WanZhengSousuInfo;
 import com.hxd.fendbzbuys.domain.ZuireBangInfo;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -31,6 +36,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.http.Query;
 
 /**
  * Created by lichao on 16/9/22.
@@ -89,8 +95,20 @@ public class FBNetwork {
         Flowable<GenderInfo> homepageBannerInfo = xdApi.getGender();
         return homepageBannerInfo.compose(mBaseHttpresultFunc);
     }
-    public Flowable<StatisticsInfo> getStatistics() {
-        Flowable<StatisticsInfo> homepageBannerInfo = xdApi.getStatistics();
+    public Flowable<FenleiBooksInfo> getFenleiBook(String gender, String type, String major, String start, String limit) {
+        Flowable<FenleiBooksInfo> homepageBannerInfo = xdApi.getFenleibooks(gender,type,major,start,limit);
+        return homepageBannerInfo.compose(mBaseHttpresultFunc);
+    }
+    public Flowable<MohuSousuInfo> mohuSousuo(String keyword) {
+        Flowable<MohuSousuInfo> homepageBannerInfo = xdApi.mohuSousuo(keyword);
+        return homepageBannerInfo.compose(mBaseHttpresultFunc);
+    }
+    public Flowable<WanZhengSousuInfo> wanZhengSousuo(String keyword) {
+        Flowable<WanZhengSousuInfo> homepageBannerInfo = xdApi.wanZhengSousuo(keyword);
+        return homepageBannerInfo.compose(mBaseHttpresultFunc);
+    }
+    public Flowable<FenleiBookTypeInfo> getStatistics() {
+        Flowable<FenleiBookTypeInfo> homepageBannerInfo = xdApi.getStatistics();
         return homepageBannerInfo.compose(mBaseHttpresultFunc);
     }
     public Flowable<ZuireBangInfo> getMaleZuireyue(){

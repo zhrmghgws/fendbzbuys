@@ -27,6 +27,7 @@ import com.hxd.fendbzbuys.manager.DaoManager;
 import com.hxd.fendbzbuys.moduler.account_moduler.ShujiaFragment;
 import com.hxd.fendbzbuys.moduler.fenlei_moduler.FenleiFragment;
 import com.hxd.fendbzbuys.moduler.laon_moduler.PaihangFragment;
+import com.hxd.fendbzbuys.moduler.shudetail_moduler.DownLoadToastManager;
 import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
 import com.hxd.fendbzbuys.utils.UIUtils;
@@ -314,23 +315,27 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
             tv_down_down.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(downloadManagerList.get(i)!=null){
+                    if(DownLoadToastManager.miToast!=null && DownLoadToastManager.bookid.equals(shujiaBookBeanList.get(i).bookId)){
                         UIUtils.showToast("该书正在下载中...");
                     }else{
-                        if(downloadManagerList.size()>2) {
-                            UIUtils.showToast("当前下载队列较多,请稍后...");
-                        }else {
-                            tv_manydownload_down.setVisibility(View.GONE);
-                            view_jindu_base_down.setVisibility(View.VISIBLE);
-                            view_jindu_down.setVisibility(View.VISIBLE);
-                            tv_jindu_down.setVisibility(View.VISIBLE);
-                            FBNetwork.getInstance().getBookmulu(shujiaBookBeanList.get(i).bookSourceID).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
-                                @Override
-                                public void onNext(BookMuluInfo httpResult) {
-                                    super.onNext(httpResult);
-                                    downloadBook(i,httpResult.chapters);
-                                }
-                            });
+                        if(downloadManagerList.get(i)!=null){
+                            UIUtils.showToast("该书正在下载中...");
+                        }else{
+                            if(downloadManagerList.size()>2) {
+                                UIUtils.showToast("当前下载队列较多,请稍后...");
+                            }else {
+                                tv_manydownload_down.setVisibility(View.GONE);
+                                view_jindu_base_down.setVisibility(View.VISIBLE);
+                                view_jindu_down.setVisibility(View.VISIBLE);
+                                tv_jindu_down.setVisibility(View.VISIBLE);
+                                FBNetwork.getInstance().getBookmulu(shujiaBookBeanList.get(i).bookSourceID).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
+                                    @Override
+                                    public void onNext(BookMuluInfo httpResult) {
+                                        super.onNext(httpResult);
+                                        downloadBook(i,httpResult.chapters);
+                                    }
+                                });
+                            }
                         }
                     }
                 }

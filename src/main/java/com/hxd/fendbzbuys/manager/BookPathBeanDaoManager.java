@@ -254,7 +254,7 @@ public class BookPathBeanDaoManager {
                     bookPathBean1.localPath = "";
                     bookPathBean1.netUrl = muluList.get(j).link;
                     bookPathBean1.title = muluList.get(j).title;
-                    return bookPathBeanDao1.insert(bookPathBean1);
+                    return bookPathBeanDao1.insertOrReplace(bookPathBean1);
                 }
 
             case 2:
@@ -266,7 +266,7 @@ public class BookPathBeanDaoManager {
                     bookPathBean2.localPath = "";
                     bookPathBean2.netUrl = muluList.get(j).link;
                     bookPathBean2.title = muluList.get(j).title;
-                    return bookPathBeanDao2.insert(bookPathBean2);
+                    return bookPathBeanDao2.insertOrReplace(bookPathBean2);
                 }
 
             case 3:
@@ -278,7 +278,7 @@ public class BookPathBeanDaoManager {
                     bookPathBean3.localPath = "";
                     bookPathBean3.netUrl = muluList.get(j).link;
                     bookPathBean3.title =muluList.get(j).title;
-                    return bookPathBeanDao3.insert(bookPathBean3);
+                    return bookPathBeanDao3.insertOrReplace(bookPathBean3);
                 }
 
             case 4:
@@ -290,7 +290,7 @@ public class BookPathBeanDaoManager {
                     bookPathBean4.localPath = "";
                     bookPathBean4.netUrl =muluList.get(j).link;
                     bookPathBean4.title =muluList.get(j).title;
-                    return bookPathBeanDao4.insert(bookPathBean4);
+                    return bookPathBeanDao4.insertOrReplace(bookPathBean4);
                 }
 
             case 5:
@@ -302,7 +302,7 @@ public class BookPathBeanDaoManager {
                     bookPathBean5.localPath = "";
                     bookPathBean5.netUrl = muluList.get(j).link;
                     bookPathBean5.title = muluList.get(j).title;
-                    return bookPathBeanDao5.insert(bookPathBean5);
+                    return bookPathBeanDao5.insertOrReplace(bookPathBean5);
                 }
 
             case 6:
@@ -314,7 +314,7 @@ public class BookPathBeanDaoManager {
                     bookPathBean6.localPath = "";
                     bookPathBean6.netUrl = muluList.get(j).link;
                     bookPathBean6.title = muluList.get(j).title;
-                    return bookPathBeanDao6.insert(bookPathBean6);
+                    return bookPathBeanDao6.insertOrReplace(bookPathBean6);
                 }
 
             case 7:
@@ -326,7 +326,7 @@ public class BookPathBeanDaoManager {
                     bookPathBean7.localPath = "";
                     bookPathBean7.netUrl =muluList.get(j).link;
                     bookPathBean7.title = muluList.get(j).title;
-                    return bookPathBeanDao7.insert(bookPathBean7);
+                    return bookPathBeanDao7.insertOrReplace(bookPathBean7);
                 }
             case 8:
                 if (bookPathBeanDao8 != null && bookPathBeanDao8.load(Long.valueOf(j)) == null) {
@@ -337,7 +337,7 @@ public class BookPathBeanDaoManager {
                     bookPathBean8.localPath = "";
                     bookPathBean8.netUrl = muluList.get(j).link;
                     bookPathBean8.title =muluList.get(j).title;
-                    return bookPathBeanDao8.insert(bookPathBean8);
+                    return bookPathBeanDao8.insertOrReplace(bookPathBean8);
                 }
             case 9:
                 if (bookPathBeanDao9 != null && bookPathBeanDao9.load(Long.valueOf(j)) == null) {
@@ -348,7 +348,7 @@ public class BookPathBeanDaoManager {
                     bookPathBean9.localPath = "";
                     bookPathBean9.netUrl = muluList.get(j).link;
                     bookPathBean9.title = muluList.get(j).title;
-                    return bookPathBeanDao9.insert(bookPathBean9);
+                    return bookPathBeanDao9.insertOrReplace(bookPathBean9);
                 }
             default:
                 return 0;

@@ -21,6 +21,7 @@ import com.hxd.fendbzbuys.domain.gen.BookPathTwoBeanDao;
 import com.hxd.fendbzbuys.domain.gen.DaoMaster;
 import com.hxd.fendbzbuys.domain.gen.DaoSession;
 import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
+import com.hxd.fendbzbuys.domain.gen.SousuoHistoryBeanDao;
 
 import org.greenrobot.greendao.AbstractDao;
 
@@ -48,6 +49,9 @@ public class DaoManager {
     }
     public   BookPathOneBeanDao getBookPathBeanDao1() {
         return daoSession.getBookPathOneBeanDao();
+    }
+    public SousuoHistoryBeanDao getSousuoHistoryBeanDao() {
+        return daoSession.getSousuoHistoryBeanDao();
     }
 
     public   BookPathTwoBeanDao getBookPathBeanDao2() {

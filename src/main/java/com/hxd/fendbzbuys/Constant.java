@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import com.hxd.fendbzbuys.base.BaseActivity;
 import com.hxd.fendbzbuys.domain.BangdanBooksBean;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
+import com.hxd.fendbzbuys.domain.FenleiBookTypeInfo;
 import com.hxd.fendbzbuys.domain.GenderInfo;
 import com.hxd.fendbzbuys.domain.ShuSourceInfo;
 import com.hxd.fendbzbuys.domain.StatisticsInfo;
@@ -31,7 +32,7 @@ public class Constant {
      * 从哪进返回到哪mainposition=NONE_POSITION
      */
     public static GenderInfo genderInfo;
-    public static StatisticsInfo statisticsInfo;
+    public static FenleiBookTypeInfo statisticsInfo;
 
 
     public static GenderInfo.FemaleInfo male_zuire;

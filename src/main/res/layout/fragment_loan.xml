@@ -8,7 +8,9 @@
         android:id="@+id/lv_paihang"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparentwhite_60"
+        android:dividerHeight="1dp"
+        android:divider="@color/color_DBDBDB"
+        android:background="@color/transparentwhite_80"
         android:layout_toRightOf="@+id/rl_bangdan"></ListView>
 
     <LinearLayout

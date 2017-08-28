@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:text="男频"
                     android:layout_centerVertical="true"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textColor="@color/hometextcolor_hover_light"
                     />
                 <TextView
@@ -60,7 +60,7 @@
                     android:layout_toRightOf="@+id/tv_fengexian_titlebar"
                     android:layout_centerVertical="true"
                     android:textSize="13dp"
-                    android:textColor="@color/hometextcolor_hover_light"
+                    android:textColor="@color/color_999999"
                     />
 
             </RelativeLayout>

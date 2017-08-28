@@ -85,19 +85,10 @@ public class ShuDetailActivity extends MVPBaseActivity<ShuDetailPresenter> {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getPermissions();
         //scrollview_shudetail.scrollTo(0, 0);
     }
     private void getPermissions(){
-        new RxPermissions(this).request(Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_SETTINGS).subscribe(granted->{
-            if(granted){
-                UIUtils.showToast("获取权限成功");
-            }else{
-                UIUtils.showToast("获取权限失败");
-            }
-        });
+
     }
     public static void invoke(Activity activity, BangdanBooksBean booksInfo){
         bookInfo=booksInfo;
