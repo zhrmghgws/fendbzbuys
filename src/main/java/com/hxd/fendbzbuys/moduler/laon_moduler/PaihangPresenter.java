@@ -637,7 +637,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
 
         nanOrnvChange();
     }
-    private void nanOrnvChange(){
+    public void nanOrnvChange(){
         switch (currentPoint){
             case 1:
                 if(man){

@@ -2,6 +2,7 @@ package com.hxd.fendbzbuys.moduler.fenlei_moduler;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -64,7 +65,22 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
     @Override
     public void onResume() {
         super.onResume();
+        isNan= Constant.isNan;
+        Log.e("分类::", ":::::::::onResume: " );
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            isNan= Constant.isNan;
+            if(isNan){
+                nanPaihang();
+            }else{
+                nvPaihang();
+            }
+        }
     }
 
     private void initView(){
@@ -143,7 +159,7 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
 
         return new FenleiPresenter(this);
     }
-    boolean isNan=true;
+    boolean isNan;
     public void nanPaihang() {
         maleOrFemFenleiList=statisticsInfos.male;
         xiaoshuoAdapter.notifyDataSetChanged();

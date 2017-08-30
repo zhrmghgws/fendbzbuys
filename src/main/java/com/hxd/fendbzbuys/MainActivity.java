@@ -93,7 +93,6 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
    // private MessageReceiver mMessageReceiver;
-    public boolean isNan=true;
     @Override
     public int getLayoutID() {
         return R.layout.activity_main;
@@ -206,8 +205,8 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
     }
     @OnClick(R.id.rl_nanornv_titlebar)
     void onclick_nanornv(View view){
-        if(isNan){
-            isNan=false;
+        if(Constant.isNan){
+            Constant.isNan=false;
             tv_nan_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,13);
             tv_nv_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
             tv_fengexian_titlebar.setTextColor(getResources().getColor(R.color.e99497));
@@ -222,7 +221,7 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
                 presenter.fenleiFragment.nvPaihang();
             }
         }else{
-            isNan=true;
+            Constant.isNan=true;
             tv_nan_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
             tv_fengexian_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
             tv_nan_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));

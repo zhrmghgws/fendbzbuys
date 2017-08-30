@@ -1,6 +1,7 @@
 package com.hxd.fendbzbuys.moduler.laon_moduler;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hxd.fendbzbuys.Constant;
+import com.hxd.fendbzbuys.MainActivity;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.BaseFragment;
 
@@ -154,6 +157,20 @@ public class PaihangFragment extends BaseFragment<PaihangPresenter> {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("排行::", ":::::::::onResume: " );
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            presenter.man= Constant.isNan;
+            presenter.nanOrnvChange();
+        }
+    }
 
     public  void nvPaihang() {
         presenter.man=false;
