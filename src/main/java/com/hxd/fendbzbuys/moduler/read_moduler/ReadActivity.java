@@ -22,7 +22,9 @@ import com.hxd.fendbzbuys.Constant;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.ActionbarAtrribute;
 import com.hxd.fendbzbuys.base.MVPBaseActivity;
+import com.hxd.fendbzbuys.ui.SpacingTextView;
 import com.hxd.fendbzbuys.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.math.BigDecimal;
 
@@ -468,24 +470,24 @@ public class ReadActivity extends MVPBaseActivity<ReadPresenter> {
                             view_process_hover_textsize.setLayoutParams(lp);
                             float value=(float)(moveX-borderLeft)/UIUtils.dip2px(200);
                             if(value>=0 && value<0.2f){
-                                if(tv_read.getTextSize()!=UIUtils.dip2px(14)){
-                                    tv_read.setTextSize(TypedValue.COMPLEX_UNIT_DIP,14);
-                                }
-                            }else if(value>=0.2f &&value<0.4f){
-                                if(tv_read.getTextSize()!=UIUtils.dip2px(15)){
-                                    tv_read.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);
-                                }
-                            }else if(value>=0.4f &&value<0.6f){
                                 if(tv_read.getTextSize()!=UIUtils.dip2px(16)){
                                     tv_read.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
                                 }
-                            }else if(value>=0.6f &&value<0.8f){
+                            }else if(value>=0.2f &&value<0.4f){
                                 if(tv_read.getTextSize()!=UIUtils.dip2px(17)){
                                     tv_read.setTextSize(TypedValue.COMPLEX_UNIT_DIP,17);
                                 }
-                            }else if(value>=0.8f &&value<1){
+                            }else if(value>=0.4f &&value<0.6f){
                                 if(tv_read.getTextSize()!=UIUtils.dip2px(18)){
                                     tv_read.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
+                                }
+                            }else if(value>=0.6f &&value<0.8f){
+                                if(tv_read.getTextSize()!=UIUtils.dip2px(19)){
+                                    tv_read.setTextSize(TypedValue.COMPLEX_UNIT_DIP,19);
+                                }
+                            }else if(value>=0.8f &&value<1){
+                                if(tv_read.getTextSize()!=UIUtils.dip2px(20)){
+                                    tv_read.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
                                 }
                             }
                         }else if(view.getId()==R.id.iv_brightness_seekbar){
@@ -587,5 +589,8 @@ public class ReadActivity extends MVPBaseActivity<ReadPresenter> {
             lp.screenBrightness=brightNess/255f;
         }
         window.setAttributes(lp);
+    }
+    private void countAD(){
+        MobclickAgent.onEvent(this,"countAD");
     }
 }

@@ -49,17 +49,39 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*new RxPermissions(this).request(Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_SETTINGS,
-                Manifest.permission.WRITE_APN_SETTINGS).subscribe(granted->{
+        new RxPermissions(this).request(Manifest.permission.READ_PHONE_STATE
+                ).subscribe(granted->{
             if(granted){
-                UIUtils.showToast("获取权限成功");
+                Log.e("获取权限成功:::::", "---------READ_PHONE_STATE--");
             }else{
-                UIUtils.showToast("获取权限失败");
+                Log.e("获取权限失败:::::", "---------READ_PHONE_STATE--");
             }
-        });*/
+        });
+        new RxPermissions(this).request(
+                Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(granted->{
+            if(granted){
+                Log.e("获取权限成功:::::", "---------READ_EXTERNAL_STORAGE--");
+            }else{
+                Log.e("获取权限失败:::::", "---------READ_EXTERNAL_STORAGE--");
+            }
+        });
+        new RxPermissions(this).request(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).subscribe(granted->{
+            if(granted){
+                Log.e("获取权限成功:::::", "---------WRITE_EXTERNAL_STORAGE--");
+            }else{
+                Log.e("获取权限失败:::::", "---------WRITE_EXTERNAL_STORAGE--");
+            }
+        });
+        new RxPermissions(this).request(
+                Manifest.permission.WRITE_SETTINGS).subscribe(granted->{
+            if(granted){
+                Log.e("获取权限成功:::::", "---------WRITE_SETTINGS--");
+            }else{
+                Log.e("获取权限失败:::::", "---------WRITE_SETTINGS--");
+            }
+        });
        initApp();
 
     }

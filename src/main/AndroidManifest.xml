@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -54,6 +55,14 @@
                 <action android:name="android.net.wifi.STATE_CHANGE" />
             </intent-filter>
             </receiver>
+        <service android:name="com.hxd.fendbzbuys.receiver.MyPushIntentService" />
+
+        <meta-data android:value="59a5443d734be47ecf000948" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="613f0b764400c43751239520202d7e94">
+        </meta-data>
     </application>
 
 </manifest>

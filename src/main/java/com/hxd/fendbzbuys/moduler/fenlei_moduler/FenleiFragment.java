@@ -85,6 +85,9 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
             }
         });
     }
+    @OnClick(R.id. rl_dataerror_fenlei)void errorClick(){
+        initDate();
+    }
     private void initDate(){
         if(Constant.statisticsInfo==null){
             FBNetwork.getInstance().getStatistics().subscribe(new ProcressSubsciber<FenleiBookTypeInfo>(false,false) {
@@ -92,17 +95,23 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
                 public void onNext(FenleiBookTypeInfo statisticsInfo) {
                     super.onNext(statisticsInfo);
                     statisticsInfos=statisticsInfo;
-                    sv_fenlei.setVisibility(View.VISIBLE);
-                    rl_dataerror_fenlei.setVisibility(View.GONE);
-                    pressFenleiList=statisticsInfo.press;
-                    setViewData();
+                    if(FenleiFragment.this.isVisible()){
+                        sv_fenlei.setVisibility(View.VISIBLE);
+                        rl_dataerror_fenlei.setVisibility(View.GONE);
+                        pressFenleiList=statisticsInfo.press;
+                        setViewData();
+                    }
+
                 }
 
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
-                    sv_fenlei.setVisibility(View.GONE);
-                    rl_dataerror_fenlei.setVisibility(View.VISIBLE);
+                    if(FenleiFragment.this.isVisible()){
+                        sv_fenlei.setVisibility(View.GONE);
+                        rl_dataerror_fenlei.setVisibility(View.VISIBLE);
+                    }
+
                 }
             });
         }else{

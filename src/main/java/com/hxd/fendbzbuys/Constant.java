@@ -1,6 +1,7 @@
 package com.hxd.fendbzbuys;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.hxd.fendbzbuys.base.BaseActivity;
 import com.hxd.fendbzbuys.domain.BangdanBooksBean;
@@ -12,6 +13,8 @@ import com.hxd.fendbzbuys.domain.StatisticsInfo;
 import com.hxd.fendbzbuys.domain.ZuireBangInfo;
 import com.hxd.fendbzbuys.domain.gen.BangdanBooksBeanDao;
 import com.hxd.fendbzbuys.manager.DaoManager;
+import com.hxd.fendbzbuys.network.FBNetwork;
+import com.hxd.fendbzbuys.network.ProcressSubsciber;
 
 import java.util.List;
 
@@ -70,4 +73,5 @@ public class Constant {
     public enum MainPostion{
         SHUJIA_POSITION,PAIHANG_POSITION,FENLEISHUKU_POSITION,NONE_POSITION
     }
+
 }

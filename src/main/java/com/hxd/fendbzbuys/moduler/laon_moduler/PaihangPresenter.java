@@ -13,10 +13,15 @@ import com.bumptech.glide.Glide;
 import com.hxd.fendbzbuys.Common;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.BasePresenter;
+import com.hxd.fendbzbuys.base.GetDataCallBack;
 import com.hxd.fendbzbuys.domain.BangdanBooksBean;
+import com.hxd.fendbzbuys.domain.ZuireBangInfo;
 import com.hxd.fendbzbuys.domain.gen.BangdanBooksBeanDao;
 import com.hxd.fendbzbuys.manager.DaoManager;
+import com.hxd.fendbzbuys.manager.GetDataManager;
 import com.hxd.fendbzbuys.moduler.shudetail_moduler.ShuDetailActivity;
+import com.hxd.fendbzbuys.network.FBNetwork;
+import com.hxd.fendbzbuys.network.ProcressSubsciber;
 
 import java.util.List;
 
@@ -206,9 +211,42 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_wanjiezhou.setTextSize(16);
         currentPoint=9;
         if(man){
-            data=maleWanjiezhou;
+            if(maleWanjiezhou.size()>0){
+                data=maleWanjiezhou;
+            }else{
+              FBNetwork.getInstance().getMaleWanjiezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                  @Override
+                  public void onNext(ZuireBangInfo zuireBangInfo) {
+                      super.onNext(zuireBangInfo);
+                      data=GetDataManager.saveMaleWanjiezhou(zuireBangInfo);
+                  }
+
+                  @Override
+                  public void onError(Throwable e) {
+                      super.onError(e);
+                      data=maleWanjiezhou;
+                  }
+              });
+            }
+
         }else {
-            data=femalWanjiezhou;
+            if(femalWanjiezhou.size()>0){
+                data=femalWanjiezhou;
+            }else{
+                FBNetwork.getInstance().getFemaleWanjiezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveFemalWanjiezhou(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=femalWanjiezhou;
+                    }
+                });
+            }
         }
         adapter.notifyDataSetChanged();
     }
@@ -221,9 +259,41 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_wanjieyue.setTextSize(16);
         currentPoint=8;
         if(man){
-            data=maleWanjieyue;
+            if(maleWanjieyue.size()>0){
+                data=maleWanjieyue;
+            }else{
+                FBNetwork.getInstance().getMaleWanjieyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveMaleWanjieyue(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=maleWanjieyue;
+                    }
+                });
+            }
         }else {
-            data=femalWanjieyue;
+            if(femalWanjieyue.size()>0){
+                data=femalWanjieyue;
+            }else{
+                FBNetwork.getInstance().getFemaleWanjieyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveFemalWanjieyue(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=femalWanjieyue;
+                    }
+                });
+            }
         }
         adapter.notifyDataSetChanged();
     }
@@ -236,9 +306,41 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_wanjiezong.setTextSize(16);
         currentPoint=7;
         if(man){
-            data=maleWanjiezong;
+            if(maleWanjiezong.size()>0){
+                data=maleWanjiezong;
+            }else{
+                FBNetwork.getInstance().getMaleWanjiezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveMaleWanjiezong(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=maleWanjiezong;
+                    }
+                });
+            }
         }else {
-            data=femalWanjiezong;
+            if(femalWanjiezong.size()>0){
+                data=femalWanjiezong;
+            }else{
+                FBNetwork.getInstance().getFemaleWanjiezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveFemalWanjiezong(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=femalWanjiezong;
+                    }
+                });
+            }
         }
         adapter.notifyDataSetChanged();
     }
@@ -251,9 +353,41 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_fengyunzong.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_fengyunzong.setTextSize(16);
         if(man){
-            data=maleZuirezong;
+            if(maleZuirezong.size()>0){
+                data=maleZuirezong;
+            }else{
+                FBNetwork.getInstance().getMaleZuirezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.savegMaleZuirezong(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=maleZuirezong;
+                    }
+                });
+            }
         }else {
-            data=femaleZuirezong;
+            if(femaleZuirezong.size()>0){
+                data=femaleZuirezong;
+            }else{
+                FBNetwork.getInstance().getFemaleZuirezong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveFemalZuirezong(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=femaleZuirezong;
+                    }
+                });
+            }
         }
         adapter.notifyDataSetChanged();
     }
@@ -266,9 +400,41 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_fengyunyue.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_fengyunyue.setTextSize(16);
         if(man){
-            data=maleZuireyue;
+            if(maleZuireyue.size()>0){
+                data=maleZuireyue;
+            }else{
+                FBNetwork.getInstance().getMaleZuireyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveMaleZuireyue(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=maleZuireyue;
+                    }
+                });
+            }
         }else {
-            data=femalZuireyue;
+            if(femalZuireyue.size()>0){
+                data=femalZuireyue;
+            }else{
+                FBNetwork.getInstance().getFemaleZuireyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveFemalZuireyue(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=femalZuireyue;
+                    }
+                });
+            }
         }
         adapter.notifyDataSetChanged();
     }
@@ -281,9 +447,42 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_fengyunzhou.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_fengyunzhou.setTextSize(16);
         if(man){
-            data=maleZuirezhou;
+            if(maleZuirezhou.size()>0){
+                data=maleZuirezhou;
+            }else{
+                FBNetwork.getInstance().getMaleZuirezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveMaleZuirezhou(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=maleZuirezhou;
+                    }
+                });
+            }
         }else {
-            data=maleZuirezhou;
+            if(femaleZuirezhou.size()>0){
+                data=femaleZuirezhou;
+            }else{
+                FBNetwork.getInstance().getFemaleZuirezhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveFemalZuirezhou(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=femaleZuirezhou;
+                    }
+                });
+            }
+
         }
         adapter.notifyDataSetChanged();
     }
@@ -296,9 +495,41 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_zonghengzong.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_zonghengzong.setTextSize(16);
         if(man){
-            data=maleQianlizhou;
+            if(maleQianlizong.size()>0){
+                data=maleQianlizong;
+            }else{
+                FBNetwork.getInstance().getMaleQianlizong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveMaleQianlizong(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=maleQianlizong;
+                    }
+                });
+            }
         }else {
-            data=femaleQianlizong;
+            if(femaleQianlizong.size()>0){
+                data=femaleQianlizong;
+            }else{
+                FBNetwork.getInstance().getFemaleQianlizong().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveFemalQianlizong(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=femaleQianlizong;
+                    }
+                });
+            }
         }
         adapter.notifyDataSetChanged();
     }
@@ -311,9 +542,41 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_zonghengyue.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_zonghengyue.setTextSize(16);
         if(man){
-            data=maleQianliyue;
+            if(maleQianliyue.size()>0){
+                data=maleQianliyue;
+            }else{
+                FBNetwork.getInstance().getMaleQianliyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveMaleQianliyue(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=maleQianliyue;
+                    }
+                });
+            }
         }else {
-            data=femalQianliyue;
+            if(femalQianliyue.size()>0){
+                data=femalQianliyue;
+            }else{
+                FBNetwork.getInstance().getFemaleQianliyue().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveFemalQianliyue(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=femalQianliyue;
+                    }
+                });
+            }
         }
         adapter.notifyDataSetChanged();
     }
@@ -326,9 +589,41 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_zonghengzhou.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_zonghengzhou.setTextSize(16);
         if(man){
-            data=maleQianlizong;
+            if(maleQianlizhou.size()>0){
+                data=maleQianlizhou;
+            }else{
+                FBNetwork.getInstance().getMaleQianlizhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveMaleQianlizhou(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=maleQianlizhou;
+                    }
+                });
+            }
         }else {
-            data=femalQianlizhou;
+            if(femalQianlizhou.size()>0){
+                data=femalQianlizhou;
+            }else{
+                FBNetwork.getInstance().getFemaleQianlizhou().subscribe(new ProcressSubsciber<ZuireBangInfo>(false,false) {
+                    @Override
+                    public void onNext(ZuireBangInfo zuireBangInfo) {
+                        super.onNext(zuireBangInfo);
+                        data=GetDataManager.saveFemalQianlizhou(zuireBangInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        data=femalQianlizhou;
+                    }
+                });
+            }
         }
         adapter.notifyDataSetChanged();
     }

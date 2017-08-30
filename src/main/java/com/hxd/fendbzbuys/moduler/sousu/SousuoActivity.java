@@ -452,10 +452,12 @@ public class SousuoActivity extends MVPBaseActivity<SousuoPresenter> {
         finish();
     }
     @OnClick(R.id.rl_clearinput_sousuo)void clearInput(){
-        lv_wanzheng_sousuo.setVisibility(View.GONE);
-        rl_content_sousuo.setVisibility(View.VISIBLE);
-        isshezhi=false;
-        et_sousuo.setText("");
+        if(TextUtils.isEmpty(et_sousuo.getText())){
+            lv_wanzheng_sousuo.setVisibility(View.GONE);
+            rl_content_sousuo.setVisibility(View.VISIBLE);
+            isshezhi=false;
+            et_sousuo.setText("");
+        }
     }
     @OnClick(R.id.rl_title_sousuo)void sousuo(){
         String keyword=et_sousuo.getText().toString().trim();
@@ -468,7 +470,8 @@ public class SousuoActivity extends MVPBaseActivity<SousuoPresenter> {
         start=start+1;
         if(start<count-1){
             setHotWords(start);
-        }else if(start==count-1){
+        }else if(start==count-1 &&yushu!=0){
+
             for (int j = 0+start*5; j < 5+yushu; j++) {
 
                 TextView tv = (TextView) mInflate.inflate(
@@ -484,7 +487,7 @@ public class SousuoActivity extends MVPBaseActivity<SousuoPresenter> {
                 });
                 fl_sousuo.addView(tv);//添加到父View
             }
-        }else if(start>count-1){
+        }else {
             start=0;
             setHotWords(start);
         }

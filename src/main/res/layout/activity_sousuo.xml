@@ -62,6 +62,7 @@
             android:layout_width="50dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="60dp"
+            android:visibility="gone"
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/iv_clearinput_suosou"

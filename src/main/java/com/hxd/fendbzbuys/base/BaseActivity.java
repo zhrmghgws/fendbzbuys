@@ -21,6 +21,8 @@ import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.manager.SystemBarTintManager;
 import com.hxd.fendbzbuys.utils.UIUtils;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,6 +79,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Activi
         setContentView(xdLinearLayout);
         Constant.runActivity=this;
         unbinder = ButterKnife.bind(this);
+        PushAgent.getInstance(this).onAppStart();//推送必须调用
         initActionBar(xdActionbar);
         initSystemBar();
         init();
@@ -146,6 +149,12 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Activi
     protected void onResume() {
         super.onResume();
         isContainFragment=isContainFragments();
+        if(isContainFragment){
+            MobclickAgent.onResume(this);
+        }else{
+            MobclickAgent.onPageStart(this.getClass().getSimpleName());
+            MobclickAgent.onResume(this);
+        }
 
     }
 
@@ -154,6 +163,12 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Activi
     @Override
     protected void onPause() {
         super.onPause();
+        if(isContainFragment){
+            MobclickAgent.onPause(this);
+        }else{
+            MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+            MobclickAgent.onPause(this);
+        }
 
     }
 

@@ -562,6 +562,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 //view.rl_content_read.setBackgroundColor(view.getResources().getColor(R.color.read_theme_night));
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj5);
                 view.iv_textbj5_read.setVisibility(View.VISIBLE);
+                view.tv_read.setTextColor(view.getResources().getColor(R.color.color_d9a564));
                 bgstate = 5;
                 break;
             case 6:
@@ -640,7 +641,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 //view.rl_content_read.setBackgroundResource(R.mipmap.theme_leather_bg);
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj16);
                 view.iv_textbj16_read.setVisibility(View.VISIBLE);
-                view.tv_read.setTextColor(view.getResources().getColor(R.color.color_d9a564));
+                view.tv_read.setTextColor(view.getResources().getColor(R.color.light_coffee));
                 bgstate = 16;
                 break;
             case 17:
@@ -655,7 +656,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 //view.rl_content_read.setBackgroundResource(R.mipmap.theme_leather_bg);
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj20);
                 view.iv_textbj20_read.setVisibility(View.VISIBLE);
-                view.tv_read.setTextColor(view.getResources().getColor(R.color.color_d9a564));
+                view.tv_read.setTextColor(view.getResources().getColor(R.color.light_coffee));
                 bgstate = 20;
                 break;
         }
@@ -677,6 +678,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 break;
             case 5:
                 view.iv_textbj5_read.setVisibility(View.GONE);
+                view.tv_read.setTextColor(view.getResources().getColor(R.color.black));
                 break;
             case 6:
                 view.iv_textbj6_read.setVisibility(View.GONE);

@@ -35,6 +35,9 @@ import com.hxd.fendbzbuys.moduler.sousu.SousuoActivity;
 import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.umeng.message.PushAgent;
+import com.umeng.message.common.inter.ITagManager;
+import com.umeng.message.tag.TagManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +136,8 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             }
         }
         delayRUN();
+        //添加标签不是vip标签
+        addTagTuisong();
     }
     @OnClick(R.id.rl_xiazai_main) void xiazai_click(){
         presenter.downLoadMain();
@@ -333,5 +338,19 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
         if(notificationManager != null && notification != null) {
             notificationManager.notify(1, notification);
         }
+    }
+    private void addTagTuisong(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PushAgent.getInstance(MainActivity.this).getTagManager().add(new TagManager.TCallBack() {
+                    @Override
+                    public void onMessage(final boolean isSuccess, final ITagManager.Result result) {
+                        //isSuccess表示操作是否成功
+                        Log.e("标签", ":::::::::: "+isSuccess );
+                    }
+                }, "novip");
+            }
+        }).start();
     }
 }

@@ -332,6 +332,15 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
                                     @Override
                                     public void onNext(BookMuluInfo httpResult) {
                                         super.onNext(httpResult);
+                                        BigDecimal value = new BigDecimal(tatolCount).divide(new BigDecimal(httpResult.chapters.size()), 2, BigDecimal.ROUND_UP);
+                                        int widthNew = new BigDecimal(UIUtils.dip2px(100)).multiply(value).intValue();
+                                        int shuzhi = (int) (value.floatValue() * 100);
+                                        Log.e("进度", ";:::::::widthNew:::::::::"+widthNew );
+                                        Log.e("i", ";:::::::i==:::::::::"+i );
+                                        RelativeLayout.LayoutParams lpi= (RelativeLayout.LayoutParams) viewList.get(i).getLayoutParams();
+                                        lpi.width=widthNew;
+                                        view_jindu_down.setLayoutParams(lpi);
+                                        tv_jindu_down.setText(shuzhi+"%");
                                         downloadBook(i,httpResult.chapters);
                                     }
                                 });
@@ -350,6 +359,8 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
         BigDecimal value = new BigDecimal(tatolCount).divide(new BigDecimal(muluList.size()), 2, BigDecimal.ROUND_UP);
         int widthNew = new BigDecimal(UIUtils.dip2px(100)).multiply(value).intValue();
         int shuzhi = (int) (value.floatValue() * 100);
+        Log.e("进度", ";:::::::widthNew:::::::::"+widthNew );
+        Log.e("i", ";:::::::i==:::::::::"+i );
         RelativeLayout.LayoutParams lpi= (RelativeLayout.LayoutParams) viewList.get(i).getLayoutParams();
         lpi.width=widthNew;
         viewList.get(i).setLayoutParams(lpi);

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.hxd.fendbzbuys.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -28,6 +29,12 @@ public abstract class MVPBaseActivity<T extends BasePresenter>  extends BaseActi
     protected void onResume() {
         super.onResume();
         presenter.initData();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 
     @Override

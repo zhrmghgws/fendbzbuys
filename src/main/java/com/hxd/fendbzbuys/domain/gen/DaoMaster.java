@@ -35,8 +35,8 @@ public class DaoMaster extends AbstractDaoMaster {
         BookPathTwoBeanDao.createTable(db, ifNotExists);
         BookSourceBeanDao.createTable(db, ifNotExists);
         ShujiaBookBeanDao.createTable(db, ifNotExists);
-        StatisticsBeanDao.createTable(db, ifNotExists);
         SousuoHistoryBeanDao.createTable(db, ifNotExists);
+        StatisticsBeanDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -55,8 +55,8 @@ public class DaoMaster extends AbstractDaoMaster {
         BookPathTwoBeanDao.dropTable(db, ifExists);
         BookSourceBeanDao.dropTable(db, ifExists);
         ShujiaBookBeanDao.dropTable(db, ifExists);
-        StatisticsBeanDao.dropTable(db, ifExists);
         SousuoHistoryBeanDao.dropTable(db, ifExists);
+        StatisticsBeanDao.dropTable(db, ifExists);
     }
 
     /**
@@ -89,8 +89,8 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(BookPathTwoBeanDao.class);
         registerDaoClass(BookSourceBeanDao.class);
         registerDaoClass(ShujiaBookBeanDao.class);
-        registerDaoClass(StatisticsBeanDao.class);
         registerDaoClass(SousuoHistoryBeanDao.class);
+        registerDaoClass(StatisticsBeanDao.class);
     }
 
     public DaoSession newSession() {
