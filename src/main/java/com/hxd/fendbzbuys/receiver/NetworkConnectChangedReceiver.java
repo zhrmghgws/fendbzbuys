@@ -28,7 +28,9 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
             NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
             if (activeNetwork != null) { // connected to the internet
                 if (activeNetwork.isConnected()) {
-                    onSuccessCallback.nextStep();
+                    if(onSuccessCallback!=null){
+                        onSuccessCallback.nextStep();
+                    }
                     if(!TextUtils.isEmpty(Constant.sourceid) && Constant.muluList==null){
                         FBNetwork.getInstance().getBookmulu(Constant.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
                             @Override

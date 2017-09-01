@@ -29,6 +29,7 @@ import com.hxd.fendbzbuys.base.MVPBaseActivity;
 import com.hxd.fendbzbuys.domain.BookTotalInfo;
 import com.hxd.fendbzbuys.domain.ShujiaBookBean;
 import com.hxd.fendbzbuys.manager.DaoManager;
+import com.hxd.fendbzbuys.manager.DialogManager;
 import com.hxd.fendbzbuys.moduler.account_moduler.ShujiaPresenter;
 import com.hxd.fendbzbuys.moduler.laon_moduler.PaihangFragment;
 import com.hxd.fendbzbuys.moduler.sousu.SousuoActivity;
@@ -162,6 +163,7 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             presenter.homefenlei_click();
         }
         Constant.mainposition= Constant.MainPostion.NONE_POSITION;
+        nanOrNv();
     }
 
     @Override
@@ -205,6 +207,12 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
     }
     @OnClick(R.id.rl_nanornv_titlebar)
     void onclick_nanornv(View view){
+        nanOrNv();
+    }
+    @OnClick(R.id.iv_shezhi_main)void shezhi(){
+        DialogManager.createYiChuShujiaDialog(this,true,true);
+    }
+    private void nanOrNv(){
         if(Constant.isNan){
             Constant.isNan=false;
             tv_nan_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,13);
@@ -213,8 +221,8 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             tv_nan_titlebar.setTextColor(getResources().getColor(R.color.color_999999));
             tv_nv_titlebar.setTextColor(getResources().getColor(R.color.e99497));
 
-           // tv_nan_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
-           // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
+            // tv_nan_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
+            // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
             if(presenter.currentPage==1){
                 presenter.paihangFragment.nvPaihang();
             }else if(presenter.currentPage==2){
@@ -227,8 +235,8 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             tv_nan_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
             tv_nv_titlebar.setTextColor(getResources().getColor(R.color.color_999999));
             tv_nv_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,13);
-          //  tv_nan_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
-           // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
+            //  tv_nan_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
+            // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
             if(presenter.currentPage==1){
                 presenter.paihangFragment.nanPaihang();
             }else if(presenter.currentPage==2){
@@ -236,6 +244,7 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             }
         }
     }
+
     private void delayRUN(){
         Timer mTimer=new Timer();
         TimerTask task=new TimerTask() {
@@ -285,7 +294,9 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
                                     shujiaBookBean.lastChapter=bookTotalInfos.get(i).lastChapter;
                                     shujiaBookBean.bookTotakCount=Integer.parseInt(bookTotalInfos.get(i).chaptersCount);
                                     DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
-                                    sentNotification(shujiaBookBean);
+                                    if(isBackground(MainActivity.this)){
+                                        sentNotification(shujiaBookBean);
+                                    }
                                 }
                             }
                         }
@@ -305,7 +316,16 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             ComponentName topActivity = tasks.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
                 Log.e("后台", "::::::::::::");
-                am.moveTaskToFront(Constant.taskID, ActivityManager.MOVE_TASK_WITH_HOME);
+                new RxPermissions(this).request(
+                        Manifest.permission.REORDER_TASKS).subscribe(granted->{
+                    if(granted){
+                        am.moveTaskToFront(Constant.taskID, ActivityManager.MOVE_TASK_WITH_HOME);
+                        Log.e("获取权限成功:::::", "---------WRITE_SETTINGS--");
+                    }else{
+                        Log.e("获取权限失败:::::", "---------WRITE_SETTINGS--");
+                    }
+                });
+
                 return true;
             }
         }

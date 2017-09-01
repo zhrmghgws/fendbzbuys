@@ -1,16 +1,24 @@
 package com.hxd.fendbzbuys;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,6 +39,7 @@ import com.hxd.fendbzbuys.moduler.shudetail_moduler.DownLoadToastManager;
 import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
 import com.hxd.fendbzbuys.utils.UIUtils;
+import com.hxd.fendbzbuys.utils.ViewUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -202,6 +211,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
         loadingDialog= new Dialog(activity, R.style.TranslucentBackground);
         View inflate = View.inflate(activity, R.layout.shouye_download_dialog, null);
         TextView tv2_down= (TextView) inflate.findViewById(R.id.tv2_down);
+        LinearLayout ll_down= (LinearLayout) inflate.findViewById(R.id.ll_down);
         ListView lv_down = (ListView) inflate.findViewById(R.id.lv_down);
         View view_outside_down_dialog = inflate.findViewById(R.id.view_outside_down_dialog);
 
@@ -238,7 +248,26 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
         loadingDialog.setCancelable(isCanCancle);// 不可以用“返回键”取消
         loadingDialog.setContentView(inflate);
         loadingDialog.show();
+        startAnimationDown(ll_down);
 
+    }
+    private void startAnimationDown(View v){
+        DisplayMetrics dm =view.getResources().getDisplayMetrics();
+        int w_screen = dm.widthPixels;
+        int h_screen = dm.heightPixels;
+        ValueAnimator va=ValueAnimator.ofInt(1,h_screen-UIUtils.dip2px(50)- ViewUtils.getStatusBarHeight(view));
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int widths = (int) animation.getAnimatedValue();
+                ViewGroup.LayoutParams ll = v.getLayoutParams();
+                ll.height=widths;
+
+                v.setLayoutParams(ll);
+            }
+        });
+        va.setDuration(1000);
+        va.start();
     }
     class DownLoadAdapter extends BaseAdapter {
         Activity activity;

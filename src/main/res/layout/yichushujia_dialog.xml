@@ -1,91 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-   <RelativeLayout
-       android:layout_width="0dp"
-       android:layout_weight="2"
-       android:layout_height="match_parent"
-       android:layout_marginTop="50dp"
-       android:layout_marginRight="25dp"
-       android:background="@drawable/yuanjiao_button_yichu_dialog"
-       >
-       <TextView
-           android:id="@+id/tv_yichushujia"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="我的书架"
-            android:layout_centerHorizontal="true"
-           android:layout_marginTop="15dp"
-           android:textSize="16dp"
-           android:textColor="@color/black"
-           />
-       <TextView
-           android:id="@+id/tv2_yichushujia"
-           android:layout_below="@+id/tv_yichushujia"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="书架满了,先移除一个吧!"
-           android:layout_centerHorizontal="true"
-           android:layout_marginTop="5dp"
-           android:textSize="13dp"
-           android:textColor="@color/red"
-           />
-       <ListView
-           android:id="@+id/lv_yichushujia"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_below="@+id/tv2_yichushujia"
-           android:layout_marginLeft="15dp"
-           android:divider="@color/color_999999"
-           android:dividerHeight="1dp"
-           android:layout_marginRight="15dp"
-           android:layout_marginTop="10dp"
-           android:layout_marginBottom="55dp"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/rl_yichushujia"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="50dp"
+        android:layout_weight="2"
+        android:background="@drawable/yuanjiao_button_yichu_dialog"
+        >
+
+        <RelativeLayout
+            android:id="@+id/ll_shouyezhanshi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
            >
-       </ListView>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="45dp"
-           android:layout_alignParentBottom="true"
-           android:layout_marginLeft="0dp"
-           android:layout_marginRight="0dp"
-           android:orientation="horizontal"
-           >
-           <TextView
-               android:id="@+id/tv_yichu_no_dialog"
-               android:layout_width="0dp"
-               android:layout_weight="1"
-               android:layout_height="match_parent"
-               android:text="取消"
-               android:textSize="16dp"
-               android:textColor="@color/color_DBDBDB"
-               android:gravity="center"
-               android:background="@drawable/button_yichu_dialog"
-               />
-           <View
-               android:layout_width="0dp"
-               android:layout_height="match_parent"
-               android:layout_weight="0.005"
-               />
-           <TextView
-               android:id="@+id/tv_yichu_ok_dialog"
-               android:layout_width="0dp"
-               android:layout_weight="1"
-               android:layout_height="match_parent"
-               android:text="移除选中"
-               android:textSize="16dp"
-               android:textColor="@color/color_DBDBDB"
-               android:background="@drawable/button_yichu2_dialog"
-               android:gravity="center"
-               />
-       </LinearLayout>
-   </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ll_piyichushujia"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_centerVertical="true"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="批量移除书架" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@mipmap/right_arrow"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_DBDBDB"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ll_gengxin"
+                android:layout_below="@+id/ll_piyichushujia"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_centerVertical="true"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="检查更新" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@mipmap/right_arrow"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_DBDBDB"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ll_mianze"
+                android:layout_below="@+id/ll_gengxin"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_centerVertical="true"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="免责声明" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@mipmap/right_arrow"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_DBDBDB"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_yichushujia_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_yichushujia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="我的书架"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/tv2_yichushujia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_yichushujia"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="书架满了,先移除一个吧!"
+                android:textColor="@color/red"
+                android:textSize="13dp" />
+
+            <ListView
+                android:id="@+id/lv_yichushujia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv2_yichushujia"
+                android:layout_marginBottom="55dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:divider="@color/color_999999"
+                android:dividerHeight="1dp"></ListView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_yichu_no_dialog"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_yichu_dialog"
+                    android:gravity="center"
+                    android:text="取消"
+                    android:textColor="@color/color_DBDBDB"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.005" />
+
+                <TextView
+                    android:id="@+id/tv_yichu_ok_dialog"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_yichu2_dialog"
+                    android:gravity="center"
+                    android:text="移除选中"
+                    android:textColor="@color/color_DBDBDB"
+                    android:textSize="16dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
     <View
         android:id="@+id/view_outside_yichudialog"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
 </LinearLayout>

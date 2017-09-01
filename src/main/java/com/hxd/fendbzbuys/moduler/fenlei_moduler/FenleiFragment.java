@@ -111,7 +111,7 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
                 public void onNext(FenleiBookTypeInfo statisticsInfo) {
                     super.onNext(statisticsInfo);
                     statisticsInfos=statisticsInfo;
-                    if(FenleiFragment.this.isVisible()){
+                    if(FenleiFragment.this!=null&&FenleiFragment.this.isVisible()){
                         sv_fenlei.setVisibility(View.VISIBLE);
                         rl_dataerror_fenlei.setVisibility(View.GONE);
                         pressFenleiList=statisticsInfo.press;
@@ -123,7 +123,7 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
-                    if(FenleiFragment.this.isVisible()){
+                    if(FenleiFragment.this!=null&& FenleiFragment.this.isVisible()){
                         sv_fenlei.setVisibility(View.GONE);
                         rl_dataerror_fenlei.setVisibility(View.VISIBLE);
                     }
@@ -131,11 +131,13 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
                 }
             });
         }else{
-            statisticsInfos=Constant.statisticsInfo;
-            sv_fenlei.setVisibility(View.VISIBLE);
-            rl_dataerror_fenlei.setVisibility(View.GONE);
-            pressFenleiList=Constant.statisticsInfo.press;
-            setViewData();
+            if(FenleiFragment.this!=null&&FenleiFragment.this.isVisible()){
+                statisticsInfos=Constant.statisticsInfo;
+                sv_fenlei.setVisibility(View.VISIBLE);
+                rl_dataerror_fenlei.setVisibility(View.GONE);
+                pressFenleiList=Constant.statisticsInfo.press;
+                setViewData();
+            }
         }
     }
 

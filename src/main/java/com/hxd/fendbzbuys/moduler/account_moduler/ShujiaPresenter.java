@@ -32,6 +32,8 @@ import com.hxd.fendbzbuys.manager.DaoManager;
 import com.hxd.fendbzbuys.moduler.read_moduler.ReadActivity;
 import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
+import com.hxd.fendbzbuys.utils.NetworkUtils;
+import com.hxd.fendbzbuys.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,13 +61,27 @@ public class ShujiaPresenter extends BasePresenter<ShujiaFragment> {
         view.lv_shujia_main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ReadActivity.invoke(ShujiaPresenter.this.getActivity(), shujiaBookJiaruBeanList.get(i).bookId, shujiaBookJiaruBeanList.get(i).bookSourceID,shujiaBookJiaruBeanList.get(i).bookpathBean);
+                ShujiaBookBean shujiaBookBean=DaoManager.getInstance().getShujiaBookBeanDao().load(shujiaBookJiaruBeanList.get(i).bookId);
+                if(NetworkUtils.checkNetWorkType()==0){
+                    if(shujiaBookBean.bookTotakCount==0){
+
+                        UIUtils.showToast("你没有缓冲该书,请检查你的网络连接");
+                    }else{
+                        ReadActivity.invoke(ShujiaPresenter.this.getActivity(), shujiaBookJiaruBeanList.get(i).bookId, shujiaBookJiaruBeanList.get(i).bookSourceID,shujiaBookJiaruBeanList.get(i).bookpathBean);
+                    }
+                }else{
+                    ReadActivity.invoke(ShujiaPresenter.this.getActivity(), shujiaBookJiaruBeanList.get(i).bookId, shujiaBookJiaruBeanList.get(i).bookSourceID,shujiaBookJiaruBeanList.get(i).bookpathBean);
+                }
             }
         });
         view.lv_lishizuji_main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ReadActivity.invoke(ShujiaPresenter.this.getActivity(), shujiaBookZujiBeanList.get(i).bookId, shujiaBookZujiBeanList.get(i).bookSourceID,0);
+                if(NetworkUtils.checkNetWorkType()==0){
+                    UIUtils.showToast("请检查你的网络连接");
+                }else{
+                    ReadActivity.invoke(ShujiaPresenter.this.getActivity(), shujiaBookZujiBeanList.get(i).bookId, shujiaBookZujiBeanList.get(i).bookSourceID,0);
+                }
             }
         });
     }

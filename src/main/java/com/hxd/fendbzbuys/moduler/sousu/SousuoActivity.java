@@ -452,7 +452,7 @@ public class SousuoActivity extends MVPBaseActivity<SousuoPresenter> {
         finish();
     }
     @OnClick(R.id.rl_clearinput_sousuo)void clearInput(){
-        if(TextUtils.isEmpty(et_sousuo.getText())){
+        if(!TextUtils.isEmpty(et_sousuo.getText())){
             lv_wanzheng_sousuo.setVisibility(View.GONE);
             rl_content_sousuo.setVisibility(View.VISIBLE);
             isshezhi=false;

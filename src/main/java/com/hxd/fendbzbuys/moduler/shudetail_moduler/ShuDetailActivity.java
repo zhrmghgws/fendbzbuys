@@ -25,6 +25,7 @@ import com.hxd.fendbzbuys.domain.BangdanBooksBean;
 import com.hxd.fendbzbuys.domain.ZuireBangInfo;
 import com.hxd.fendbzbuys.moduler.shumulu_moduler.ShuMuluActivity;
 import com.hxd.fendbzbuys.ui.ListViewForScrollView;
+import com.hxd.fendbzbuys.utils.NetworkUtils;
 import com.hxd.fendbzbuys.utils.UIUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -91,8 +92,13 @@ public class ShuDetailActivity extends MVPBaseActivity<ShuDetailPresenter> {
 
     }
     public static void invoke(Activity activity, BangdanBooksBean booksInfo){
-        bookInfo=booksInfo;
-        activity.startActivity(new Intent(activity,ShuDetailActivity.class));
+        if(NetworkUtils.checkNetWorkType()==0){
+            UIUtils.showToast("请检查你的网络连接");
+        }else{
+            bookInfo=booksInfo;
+            activity.startActivity(new Intent(activity,ShuDetailActivity.class));
+        }
+
 
     }
     @Override

@@ -1,5 +1,6 @@
 package com.hxd.fendbzbuys.moduler.read_moduler;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
@@ -392,27 +394,39 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
     public void nextZhangPre() {
         if (Constant.muluList == null) {
             if (NetworkUtils.checkNetWorkType() == 0) {
-                UIUtils.showToast("请先打开你的网络连接");
+                if(shujiaBookBean.bookTotakCount-1>currentCount+1){
+                    nextZhang(true);
+                }else{
+                    UIUtils.showToast("当前缓存章节已经读完,请先打开你的网络连接");
+                }
             } else {
                 FBNetwork.getInstance().getBookmulu(view.sourceid).subscribe(new ProcressSubsciber<BookMuluInfo>(false, false) {
                     @Override
                     public void onNext(BookMuluInfo httpResult) {
                         super.onNext(httpResult);
                         Constant.muluList = httpResult.chapters;
-                        nextZhang();
+                        nextZhang(false);
                     }
                 });
             }
         } else {
-            nextZhang();
+            nextZhang(false);
         }
     }
 
-    public void nextZhang() {
-        if (currentCount + 1 > Constant.muluList.size() - 1) {
-            UIUtils.showToast("已经最后一章了");
-            return;
+    public void nextZhang(boolean isHasMulu) {
+        if(!isHasMulu){
+            if (currentCount + 1 > Constant.muluList.size() - 1) {
+                UIUtils.showToast("已经最后一章了");
+                return;
+            }
+        }else{
+            if (currentCount + 1 > shujiaBookBean.bookTotakCount - 1) {
+                UIUtils.showToast("已经最后一章了");
+                return;
+            }
         }
+
         currentCount = currentCount + 1;
         animation(view.tv_read);
         view.scrollview_read.scrollTo(0, 0);
@@ -469,13 +483,65 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
             shujiaBookBean.bookpathBean = bookpathid;
             List<BookPathBean> beanlist = BookPathBeanDaoManager.bookPathBeanDao.loadAll();
             shujiaBookBean.manyDownload=beanlist.size();
+            shujiaBookBean.bookTotakCount=Constant.muluList.size();
             DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
             Log.e("bookpathid", ":::::::" + bookpathid);
             BookPathBeanDaoManager.saveduiyingBookPathBeanDao(bookpathid, beanlist);
             return true;
         }
     }
+    private  void startAnimationDown( View v){
+        /*DisplayMetrics dm =activity.getResources().getDisplayMetrics();
+        int w_screen = dm.widthPixels;
+        int h_screen = dm.heightPixels;
+        int i=h_screen-UIUtils.dip2px(50)- ViewUtils.getStatusBarHeight(activity);
+        Log.e("动画时长", ":::::::: "+ i);
+        ValueAnimator va=ValueAnimator.ofInt(1,i);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int widths = (int) animation.getAnimatedValue();
+                ViewGroup.LayoutParams ll = v.getLayoutParams();
+                ll.height=widths;
 
+                v.setLayoutParams(ll);
+            }
+        });
+        va.setDuration(300);
+        va.start();*/
+        Animation myAnimation_Scale =new ScaleAnimation(0.0f, 1.0f, 1.0f, 1.0f,
+                Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 1f);
+        myAnimation_Scale.setDuration(500);
+        //动画效果从XMl文件中定义
+//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        v.setAnimation(myAnimation_Scale);
+    }
+    private  void startAnimationChangeSource( View v){
+        /*DisplayMetrics dm =activity.getResources().getDisplayMetrics();
+        int w_screen = dm.widthPixels;
+        int h_screen = dm.heightPixels;
+        int i=h_screen-UIUtils.dip2px(50)- ViewUtils.getStatusBarHeight(activity);
+        Log.e("动画时长", ":::::::: "+ i);
+        ValueAnimator va=ValueAnimator.ofInt(1,i);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int widths = (int) animation.getAnimatedValue();
+                ViewGroup.LayoutParams ll = v.getLayoutParams();
+                ll.height=widths;
+
+                v.setLayoutParams(ll);
+            }
+        });
+        va.setDuration(300);
+        va.start();*/
+        Animation myAnimation_Scale =new ScaleAnimation(0.0f, 1.0f, 1.0f, 1.0f,
+                Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 1f);
+        myAnimation_Scale.setDuration(500);
+        //动画效果从XMl文件中定义
+//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        v.setAnimation(myAnimation_Scale);
+    }
     public void showDialog() {
         if (downLoadManager!=null) {
             UIUtils.showToast("请稍后在退出,正在缓存中...");
@@ -509,6 +575,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                     }
             );
             authorestampdialog.setContentView(authorestampview);
+
             authorestampdialog.show();
         }
 
@@ -885,6 +952,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
         View authorestampview = UIUtils.inflate(
                 R.layout.dialog_mulu_read);
         ListView ls_mulu_read = (ListView) authorestampview.findViewById(R.id.ls_mulu_read);
+        RelativeLayout ll_mulu_read = (RelativeLayout) authorestampview.findViewById(R.id.ll_mulu_read);
         LinearLayout ll_outside_mulu_read = (LinearLayout) authorestampview.findViewById(R.id.ll_outside_mulu_read);
         TextView tv_daoxu_mulu_read = (TextView) authorestampview.findViewById(R.id.tv_daoxu_mulu_read);
         TextView tv_current_mulu_read = (TextView) authorestampview.findViewById(R.id.tv_current_mulu_read);
@@ -950,6 +1018,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
         });
         authorestampdialog.setContentView(authorestampview);
         authorestampdialog.show();
+        startAnimationDown(ll_mulu_read);
         authorestampdialog.setCanceledOnTouchOutside(true);
 
     }
@@ -1000,6 +1069,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 R.layout.dialog_source_read);
         ListView ls_source_read = (ListView) authorestampview.findViewById(R.id.ls_source_read);
         LinearLayout ll_outside_source_read = (LinearLayout) authorestampview.findViewById(R.id.ll_outside_source_read);
+        RelativeLayout rl_change_source_read = (RelativeLayout) authorestampview.findViewById(R.id.rl_change_source_read);
         RelativeLayout rl_outside_source_read = (RelativeLayout) authorestampview.findViewById(R.id.rl_outside_source_read);
 
         SourceReadAdapter adapter = new SourceReadAdapter();
@@ -1044,6 +1114,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
         });
         authorestampdialog.setContentView(authorestampview);
         authorestampdialog.show();
+        startAnimationChangeSource(rl_change_source_read);
         authorestampdialog.setCanceledOnTouchOutside(true);
     }
 

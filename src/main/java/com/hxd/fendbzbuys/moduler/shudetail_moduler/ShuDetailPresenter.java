@@ -22,6 +22,7 @@ import com.hxd.fendbzbuys.domain.BookInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
 import com.hxd.fendbzbuys.domain.ShuSourceInfo;
 import com.hxd.fendbzbuys.domain.ShujiaBookBean;
+import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
 import com.hxd.fendbzbuys.manager.BookDownLoadManager;
 import com.hxd.fendbzbuys.manager.DaoManager;
 import com.hxd.fendbzbuys.manager.DialogManager;
@@ -130,12 +131,19 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
             public void onNext(List<ShuSourceInfo> httpResult) {
                 super.onNext(httpResult);
                 Constant.sourceList = httpResult;
-                bookSourceID = httpResult.get(httpResult.size() - 1)._id;
-                for (int i = 0; i < httpResult.size(); i++) {
-                    if ("my176".equals(httpResult.get(i).source)) {
-                        bookSourceID = httpResult.get(i)._id;
+                if(httpResult.size()>1){
+                    bookSourceID = httpResult.get(httpResult.size() - 1)._id;
+                    for (int i = 0; i < httpResult.size(); i++) {
+                        if ("my176".equals(httpResult.get(i).source)) {
+                            bookSourceID = httpResult.get(i)._id;
+                        }
+                    }
+                }else{
+                    if((httpResult.size()==1&& httpResult.get(0).source.contains("vip"))|| httpResult.size()==0){
+                        UIUtils.showToast("没找到此书,或者是没有免费版");
                     }
                 }
+
             }
         });
     }
@@ -205,6 +213,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
     public void clickXiazai() {
         if (DownLoadToastManager.miToast != null) {
             UIUtils.showToast("请稍后,当前有任务正在缓存中...");
+            UIUtils.showToast("您也可以加入书架进行批量下载");
         } else {
             clickJiarushujia(true);
         }
@@ -276,6 +285,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
                     shujiaBookBean.manyDownload = 0;
                     shujiaBookBean.currentZhangjie = 0 + "";
                     shujiaBookBean.jiaruDate = System.currentTimeMillis();
+                    shujiaBookBean.bookTotakCount=0;
                     DaoManager.getInstance().getShujiaBookBeanDao().insert(shujiaBookBean);
                     if (isDownLoad) {
                         //书架中没有,也没有看过,当前下载为0
@@ -419,6 +429,10 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
             public void onNext(BookMuluInfo httpResult) {
                 super.onNext(httpResult);
                 muluList = httpResult.chapters;
+                //保存目录
+                ShujiaBookBean shujiaBookBean=DaoManager.getInstance().getShujiaBookBeanDao().load(bookId);
+                shujiaBookBean.bookTotakCount=httpResult.chapters.size();
+                DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
                 downloadManager = new BookDownLoadManager(bookPathid, callBack, muluList, bookId);
                 new Thread(new Runnable() {
                     @Override

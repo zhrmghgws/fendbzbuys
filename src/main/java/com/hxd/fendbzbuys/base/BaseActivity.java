@@ -201,7 +201,9 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Activi
 
     public void otherPophint(String text) {
         if (!flag) {
-            tv_hint.setText(text);
+            if(tv_hint!=null){
+                tv_hint.setText(text);
+            }
             return;
         }
         flag = false;

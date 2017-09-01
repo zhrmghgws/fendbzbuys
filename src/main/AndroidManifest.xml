@@ -47,6 +47,9 @@
         <activity android:name=".moduler.fenlei_detail_moduler.FenLeiDetailActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             />
+        <activity android:name=".moduler.mianze_module.MianzeActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            />
 
         <receiver android:name=".receiver.NetworkConnectChangedReceiver" >
             <intent-filter>

@@ -1,7 +1,9 @@
 package com.hxd.fendbzbuys.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -9,8 +11,29 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
 
 public class ViewUtils {
+    /**
+     *    拿到状态栏的高度
+     */
+    public static int getStatusBarHeight(Context context) {
+        Class<?> c = null;
+        Object obj = null;
+        Field field = null;
+        int x = 0;
+        try {
+            c = Class.forName("com.android.internal.R$dimen");
+            obj = c.newInstance();
+            field = c.getField("status_bar_height");
+            x = Integer.parseInt(field.get(obj).toString());
+            return context.getResources().getDimensionPixelSize(x);
+        } catch (Exception e1) {
+            Log.d("", "get status bar height fail");
+            e1.printStackTrace();
+            return 75;
+        }
+    }
 
     public static void removeParent(View view) {
         // 一般情况下view 挂载到ViewGroup上 总有一个控件的爹是屏幕窗体

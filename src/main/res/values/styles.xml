@@ -11,7 +11,7 @@
     <style name="TranslucentBackground">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:background">#55000000</item>
+        <item name="android:background">#00000000</item>
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
 

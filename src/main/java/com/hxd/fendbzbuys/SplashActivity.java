@@ -82,6 +82,14 @@ public class SplashActivity extends BaseActivity {
                 Log.e("获取权限失败:::::", "---------WRITE_SETTINGS--");
             }
         });
+        new RxPermissions(this).request(
+                Manifest.permission.REORDER_TASKS).subscribe(granted->{
+            if(granted){
+                Log.e("获取权限成功:::::", "---------WRITE_SETTINGS--");
+            }else{
+                Log.e("获取权限失败:::::", "---------WRITE_SETTINGS--");
+            }
+        });
        initApp();
 
     }

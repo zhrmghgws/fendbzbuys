@@ -174,10 +174,12 @@ public class ReadActivity extends MVPBaseActivity<ReadPresenter> {
         sourceid=sourceID;
         bookPathid=bookPathId;
         activity.startActivity(new Intent(activity, ReadActivity.class));
+        Log.e("SOURCEid", ":::::::::::::: "+sourceID );
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Constant.muluList=null;
         super.onCreate(savedInstanceState);
         setFinishOnTouchOutside(true);
         Constant.sourceid=sourceid;
@@ -548,7 +550,7 @@ public class ReadActivity extends MVPBaseActivity<ReadPresenter> {
                         return false;
                     }
                     if(next){
-                        presenter.nextZhang();
+                        presenter.nextZhangPre();
                         next=false;
                     }
                     if(pre){
@@ -559,7 +561,7 @@ public class ReadActivity extends MVPBaseActivity<ReadPresenter> {
                             Math.abs((int)motionEvent.getX()-downX)<10 &&
                             Math.abs((int)motionEvent.getY()-downY)<10){
                         Log.e("下一页", ":::::::::点击了下一页 ");
-                        presenter.nextZhang();
+                        presenter.nextZhangPre();
                         return true;
                     }else if( (int)motionEvent.getX()<(int)width/3 &&Math.abs((int)motionEvent.getX()-downX)<10&&
                             Math.abs((int)motionEvent.getY()-downY)<10){

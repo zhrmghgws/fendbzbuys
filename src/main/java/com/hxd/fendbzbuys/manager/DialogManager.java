@@ -1,24 +1,33 @@
 package com.hxd.fendbzbuys.manager;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.domain.ShujiaBookBean;
 import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
+import com.hxd.fendbzbuys.moduler.mianze_module.MianzeActivity;
 import com.hxd.fendbzbuys.ui.ListViewForScrollView;
 import com.hxd.fendbzbuys.utils.UIUtils;
+import com.hxd.fendbzbuys.utils.ViewUtils;
 
 import org.w3c.dom.Text;
 
@@ -69,15 +78,42 @@ public class DialogManager {
         bookIDList = new HashMap<Integer, String>();
         Dialog loadingDialog = new Dialog(activity, R.style.TranslucentBackground);
         View inflate = View.inflate(activity, R.layout.yichushujia_dialog, null);
+        RelativeLayout ll_shouyezhanshi = (RelativeLayout) inflate.findViewById(R.id.ll_shouyezhanshi);
+        RelativeLayout ll_piyichushujia = (RelativeLayout) inflate.findViewById(R.id.ll_piyichushujia);
+        RelativeLayout ll_gengxin = (RelativeLayout) inflate.findViewById(R.id.ll_gengxin);
+        RelativeLayout ll_mianze = (RelativeLayout) inflate.findViewById(R.id.ll_mianze);
+
+        RelativeLayout rl_yichushujia = (RelativeLayout) inflate.findViewById(R.id.rl_yichushujia);
+        RelativeLayout rl_yichushujia_content = (RelativeLayout) inflate.findViewById(R.id.rl_yichushujia_content);
+        View view_outside_yichudialog = inflate.findViewById(R.id.view_outside_yichudialog);
         TextView tv_yichu_ok_dialog = (TextView) inflate.findViewById(R.id.tv_yichu_ok_dialog);
         TextView tv_yichu_no_dialog = (TextView) inflate.findViewById(R.id.tv_yichu_no_dialog);
         TextView tv2_yichushujia = (TextView) inflate.findViewById(R.id.tv2_yichushujia);
         ListView lv_yichu = (ListView) inflate.findViewById(R.id.lv_yichushujia);
-        View view_outside_yichudialog = inflate.findViewById(R.id.view_outside_yichudialog);
+        if(isShouye){
+            rl_yichushujia_content.setVisibility(View.GONE);
+            ll_shouyezhanshi.setVisibility(View.VISIBLE);
+        }else{
+            rl_yichushujia_content.setVisibility(View.VISIBLE);
+            ll_shouyezhanshi.setVisibility(View.GONE);
+        }
         if (isShouye) {
             tv2_yichushujia.setText("点击选中后,可以批量移出书架");
             tv2_yichushujia.setTextColor(activity.getResources().getColor(R.color.color_999999));
         }
+        ll_piyichushujia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rl_yichushujia_content.setVisibility(View.VISIBLE);
+                ll_shouyezhanshi.setVisibility(View.GONE);
+            }
+        });
+        ll_mianze.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MianzeActivity.invoke(activity);
+            }
+        });
         YichuShujiaAdapter adapter = new YichuShujiaAdapter(activity, shujiaBookBeanList);
         lv_yichu.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -132,9 +168,36 @@ public class DialogManager {
         loadingDialog.setCancelable(isCanCancle);// 不可以用“返回键”取消
         loadingDialog.setContentView(inflate);
         loadingDialog.show();
+        rl_yichushujia.setVisibility(View.VISIBLE);
+        startAnimationDown(activity,rl_yichushujia);
 
     }
+    private static void startAnimationDown(Activity activity,View v){
+        /*DisplayMetrics dm =activity.getResources().getDisplayMetrics();
+        int w_screen = dm.widthPixels;
+        int h_screen = dm.heightPixels;
+        int i=h_screen-UIUtils.dip2px(50)- ViewUtils.getStatusBarHeight(activity);
+        Log.e("动画时长", ":::::::: "+ i);
+        ValueAnimator va=ValueAnimator.ofInt(1,i);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int widths = (int) animation.getAnimatedValue();
+                ViewGroup.LayoutParams ll = v.getLayoutParams();
+                ll.height=widths;
 
+                v.setLayoutParams(ll);
+            }
+        });
+        va.setDuration(300);
+        va.start();*/
+        Animation myAnimation_Scale =new ScaleAnimation(0.0f, 1.0f, 1.0f, 1.0f,
+                Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 1f);
+        myAnimation_Scale.setDuration(500);
+        //动画效果从XMl文件中定义
+//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        v.setAnimation(myAnimation_Scale);
+    }
     static class YichuShujiaAdapter extends BaseAdapter {
         Activity activity;
         List<ShujiaBookBean> shujiaBookBeanList;
@@ -185,7 +248,12 @@ public class DialogManager {
                     tv_jiarudate_yichu.setText(data + "小时前加入");
                 }
             }
-            tv_currentchart_yichu.setText("你读到 第" + (Integer.parseInt(shujiaBookBeanList.get(i).currentZhangjie) + 1) + "章");
+            if(!TextUtils.isEmpty(shujiaBookBeanList.get(i).currentZhangjie)){
+                tv_currentchart_yichu.setText("你读到 第" + (Integer.parseInt(shujiaBookBeanList.get(i).currentZhangjie) + 1) + "章");
+            }else{
+                tv_currentchart_yichu.setText("你读到 第0章");
+            }
+
             tv_lastchart_yichu.setText("更新至 " + shujiaBookBeanList.get(i).lastChapter);
             if (shujiaBookBeanList.get(i).isSerial) {
                 tv_state_yichu.setText("连载中_");
