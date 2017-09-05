@@ -29,7 +29,7 @@ public class MyApplication extends Application {
         handler=new Handler();
         mainThreadTid=android.os.Process.myTid();
         Constant.versioncode=getVersionName();
-        MobclickAgent.setDebugMode( true );//打开集成测试,上线时需要关闭 // TODO: 17/8/30
+        //MobclickAgent.setDebugMode( true );//打开集成测试,上线时需要关闭 // TODO: 17/8/30
         MobclickAgent.openActivityDurationTrack(false);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType. E_UM_NORMAL);
         umentTuisong();

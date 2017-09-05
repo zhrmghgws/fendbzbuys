@@ -267,7 +267,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
         } else {
             int bookpathid = DaoManager.getInstance().getKongXianBookPathBeanDao();
             if (bookpathid == 20) {
-                DialogManager.createYiChuShujiaDialog(view, true, false);
+                DialogManager.createYiChuShujiaDialog(view, true, false,null);
             } else {
                 if (shujiaBookBean == null) {
                     shujiaBookBean = new ShujiaBookBean();

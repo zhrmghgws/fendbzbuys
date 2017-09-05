@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 
 public class BookContentInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
     public boolean ok;
     public BookContent chapter;
     public static class BookContent {

@@ -5,11 +5,13 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by lichao on 17/8/2.
  */
 @Entity
-public class BookSourceBean {
+public class BookSourceBean  {
     @Index
     private String bookID;
     private String zhuishuSrcid;

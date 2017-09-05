@@ -10,6 +10,8 @@ import com.hxd.fendbzbuys.domain.gen.DaoSession;
 import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
 import com.hxd.fendbzbuys.domain.gen.BookPathNineBeanDao;
 
+import java.io.Serializable;
+
 /**
  * Created by lichao on 17/8/2.
  */

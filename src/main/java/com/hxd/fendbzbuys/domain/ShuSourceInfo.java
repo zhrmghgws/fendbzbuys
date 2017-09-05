@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 
 public class ShuSourceInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * _id : 595411d7c35501145feedb8d

@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hxd.fendbzbuys.R;
+import com.hxd.fendbzbuys.base.MyCallBack;
 import com.hxd.fendbzbuys.domain.ShujiaBookBean;
 import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
 import com.hxd.fendbzbuys.moduler.mianze_module.MianzeActivity;
@@ -72,7 +73,7 @@ public class DialogManager {
 
     private static Map<Integer, String> bookIDList;
 
-    public static void createYiChuShujiaDialog(Activity activity, boolean isCanCancle, boolean isShouye) {
+    public static void createYiChuShujiaDialog(Activity activity, boolean isCanCancle, boolean isShouye,MyCallBack callBack) {
         ShujiaBookBeanDao shujiaBookBeanDao = DaoManager.getInstance().getShujiaBookBeanDao();
         List<ShujiaBookBean> shujiaBookBeanList = shujiaBookBeanDao.queryBuilder().where(ShujiaBookBeanDao.Properties.BookpathBean.gt(0)).list();
         bookIDList = new HashMap<Integer, String>();
@@ -145,6 +146,14 @@ public class DialogManager {
                         Log.e("entry.getKey()", "::::::: " + entry.getKey() + "::::::entry.getValue" + ":::::" + entry.getValue());
                     }
                     UIUtils.showToast("移除成功");
+                    if(callBack!=null){
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        callBack.next();
+                    }
                 } else {
                     UIUtils.showToast("请先选中你要移除书架的书");
                 }

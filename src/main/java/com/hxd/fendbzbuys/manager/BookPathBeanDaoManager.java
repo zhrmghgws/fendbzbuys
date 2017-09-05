@@ -235,7 +235,7 @@ public class BookPathBeanDaoManager {
     public static long getduiyingBookPathBeanDao(int i, int j, BookContentInfo bookContentInfo,String bookid,List<BookMuluInfo.ChaptersEntity> muluList) {
         switch (i) {
             case 0:
-                if (bookPathBeanDao != null && bookPathBeanDao.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao != null ) {
                     BookPathBean bookPathBean = new BookPathBean();
                     bookPathBean.id = Long.valueOf(j);
                     bookPathBean.bookId = bookid;
@@ -246,7 +246,7 @@ public class BookPathBeanDaoManager {
                     return bookPathBeanDao.insertOrReplace(bookPathBean);
                 }
             case 1:
-                if (bookPathBeanDao1 != null && bookPathBeanDao1.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao1 != null ) {
                     BookPathOneBean bookPathBean1 = new BookPathOneBean();
                     bookPathBean1.id = Long.valueOf(j);
                     bookPathBean1.bookId = bookid;
@@ -258,7 +258,7 @@ public class BookPathBeanDaoManager {
                 }
 
             case 2:
-                if (bookPathBeanDao2 != null && bookPathBeanDao2.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao2 != null ) {
                     BookPathTwoBean bookPathBean2 = new BookPathTwoBean();
                     bookPathBean2.id = Long.valueOf(j);
                     bookPathBean2.bookId = bookid;
@@ -270,7 +270,7 @@ public class BookPathBeanDaoManager {
                 }
 
             case 3:
-                if (bookPathBeanDao3 != null && bookPathBeanDao3.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao3 != null ) {
                     BookPathThreeBean bookPathBean3 = new BookPathThreeBean();
                     bookPathBean3.id = Long.valueOf(j);
                     bookPathBean3.bookId = bookid;
@@ -282,7 +282,7 @@ public class BookPathBeanDaoManager {
                 }
 
             case 4:
-                if (bookPathBeanDao4 != null && bookPathBeanDao4.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao4 != null ) {
                     BookPathFourBean bookPathBean4 = new BookPathFourBean();
                     bookPathBean4.id = Long.valueOf(j);
                     bookPathBean4.bookId = bookid;
@@ -294,7 +294,7 @@ public class BookPathBeanDaoManager {
                 }
 
             case 5:
-                if (bookPathBeanDao5 != null && bookPathBeanDao5.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao5 != null ) {
                     BookPathFiveBean bookPathBean5 = new BookPathFiveBean();
                     bookPathBean5.id = Long.valueOf(j);
                     bookPathBean5.bookId = bookid;
@@ -306,7 +306,7 @@ public class BookPathBeanDaoManager {
                 }
 
             case 6:
-                if (bookPathBeanDao6 != null && bookPathBeanDao6.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao6 != null ) {
                     BookPathSixBean bookPathBean6 = new BookPathSixBean();
                     bookPathBean6.id = Long.valueOf(j);
                     bookPathBean6.bookId = bookid;
@@ -318,7 +318,7 @@ public class BookPathBeanDaoManager {
                 }
 
             case 7:
-                if (bookPathBeanDao7 != null && bookPathBeanDao7.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao7 != null ) {
                     BookPathSevenBean bookPathBean7 = new BookPathSevenBean();
                     bookPathBean7.id = Long.valueOf(j);
                     bookPathBean7.bookId = bookid;
@@ -329,7 +329,7 @@ public class BookPathBeanDaoManager {
                     return bookPathBeanDao7.insertOrReplace(bookPathBean7);
                 }
             case 8:
-                if (bookPathBeanDao8 != null && bookPathBeanDao8.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao8 != null ) {
                     BookPathEightBean bookPathBean8 = new BookPathEightBean();
                     bookPathBean8.id = Long.valueOf(j);
                     bookPathBean8.bookId =bookid;
@@ -340,7 +340,7 @@ public class BookPathBeanDaoManager {
                     return bookPathBeanDao8.insertOrReplace(bookPathBean8);
                 }
             case 9:
-                if (bookPathBeanDao9 != null && bookPathBeanDao9.load(Long.valueOf(j)) == null) {
+                if (bookPathBeanDao9 != null ) {
                     BookPathNineBean bookPathBean9 = new BookPathNineBean();
                     bookPathBean9.id = Long.valueOf(j);
                     bookPathBean9.bookId =bookid;

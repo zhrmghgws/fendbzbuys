@@ -21,6 +21,7 @@ import com.hxd.fendbzbuys.Constant;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.BasePresenter;
 import com.hxd.fendbzbuys.base.DownLoadCallBack;
+import com.hxd.fendbzbuys.base.MyCallBack;
 import com.hxd.fendbzbuys.domain.BookContentInfo;
 import com.hxd.fendbzbuys.domain.BookMuluInfo;
 import com.hxd.fendbzbuys.domain.BookPathBean;
@@ -474,7 +475,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
     public boolean savaData() {
         int bookpathid = DaoManager.getInstance().getKongXianBookPathBeanDao();
         if (bookpathid == 20) {
-            DialogManager.createYiChuShujiaDialog(ReadPresenter.this.view,true,false);
+            DialogManager.createYiChuShujiaDialog(ReadPresenter.this.view, true, false,null);
             return false;
         }else{
             shujiaBookBean.currentZhangjie = currentCount + "";

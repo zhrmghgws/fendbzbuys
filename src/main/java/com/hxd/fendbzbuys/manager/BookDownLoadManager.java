@@ -68,7 +68,7 @@ public class BookDownLoadManager {
                 //view.rl_download_hint.setVisibility(View.VISIBLE);
                 for(int i=0;i<downList.size();i++){
                     try {
-                        Thread.sleep(15);
+                        Thread.sleep(20);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

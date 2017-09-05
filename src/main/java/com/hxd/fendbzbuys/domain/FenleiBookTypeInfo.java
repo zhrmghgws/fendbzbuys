@@ -1,12 +1,14 @@
 package com.hxd.fendbzbuys.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lichao on 17/8/27.
  */
 
-public class FenleiBookTypeInfo {
+public class FenleiBookTypeInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * male : [{"name":"玄幻","bookCount":464475,"monthlyCount":0,"icon":"/icon/玄幻_.png"},{"name":"奇幻","bookCount":43797,"monthlyCount":0,"icon":"/icon/奇幻_.png"},{"name":"武侠","bookCount":38232,"monthlyCount":0,"icon":"/icon/武侠_.png"},{"name":"仙侠","bookCount":123050,"monthlyCount":0,"icon":"/icon/仙侠_.png"},{"name":"都市","bookCount":326488,"monthlyCount":0,"icon":"/icon/都市_.png"},{"name":"职场","bookCount":14872,"monthlyCount":0,"icon":"/icon/职场_.png"},{"name":"历史","bookCount":65250,"monthlyCount":0,"icon":"/icon/历史_.png"},{"name":"军事","bookCount":14088,"monthlyCount":0,"icon":"/icon/军事_.png"},{"name":"游戏","bookCount":76059,"monthlyCount":0,"icon":"/icon/游戏_.png"},{"name":"竞技","bookCount":5358,"monthlyCount":0,"icon":"/icon/竞技_.png"},{"name":"科幻","bookCount":105126,"monthlyCount":0,"icon":"/icon/科幻_.png"},{"name":"灵异","bookCount":31105,"monthlyCount":0,"icon":"/icon/灵异_.png"},{"name":"同人","bookCount":36176,"monthlyCount":0,"icon":"/icon/同人_.png"},{"name":"轻小说","bookCount":4669,"monthlyCount":0,"icon":"/icon/轻小说_.png"}]

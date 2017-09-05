@@ -9,6 +9,7 @@ import java.util.List;
  * Created by lichao on 16/9/22.
  */
 public class StatisticsInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
     public boolean ok;
     public List<Statistics> female;
     public List<Statistics> male;

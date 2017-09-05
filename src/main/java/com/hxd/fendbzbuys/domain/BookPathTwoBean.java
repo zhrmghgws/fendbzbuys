@@ -10,12 +10,14 @@ import com.hxd.fendbzbuys.domain.gen.DaoSession;
 import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
 import com.hxd.fendbzbuys.domain.gen.BookPathTwoBeanDao;
 
+import java.io.Serializable;
+
 /**
  * Created by lichao on 17/8/2.
  */
 
 @Entity
-public class BookPathTwoBean {
+public class BookPathTwoBean  {
     @Id(autoincrement = true)
     public Long id;
     @Index

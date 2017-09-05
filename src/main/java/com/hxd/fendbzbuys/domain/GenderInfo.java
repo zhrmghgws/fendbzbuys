@@ -12,7 +12,8 @@ import java.util.List;
 /**
  * Created by lichao on 16/9/22.
  */
-public class GenderInfo {
+public class GenderInfo implements Serializable{
+    private static final long serialVersionUID = 1L;
     public boolean ok;
     public List<FemaleInfo> female;
     public List<FemaleInfo> male;

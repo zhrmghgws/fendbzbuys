@@ -46,7 +46,16 @@ public class ShujiaFragment extends BaseFragment<ShujiaPresenter> {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("onResume", ":::::::::: onResume" );
+        Log.e("shujia", ":::::::::: onResume" );
         presenter.resume();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.e("shujia", ":::::::::: setUserVisibleHint" );
+        if(isVisibleToUser && presenter!=null){
+            presenter.resume();
+        }
     }
 }

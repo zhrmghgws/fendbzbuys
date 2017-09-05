@@ -30,7 +30,11 @@
 -keep public class * extends android.app.backup.BackupAgentHelper # 保持哪些类不被混淆
 -keep public class * extends android.preference.Preference        # 保持哪些类不被混淆
 -keep public class com.android.vending.licensing.ILicensingService    # 保持哪些类不被混淆
-
+-keep public class com.hxd.fendbzbuys.domain.*{*;}
+-keep public class com.hxd.fendbzbuys.domain.gen.*{*;}
+-dontwarn com.hxd.fendbzbuys.domain.**
+-dontwarn com.hxd.fendbzbuys.domain.gen.**
+-keep class com.umeng.*{*;}
 -keepclasseswithmembernames class * {  # 保持 native 方法不被混淆
     native <methods>;
 }
@@ -43,10 +47,7 @@
 -keepclassmembers class * extends android.app.Activity { # 保持自定义控件类不被混淆
     public void *(android.view.View);
 }
--keep public class * extends application.android.com.xindai.moduler.uploadcontacts_moduler.BaseHolder
 -keep class * implements java.io.Serializable
--keep class com.bigkoo.pickerview.**{*;}
--keep class domain.**{*;}
 -keepclassmembers class * implements java.io.Serializable {
    *;
 }
@@ -74,7 +75,15 @@
 }
 -dontwarn okio.**
 -dontwarn retrofit2.**
-
+-dontnote retrofit2.Platform
+# Platform used when running on RoboVM on iOS. Will not be used at runtime.
+-dontnote retrofit2.Platform$IOS$MainThreadExecutor
+# Platform used when running on Java 8 VMs. Will not be used at runtime.
+-dontwarn retrofit2.Platform$Java8
+# Retain generic type information for use by reflection by converters and adapters.
+-keepattributes Signature
+# Retain declared checked exceptions for use by a Proxy instance.
+-keepattributes Exceptions
 
 #-------------------------------retrofit2-------------------------------
 
@@ -102,6 +111,12 @@
  -dontwarn okhttp3.**
 #-------------------------------okhttp3-------------------------------
 -keepnames class com.example.xh.glidedemo.ConfigurationGlide
+# glide 的混淆代码
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
 #youmeng tongji----------------------
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
@@ -137,6 +152,8 @@ public static final int *;
 -keep class com.alibaba.sdk.android.**{*;}
 -keep class com.ut.**{*;}
 -keep class com.ta.**{*;}
+-keep class anet.channel.**{*;}
+-dontwarn anet.channel.**
 
 -keep public class **.R$*{
    public static final int *;
@@ -175,3 +192,11 @@ public static java.lang.String TABLENAME;
 -dontwarn org.greenrobot.greendao.database.**
 # If you do not use Rx:
 -dontwarn rx.**
+
+-dontwarn org.**
+-dontwarn java.**
+-dontwarn javax.**
+-dontwarn com.sun.org.**
+-dontwarn java.beans.**
+-dontwarn freemarker.**
+-keepattributes EnclosingMetho

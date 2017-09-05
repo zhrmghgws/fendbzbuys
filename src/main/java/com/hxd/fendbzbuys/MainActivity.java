@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -26,12 +25,11 @@ import android.widget.TextView;
 
 import com.hxd.fendbzbuys.base.ActionbarAtrribute;
 import com.hxd.fendbzbuys.base.MVPBaseActivity;
+import com.hxd.fendbzbuys.base.MyCallBack;
 import com.hxd.fendbzbuys.domain.BookTotalInfo;
 import com.hxd.fendbzbuys.domain.ShujiaBookBean;
 import com.hxd.fendbzbuys.manager.DaoManager;
 import com.hxd.fendbzbuys.manager.DialogManager;
-import com.hxd.fendbzbuys.moduler.account_moduler.ShujiaPresenter;
-import com.hxd.fendbzbuys.moduler.laon_moduler.PaihangFragment;
 import com.hxd.fendbzbuys.moduler.sousu.SousuoActivity;
 import com.hxd.fendbzbuys.network.FBNetwork;
 import com.hxd.fendbzbuys.network.ProcressSubsciber;
@@ -154,8 +152,10 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("mainActivity::", ":::::::::onResume: " );
         isForeground = true;
         if(Constant.mainposition==Constant.MainPostion.SHUJIA_POSITION){
+            Log.e("mainActivity::", ":::::::::homeloan_click: " );
             presenter.homeloan_click();
         }else if (Constant.mainposition==Constant.MainPostion.PAIHANG_POSITION){
             presenter.homeaccount_click();
@@ -163,9 +163,8 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             presenter.homefenlei_click();
         }
         Constant.mainposition= Constant.MainPostion.NONE_POSITION;
-        nanOrNv();
+        nanOrNvShow();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -210,9 +209,45 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
         nanOrNv();
     }
     @OnClick(R.id.iv_shezhi_main)void shezhi(){
-        DialogManager.createYiChuShujiaDialog(this,true,true);
+        DialogManager.createYiChuShujiaDialog(this, true, true, new MyCallBack() {
+            @Override
+            public void next() {
+                presenter.shujiaFragment.presenter.resume();
+            }
+        });
+    }
+    private void nanOrNvShow(){
+        if(!Constant.isNan){
+            tv_nan_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,13);
+            tv_nv_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
+            tv_fengexian_titlebar.setTextColor(getResources().getColor(R.color.e99497));
+            tv_nan_titlebar.setTextColor(getResources().getColor(R.color.color_999999));
+            tv_nv_titlebar.setTextColor(getResources().getColor(R.color.e99497));
+
+            // tv_nan_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
+            // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
+            if(presenter.currentPage==1){
+                presenter.paihangFragment.presenter.nanOrnvChange();
+            }else if(presenter.currentPage==2){
+                presenter.fenleiFragment.nvPaihang();
+            }
+        }else{
+            tv_nan_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
+            tv_fengexian_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
+            tv_nan_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
+            tv_nv_titlebar.setTextColor(getResources().getColor(R.color.color_999999));
+            tv_nv_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,13);
+            //  tv_nan_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
+            // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
+            if(presenter.currentPage==1){
+                presenter.paihangFragment.presenter.nanOrnvChange();
+            }else if(presenter.currentPage==2){
+                presenter.fenleiFragment.nanPaihang();
+            }
+        }
     }
     private void nanOrNv(){
+
         if(Constant.isNan){
             Constant.isNan=false;
             tv_nan_titlebar.setTextSize(TypedValue.COMPLEX_UNIT_DIP,13);
@@ -224,7 +259,7 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             // tv_nan_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
             // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
             if(presenter.currentPage==1){
-                presenter.paihangFragment.nvPaihang();
+                presenter.paihangFragment.presenter.nanOrnvChange();
             }else if(presenter.currentPage==2){
                 presenter.fenleiFragment.nvPaihang();
             }
@@ -238,7 +273,7 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
             //  tv_nan_titlebar.setTextColor(getResources().getColor(R.color.hometextcolor_hover_light));
             // tv_nv_titlebar.setTextColor(getResources().getColor(R.color.color_666666));
             if(presenter.currentPage==1){
-                presenter.paihangFragment.nanPaihang();
+                presenter.paihangFragment.presenter.nanOrnvChange();
             }else if(presenter.currentPage==2){
                 presenter.fenleiFragment.nanPaihang();
             }
@@ -347,7 +382,7 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getMyapplication().getApplicationContext());
         Notification notification = builder.setTicker("你的书有更新了")
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.yueyue_launcher)
                 .setWhen(System.currentTimeMillis())
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(shujiaBookBean.bookName+"有新更新了")

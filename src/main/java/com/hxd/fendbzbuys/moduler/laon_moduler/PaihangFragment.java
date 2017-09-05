@@ -160,25 +160,15 @@ public class PaihangFragment extends BaseFragment<PaihangPresenter> {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("排行::", ":::::::::onResume: " );
+        presenter.nanOrnvChange();
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
-            presenter.man= Constant.isNan;
             presenter.nanOrnvChange();
         }
     }
 
-    public  void nvPaihang() {
-        presenter.man=false;
-        presenter.nvpaihang();
-    }
-
-    public void nanPaihang() {
-        presenter.man=true;
-        presenter.nanpaihang();
-    }
 }

@@ -6,11 +6,13 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by lichao on 17/8/27.
  */
 @Entity
-public class SousuoHistoryBean {
+public class SousuoHistoryBean  {
     @Id(autoincrement = true)
     public Long id;
     public String keywords;

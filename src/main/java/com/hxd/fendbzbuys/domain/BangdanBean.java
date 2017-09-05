@@ -4,11 +4,13 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by lichao on 17/8/2.
  */
 @Entity
-public class BangdanBean {
+public class BangdanBean  {
     @Id
     public long id;
     public String sourceID;

@@ -65,8 +65,13 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
     @Override
     public void onResume() {
         super.onResume();
-        isNan= Constant.isNan;
         Log.e("分类::", ":::::::::onResume: " );
+
+        if( Constant.isNan){
+            nanPaihang();
+        }else{
+            nvPaihang();
+        }
 
     }
 
@@ -74,8 +79,8 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
-            isNan= Constant.isNan;
-            if(isNan){
+
+            if( Constant.isNan){
                 nanPaihang();
             }else{
                 nvPaihang();
@@ -87,7 +92,7 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
         gv_xiaoshuo_fenlei.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(isNan){
+                if( Constant.isNan){
                     FenLeiDetailActivity.invoke(FenleiFragment.this.getActivity(),"male","hot",maleOrFemFenleiList.get(i).name);
                 }else{
                     FenLeiDetailActivity.invoke(FenleiFragment.this.getActivity(),"female","hot",maleOrFemFenleiList.get(i).name);
@@ -161,17 +166,18 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
 
         return new FenleiPresenter(this);
     }
-    boolean isNan;
     public void nanPaihang() {
-        maleOrFemFenleiList=statisticsInfos.male;
-        xiaoshuoAdapter.notifyDataSetChanged();
-        isNan=true;
+        if(statisticsInfos!=null && statisticsInfos.male!=null){
+            maleOrFemFenleiList=statisticsInfos.male;
+            xiaoshuoAdapter.notifyDataSetChanged();
+        }
     }
 
     public void nvPaihang() {
-        maleOrFemFenleiList=statisticsInfos.female;
-        xiaoshuoAdapter.notifyDataSetChanged();
-        isNan=false;
+        if(statisticsInfos!=null && statisticsInfos.female!=null){
+            maleOrFemFenleiList=statisticsInfos.female;
+            xiaoshuoAdapter.notifyDataSetChanged();
+        }
     }
 
     class FLxiaoShuoAdapter extends BaseAdapter{

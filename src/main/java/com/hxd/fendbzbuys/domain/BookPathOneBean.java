@@ -12,12 +12,14 @@ import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.ToOne;
 import com.hxd.fendbzbuys.domain.gen.BookPathOneBeanDao;
 
+import java.io.Serializable;
+
 /**
  * Created by lichao on 17/8/2.
  */
 
 @Entity
-public class BookPathOneBean {
+public class BookPathOneBean  {
     @Id(autoincrement = true)
     public Long id;
     @Index

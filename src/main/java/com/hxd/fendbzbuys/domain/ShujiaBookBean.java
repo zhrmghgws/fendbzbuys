@@ -7,6 +7,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.ToMany;
 
+import java.io.Serializable;
 import java.util.List;
 import org.greenrobot.greendao.DaoException;
 import com.hxd.fendbzbuys.domain.gen.DaoSession;
@@ -17,7 +18,7 @@ import com.hxd.fendbzbuys.domain.gen.ShujiaBookBeanDao;
  * Created by lichao on 17/8/2.
  */
 @Entity
-public class ShujiaBookBean {
+public class ShujiaBookBean  {
     @Index @Id
     public String bookId;
     public String bookName;

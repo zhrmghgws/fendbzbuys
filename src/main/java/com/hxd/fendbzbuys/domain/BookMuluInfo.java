@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class BookMuluInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * _id : 581825122ed01394526750b0

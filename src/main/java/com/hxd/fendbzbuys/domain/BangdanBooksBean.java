@@ -5,12 +5,14 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Index;
 
+import java.io.Serializable;
+
 /**
  * Created by lichao on 17/8/2.
  */
 
 @Entity
-public class BangdanBooksBean {
+public class BangdanBooksBean  {
     @Id
     public long id;
     @Index

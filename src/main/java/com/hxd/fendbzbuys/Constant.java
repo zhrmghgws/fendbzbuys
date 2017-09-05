@@ -69,7 +69,7 @@ public class Constant {
     public static String sourceid;
     public static List<ShuSourceInfo> sourceList;
     public static int taskID;
-    public static boolean isNan;
+    public static boolean isNan=true;
 
     public enum MainPostion{
         SHUJIA_POSITION,PAIHANG_POSITION,FENLEISHUKU_POSITION,NONE_POSITION

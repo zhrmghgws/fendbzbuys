@@ -4,11 +4,13 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by lichao on 17/8/2.
  */
 @Entity
-public class StatisticsBean {
+public class StatisticsBean  {
     @Index
     private String type;//  female/male
     public  String name ;

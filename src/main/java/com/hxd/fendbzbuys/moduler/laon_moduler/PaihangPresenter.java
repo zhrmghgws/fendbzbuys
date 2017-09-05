@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hxd.fendbzbuys.Common;
+import com.hxd.fendbzbuys.Constant;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.BasePresenter;
 import com.hxd.fendbzbuys.base.GetDataCallBack;
@@ -31,7 +32,6 @@ import java.util.List;
  */
 public class PaihangPresenter extends BasePresenter<PaihangFragment> {
     int currentPoint =1;
-    boolean man=true;
     listviewAdapter adapter;
     private List<BangdanBooksBean> maleZuireyue;
     private List<BangdanBooksBean> maleZuirezong;
@@ -210,7 +210,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_wanjiezhou.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_wanjiezhou.setTextSize(16);
         currentPoint=9;
-        if(man){
+        if(Constant.isNan){
             if(maleWanjiezhou.size()>0){
                 data=maleWanjiezhou;
             }else{
@@ -258,7 +258,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_wanjieyue.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_wanjieyue.setTextSize(16);
         currentPoint=8;
-        if(man){
+        if(Constant.isNan){
             if(maleWanjieyue.size()>0){
                 data=maleWanjieyue;
             }else{
@@ -305,7 +305,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.tv_wanjiezong.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_wanjiezong.setTextSize(16);
         currentPoint=7;
-        if(man){
+        if(Constant.isNan){
             if(maleWanjiezong.size()>0){
                 data=maleWanjiezong;
             }else{
@@ -352,7 +352,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.view_fengyunzong.setVisibility(View.VISIBLE);
         view.tv_fengyunzong.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_fengyunzong.setTextSize(16);
-        if(man){
+        if(Constant.isNan){
             if(maleZuirezong.size()>0){
                 data=maleZuirezong;
             }else{
@@ -399,7 +399,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.view_fengyunyue.setVisibility(View.VISIBLE);
         view.tv_fengyunyue.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_fengyunyue.setTextSize(16);
-        if(man){
+        if(Constant.isNan){
             if(maleZuireyue.size()>0){
                 data=maleZuireyue;
             }else{
@@ -446,7 +446,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.view_fengyunzhou.setVisibility(View.VISIBLE);
         view.tv_fengyunzhou.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_fengyunzhou.setTextSize(16);
-        if(man){
+        if(Constant.isNan){
             if(maleZuirezhou.size()>0){
                 data=maleZuirezhou;
             }else{
@@ -494,7 +494,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.view_zonghengzong.setVisibility(View.VISIBLE);
         view.tv_zonghengzong.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_zonghengzong.setTextSize(16);
-        if(man){
+        if(Constant.isNan){
             if(maleQianlizong.size()>0){
                 data=maleQianlizong;
             }else{
@@ -541,7 +541,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.view_zonghengyue.setVisibility(View.VISIBLE);
         view.tv_zonghengyue.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_zonghengyue.setTextSize(16);
-        if(man){
+        if(Constant.isNan){
             if(maleQianliyue.size()>0){
                 data=maleQianliyue;
             }else{
@@ -588,7 +588,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         view.view_zonghengzhou.setVisibility(View.VISIBLE);
         view.tv_zonghengzhou.setTextColor(Color.parseColor("#03b5ff"));
         view.tv_zonghengzhou.setTextSize(16);
-        if(man){
+        if(Constant.isNan){
             if(maleQianlizhou.size()>0){
                 data=maleQianlizhou;
             }else{
@@ -628,19 +628,10 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
         adapter.notifyDataSetChanged();
     }
 
-    public void nanpaihang() {
-
-        nanOrnvChange();
-    }
-
-    public void nvpaihang() {
-
-        nanOrnvChange();
-    }
     public void nanOrnvChange(){
         switch (currentPoint){
             case 1:
-                if(man){
+                if(Constant.isNan){
                     data=maleZuirezong;
                 }else {
                     data=femaleZuirezong;
@@ -648,7 +639,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
                 adapter.notifyDataSetChanged();
                 break;
             case 2:
-                if(man){
+                if(Constant.isNan){
                     data=maleZuireyue;
                 }else {
                     data=femalZuireyue;
@@ -656,7 +647,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
                 adapter.notifyDataSetChanged();
                 break;
             case 3:
-                if(man){
+                if(Constant.isNan){
                     data=maleZuirezhou;
                 }else {
                     data=femaleZuirezhou;
@@ -664,7 +655,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
                 adapter.notifyDataSetChanged();
                 break;
             case 4:
-                if(man){
+                if(Constant.isNan){
                     data=maleQianlizhou;
                 }else {
                     data=femaleQianlizong;
@@ -672,7 +663,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
                 adapter.notifyDataSetChanged();
                 break;
             case 5:
-                if(man){
+                if(Constant.isNan){
                     data=maleQianliyue;
                 }else {
                     data=femalQianliyue;
@@ -680,7 +671,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
                 adapter.notifyDataSetChanged();
                 break;
             case 6:
-                if(man){
+                if(Constant.isNan){
                     data=maleQianlizong;
                 }else {
                     data=femalQianlizhou;
@@ -688,7 +679,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
                 adapter.notifyDataSetChanged();
                 break;
             case 7:
-                if(man){
+                if(Constant.isNan){
                     data=maleWanjiezong;
                 }else {
                     data=femalWanjiezong;
@@ -696,7 +687,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
                 adapter.notifyDataSetChanged();
                 break;
             case 8:
-                if(man){
+                if(Constant.isNan){
                     data=maleWanjieyue;
                 }else {
                     data=femalWanjieyue;
@@ -704,7 +695,7 @@ public class PaihangPresenter extends BasePresenter<PaihangFragment> {
                 adapter.notifyDataSetChanged();
                 break;
             case 9:
-                if(man){
+                if(Constant.isNan){
                     data=maleWanjiezhou;
                 }else {
                     data=femalWanjiezhou;
