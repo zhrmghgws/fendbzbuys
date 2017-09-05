@@ -23,10 +23,10 @@ import java.util.List;
  * 全局变量
  */
 public class Constant {
+    public static String versioncode="1";
     public static String deviceID;
     public static String token;
     public static String userId;
-    public static String versioncode;
     private static String registrationId;
     public static SharedPreferences sp;
     public static int registerResult;

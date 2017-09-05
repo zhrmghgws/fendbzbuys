@@ -397,13 +397,13 @@ public class MainActivity extends MVPBaseActivity<MainActivityPresenter> {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                PushAgent.getInstance(MainActivity.this).getTagManager().add(new TagManager.TCallBack() {
+                PushAgent.getInstance(MainActivity.this).getTagManager().update(new TagManager.TCallBack() {
                     @Override
                     public void onMessage(final boolean isSuccess, final ITagManager.Result result) {
                         //isSuccess表示操作是否成功
                         Log.e("标签", ":::::::::: "+isSuccess );
                     }
-                }, "novip");
+                }, Constant.versioncode);
             }
         }).start();
     }

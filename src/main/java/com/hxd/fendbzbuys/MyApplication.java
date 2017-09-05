@@ -53,7 +53,8 @@ public class MyApplication extends Application {
 
             }
         });
-        mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
+       // mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
+        mPushAgent.setPushIntentServiceClass(null);
        // mPushAgent.setDebugMode(false); 上线需打开,不输出log // TODO: 17/8/30
 
     }
