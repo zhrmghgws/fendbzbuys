@@ -152,6 +152,7 @@ public static final int *;
 -keep class com.alibaba.sdk.android.**{*;}
 -keep class com.ut.**{*;}
 -keep class com.ta.**{*;}
+-keep class com.blueware.agent.**{*;}
 -keep class anet.channel.**{*;}
 -dontwarn anet.channel.**
 
@@ -197,6 +198,7 @@ public static java.lang.String TABLENAME;
 -dontwarn java.**
 -dontwarn javax.**
 -dontwarn com.sun.org.**
+-dontwarn com.blueware.agent.**
 -dontwarn java.beans.**
 -dontwarn freemarker.**
--keepattributes EnclosingMetho
+-keepattributes EnclosingMethod
