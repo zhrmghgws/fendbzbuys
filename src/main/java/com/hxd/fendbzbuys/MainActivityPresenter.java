@@ -394,7 +394,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
                         if (downloadManagerList.get(i) != null) {
                             UIUtils.showToast("该书正在下载中...");
                         } else {
-                            if (downloadManagerList.size() > 2) {
+                            if (downloadManagerList.size() > 1) {
                                 UIUtils.showToast("当前下载队列较多,请稍后...");
                             } else {
                                 tv_manydownload_down.setVisibility(View.GONE);

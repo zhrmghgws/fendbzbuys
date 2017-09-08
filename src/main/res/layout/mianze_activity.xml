@@ -40,6 +40,7 @@
             />
     </RelativeLayout>
     <ScrollView
+        android:layout_below="@+id/rl_actionbar_shumulu"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
@@ -47,11 +48,13 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="40dp"
+            android:paddingBottom="20dp"
             android:textColor="@color/color_666666"
             android:textSize="15dp"
             android:lineSpacingExtra="3dp"
             android:letterSpacing="0.1"
+            android:text="@string/mianze"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </ScrollView>

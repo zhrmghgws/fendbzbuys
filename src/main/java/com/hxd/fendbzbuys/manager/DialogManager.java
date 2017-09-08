@@ -113,6 +113,7 @@ public class DialogManager {
             @Override
             public void onClick(View v) {
                 MianzeActivity.invoke(activity);
+                loadingDialog.dismiss();
             }
         });
         YichuShujiaAdapter adapter = new YichuShujiaAdapter(activity, shujiaBookBeanList);

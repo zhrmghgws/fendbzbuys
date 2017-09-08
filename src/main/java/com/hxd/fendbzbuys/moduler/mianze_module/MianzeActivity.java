@@ -49,7 +49,7 @@ public class MianzeActivity extends MVPBaseActivity<MianzePresenter> {
     public void init() {
 
     }
-    @OnClick({R.id.tv_back_shumulu,R.id.iv_back_shumulu,R.id.tv_daoxu_mulu})
+    @OnClick({R.id.tv_back_mianze,R.id.iv_back_mianze})
     void click(View v){
         switch (v.getId()){
             case R.id.iv_back_mianze:

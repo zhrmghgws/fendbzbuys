@@ -167,16 +167,34 @@ public class FenleiFragment extends BaseFragment<FenleiPresenter> {
         return new FenleiPresenter(this);
     }
     public void nanPaihang() {
-        if(statisticsInfos!=null && statisticsInfos.male!=null){
+        statisticsInfos=Constant.statisticsInfo;
+        if(statisticsInfos!=null && statisticsInfos.male!=null&&xiaoshuoAdapter!=null){
             maleOrFemFenleiList=statisticsInfos.male;
             xiaoshuoAdapter.notifyDataSetChanged();
+        }else{
+           initDate();
         }
     }
 
     public void nvPaihang() {
-        if(statisticsInfos!=null && statisticsInfos.female!=null){
+        statisticsInfos=Constant.statisticsInfo;
+        if(statisticsInfos!=null && statisticsInfos.female!=null&&xiaoshuoAdapter!=null){
             maleOrFemFenleiList=statisticsInfos.female;
             xiaoshuoAdapter.notifyDataSetChanged();
+        }else{
+            initDate();
+           /* FBNetwork.getInstance().getStatistics().subscribe(new ProcressSubsciber<FenleiBookTypeInfo>(false,false) {
+                @Override
+                public void onNext(FenleiBookTypeInfo statisticsInfo) {
+                    Log.e("bbbbb", "-----------------------------------------------");
+                    super.onNext(statisticsInfo);
+                    Constant.statisticsInfo=statisticsInfo;
+                    if(maleOrFemFenleiList!=null){
+                        maleOrFemFenleiList=statisticsInfos.female;
+                        xiaoshuoAdapter.notifyDataSetChanged();
+                    }
+                }
+            });*/
         }
     }
 
