@@ -21,5 +21,7 @@
         android:layout_marginRight="20dp"
         android:textColor="@color/red"
         android:textSize="16dp"
+        android:visibility="gone"
+
         />
 </RelativeLayout>

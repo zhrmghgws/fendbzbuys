@@ -122,7 +122,6 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void nextStep() {
                 if(SplashActivity.this!=null&&!SplashActivity.this.isFinishing()){
-                    textview.setText(flag+"s 后进入");
                     isinitdata();
                 }
             }
@@ -130,6 +129,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void delayFinish(){
+        textview.setVisibility(View.VISIBLE);
         textview.setText(flag+"s 后进入");
         mTimer=new Timer();
         TimerTask task=new TimerTask() {
