@@ -118,11 +118,13 @@ public class SplashActivity extends BaseActivity {
         initNetWorkReceiver();
     }
     private void initNetWorkReceiver() {
+        Log.e("网络::::::", "当前bbbbbb移动网络连接可用 ");
         NetworkConnectChangedReceiver.netWorkOnlineDosomeThing(new OnSuccessCallback() {
             @Override
             public void nextStep() {
                 if(SplashActivity.this!=null&&!SplashActivity.this.isFinishing()){
                     isinitdata();
+                    Log.e("网络::::::", "当前aaaa移动网络连接可用 ");
                 }
             }
         });
@@ -144,6 +146,7 @@ public class SplashActivity extends BaseActivity {
                         }else{
                             mTimer.cancel();
                             SplashActivity.this.startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                            finish();
                         }
 
                     }
