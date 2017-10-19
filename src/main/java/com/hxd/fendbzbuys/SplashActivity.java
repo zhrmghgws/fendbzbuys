@@ -1,7 +1,9 @@
 package com.hxd.fendbzbuys;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -90,7 +92,8 @@ public class SplashActivity extends BaseActivity {
                 Log.e("获取权限失败:::::", "---------WRITE_SETTINGS--");
             }
         });
-       initApp();
+        Constant.sharedPreferences= this.getSharedPreferences("fendbzbuys", Context.MODE_PRIVATE);
+        initApp();
 
     }
     private void initApp(){

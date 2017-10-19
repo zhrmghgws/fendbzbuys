@@ -439,7 +439,11 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 getContents(currentCount + 10, currentCount + 20);
             }
         }
-
+        if (view.bookPathid != 0) {
+            shujiaBookBean.currentZhangjie = currentCount + "";
+            shujiaBookBean.manyDownload= (int) BookPathBeanDaoManager.getDuiyingTitleCount(view.bookPathid);
+            DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
+        }
 
     }
 
@@ -468,6 +472,11 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
             view.scrollview_read.scrollTo(0, 0);
             currentCount = currentCount - 1;
             setData(view.bookPathid);
+            if (view.bookPathid != 0) {
+                shujiaBookBean.currentZhangjie = currentCount + "";
+                shujiaBookBean.manyDownload= (int) BookPathBeanDaoManager.getDuiyingTitleCount(view.bookPathid);
+                DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
+            }
         }
 
     }
@@ -592,7 +601,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
         view.finish();
     }
 
-    private int bgstate = 14;
+    private int bgstate = Constant.sharedPreferences.getInt("bgstate",14);
 
     public void switchBackground(int state) {
         switch (state) {
@@ -603,6 +612,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.iv_textbj1_read.setVisibility(View.VISIBLE);
                 view.tv_read.setTextColor(view.getResources().getColor(R.color.black));
                 bgstate = 1;
+                Constant.sharedPreferences.edit().putInt("bgstate",1).commit();
                 break;
             case 2:
                 setGonebg();
@@ -610,6 +620,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj2);
                 view.iv_textbj2_read.setVisibility(View.VISIBLE);
                 bgstate = 2;
+                Constant.sharedPreferences.edit().putInt("bgstate",2).commit();
                 break;
             case 3:
                 setGonebg();
@@ -617,6 +628,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj3);
                 view.iv_textbj3_read.setVisibility(View.VISIBLE);
                 bgstate = 3;
+                Constant.sharedPreferences.edit().putInt("bgstate",3).commit();
                 break;
             case 4:
                 setGonebg();
@@ -624,6 +636,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj4peg);
                 view.iv_textbj4_read.setVisibility(View.VISIBLE);
                 bgstate = 4;
+                Constant.sharedPreferences.edit().putInt("bgstate",4).commit();
                 break;
             case 5:
                 setGonebg();
@@ -632,6 +645,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.iv_textbj5_read.setVisibility(View.VISIBLE);
                 view.tv_read.setTextColor(view.getResources().getColor(R.color.color_d9a564));
                 bgstate = 5;
+                Constant.sharedPreferences.edit().putInt("bgstate",5).commit();
                 break;
             case 6:
                 setGonebg();
@@ -639,6 +653,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj6);
                 view.iv_textbj6_read.setVisibility(View.VISIBLE);
                 bgstate = 6;
+                Constant.sharedPreferences.edit().putInt("bgstate",6).commit();
                 break;
             case 7:
                 setGonebg();
@@ -646,6 +661,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj7);
                 view.iv_textbj7_read.setVisibility(View.VISIBLE);
                 bgstate = 7;
+                Constant.sharedPreferences.edit().putInt("bgstate",7).commit();
                 break;
             case 8:
                 setGonebg();
@@ -653,6 +669,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj8);
                 view.iv_textbj8_read.setVisibility(View.VISIBLE);
                 bgstate = 8;
+                Constant.sharedPreferences.edit().putInt("bgstate",8).commit();
                 break;
             case 9:
                 setGonebg();
@@ -660,6 +677,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj9);
                 view.iv_textbj9_read.setVisibility(View.VISIBLE);
                 bgstate = 9;
+                Constant.sharedPreferences.edit().putInt("bgstate",9).commit();
                 break;
             case 10:
                 setGonebg();
@@ -667,6 +685,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj10);
                 view.iv_textbj10_read.setVisibility(View.VISIBLE);
                 bgstate = 10;
+                Constant.sharedPreferences.edit().putInt("bgstate",10).commit();
                 break;
             case 11:
                 setGonebg();
@@ -674,6 +693,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj11);
                 view.iv_textbj11_read.setVisibility(View.VISIBLE);
                 bgstate = 11;
+                Constant.sharedPreferences.edit().putInt("bgstate",11).commit();
                 break;
             case 12:
                 setGonebg();
@@ -681,6 +701,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj12);
                 view.iv_textbj12_read.setVisibility(View.VISIBLE);
                 bgstate = 12;
+                Constant.sharedPreferences.edit().putInt("bgstate",12).commit();
                 break;
             case 13:
                 setGonebg();
@@ -688,6 +709,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj13);
                 view.iv_textbj13_read.setVisibility(View.VISIBLE);
                 bgstate = 13;
+                Constant.sharedPreferences.edit().putInt("bgstate",13).commit();
                 break;
             case 14:
                 setGonebg();
@@ -695,6 +717,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj14);
                 view.iv_textbj14_read.setVisibility(View.VISIBLE);
                 bgstate = 14;
+                Constant.sharedPreferences.edit().putInt("bgstate",14).commit();
                 break;
             case 15:
                 setGonebg();
@@ -703,6 +726,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.iv_textbj15_read.setVisibility(View.VISIBLE);
                 view.tv_read.setTextColor(view.getResources().getColor(R.color.color_b6cd9d));
                 bgstate = 15;
+                Constant.sharedPreferences.edit().putInt("bgstate",15).commit();
                 break;
             case 16:
                 setGonebg();
@@ -711,6 +735,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.iv_textbj16_read.setVisibility(View.VISIBLE);
                 view.tv_read.setTextColor(view.getResources().getColor(R.color.light_coffee));
                 bgstate = 16;
+                Constant.sharedPreferences.edit().putInt("bgstate",16).commit();
                 break;
             case 17:
                 setGonebg();
@@ -718,6 +743,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.rl_content_read.setBackgroundResource(R.mipmap.shujia_bj17);
                 view.iv_textbj17_read.setVisibility(View.VISIBLE);
                 bgstate = 17;
+                Constant.sharedPreferences.edit().putInt("bgstate",17).commit();
                 break;
             case 20:
                 setGonebg();
@@ -726,6 +752,7 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
                 view.iv_textbj20_read.setVisibility(View.VISIBLE);
                 view.tv_read.setTextColor(view.getResources().getColor(R.color.light_coffee));
                 bgstate = 20;
+                Constant.sharedPreferences.edit().putInt("bgstate",20).commit();
                 break;
         }
     }

@@ -70,6 +70,7 @@ public class Constant {
     public static List<ShuSourceInfo> sourceList;
     public static int taskID;
     public static boolean isNan=true;
+    public static SharedPreferences sharedPreferences;
 
     public enum MainPostion{
         SHUJIA_POSITION,PAIHANG_POSITION,FENLEISHUKU_POSITION,NONE_POSITION

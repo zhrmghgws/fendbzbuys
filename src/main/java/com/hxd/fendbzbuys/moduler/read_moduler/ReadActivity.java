@@ -183,6 +183,10 @@ public class ReadActivity extends MVPBaseActivity<ReadPresenter> {
         super.onCreate(savedInstanceState);
         setFinishOnTouchOutside(true);
         Constant.sourceid=sourceid;
+        if(Constant.sharedPreferences==null){
+            Constant.sharedPreferences=this.getSharedPreferences("fendbzbuys", Context.MODE_PRIVATE);
+        }
+        presenter.switchBackground(Constant.sharedPreferences.getInt("bgstate",14));
     }
 
     @Override
