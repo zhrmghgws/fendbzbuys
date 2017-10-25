@@ -40,6 +40,8 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
         public final static Property BookTotakCount = new Property(13, int.class, "bookTotakCount", false, "BOOK_TOTAK_COUNT");
         public final static Property IsZhudong = new Property(14, boolean.class, "isZhudong", false, "IS_ZHUDONG");
         public final static Property JiaruDate = new Property(15, long.class, "jiaruDate", false, "JIARU_DATE");
+        public final static Property CurrentX = new Property(16, int.class, "currentX", false, "CURRENT_X");
+        public final static Property CurrentY = new Property(17, int.class, "currentY", false, "CURRENT_Y");
     }
 
 
@@ -70,7 +72,9 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
                 "\"BOOKPATH_BEAN\" INTEGER NOT NULL ," + // 12: bookpathBean
                 "\"BOOK_TOTAK_COUNT\" INTEGER NOT NULL ," + // 13: bookTotakCount
                 "\"IS_ZHUDONG\" INTEGER NOT NULL ," + // 14: isZhudong
-                "\"JIARU_DATE\" INTEGER NOT NULL );"); // 15: jiaruDate
+                "\"JIARU_DATE\" INTEGER NOT NULL ," + // 15: jiaruDate
+                "\"CURRENT_X\" INTEGER NOT NULL ," + // 16: currentX
+                "\"CURRENT_Y\" INTEGER NOT NULL );"); // 17: currentY
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_SHUJIA_BOOK_BEAN_BOOK_ID ON \"SHUJIA_BOOK_BEAN\"" +
                 " (\"BOOK_ID\" ASC);");
@@ -141,6 +145,8 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
         stmt.bindLong(14, entity.getBookTotakCount());
         stmt.bindLong(15, entity.getIsZhudong() ? 1L: 0L);
         stmt.bindLong(16, entity.getJiaruDate());
+        stmt.bindLong(17, entity.getCurrentX());
+        stmt.bindLong(18, entity.getCurrentY());
     }
 
     @Override
@@ -202,6 +208,8 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
         stmt.bindLong(14, entity.getBookTotakCount());
         stmt.bindLong(15, entity.getIsZhudong() ? 1L: 0L);
         stmt.bindLong(16, entity.getJiaruDate());
+        stmt.bindLong(17, entity.getCurrentX());
+        stmt.bindLong(18, entity.getCurrentY());
     }
 
     @Override
@@ -227,7 +235,9 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
             cursor.getInt(offset + 12), // bookpathBean
             cursor.getInt(offset + 13), // bookTotakCount
             cursor.getShort(offset + 14) != 0, // isZhudong
-            cursor.getLong(offset + 15) // jiaruDate
+            cursor.getLong(offset + 15), // jiaruDate
+            cursor.getInt(offset + 16), // currentX
+            cursor.getInt(offset + 17) // currentY
         );
         return entity;
     }
@@ -250,6 +260,8 @@ public class ShujiaBookBeanDao extends AbstractDao<ShujiaBookBean, String> {
         entity.setBookTotakCount(cursor.getInt(offset + 13));
         entity.setIsZhudong(cursor.getShort(offset + 14) != 0);
         entity.setJiaruDate(cursor.getLong(offset + 15));
+        entity.setCurrentX(cursor.getInt(offset + 16));
+        entity.setCurrentY(cursor.getInt(offset + 17));
      }
     
     @Override

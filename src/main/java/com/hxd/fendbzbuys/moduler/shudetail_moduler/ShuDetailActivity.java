@@ -86,7 +86,7 @@ public class ShuDetailActivity extends MVPBaseActivity<ShuDetailPresenter> {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //scrollview_shudetail.scrollTo(0, 0);
+       // scrollview_shudetail.scrollTo(0, 0);
     }
     private void getPermissions(){
 

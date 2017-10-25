@@ -15,7 +15,7 @@
         android:textColor="@color/color_999999"
         android:textSize="13dp" />
 
-    <ScrollView
+    <com.hxd.fendbzbuys.ui.ObservableScrollView
         android:id="@+id/scrollview_read"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,7 +46,7 @@
                 android:layout_below="@+id/tv_read" />
         </RelativeLayout>
 
-    </ScrollView>
+    </com.hxd.fendbzbuys.ui.ObservableScrollView>
 
     <RelativeLayout
         android:id="@+id/rl_actionbar_read"

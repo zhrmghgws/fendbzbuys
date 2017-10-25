@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.OvershootInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -289,7 +290,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
     }
 
     private void startAnimationDown(View v) {
-        DisplayMetrics dm = view.getResources().getDisplayMetrics();
+       /* DisplayMetrics dm = view.getResources().getDisplayMetrics();
         int w_screen = dm.widthPixels;
         int h_screen = dm.heightPixels;
         ValueAnimator va = ValueAnimator.ofInt(1, h_screen - UIUtils.dip2px(50) - ViewUtils.getStatusBarHeight(view));
@@ -304,7 +305,14 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
             }
         });
         va.setDuration(1000);
-        va.start();
+        va.start();*/
+
+        Animation myAnimation_Scale =new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
+                Animation.RELATIVE_TO_SELF, 1f, Animation.RELATIVE_TO_SELF, 0f);
+        myAnimation_Scale.setDuration(500);
+        //动画效果从XMl文件中定义
+//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        v.setAnimation(myAnimation_Scale);
     }
 
     class DownLoadAdapter extends BaseAdapter {

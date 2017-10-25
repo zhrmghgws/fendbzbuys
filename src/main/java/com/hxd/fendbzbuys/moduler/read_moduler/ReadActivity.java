@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -22,6 +23,8 @@ import com.hxd.fendbzbuys.Constant;
 import com.hxd.fendbzbuys.R;
 import com.hxd.fendbzbuys.base.ActionbarAtrribute;
 import com.hxd.fendbzbuys.base.MVPBaseActivity;
+import com.hxd.fendbzbuys.base.ScrollViewListener;
+import com.hxd.fendbzbuys.ui.ObservableScrollView;
 import com.hxd.fendbzbuys.ui.SpacingTextView;
 import com.hxd.fendbzbuys.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -165,10 +168,12 @@ public class ReadActivity extends MVPBaseActivity<ReadPresenter> {
 
 
     @BindView(R.id.scrollview_read)
-    ScrollView scrollview_read;
+    ObservableScrollView scrollview_read;
     public static String sourceid;
     public static String bookid;
     public static int bookPathid;
+    public Handler handler = new Handler();
+    int currentX,currentY;
     public static void invoke(Activity activity,String bookId,String sourceID,int bookPathId) {
         bookid=bookId;
         sourceid=sourceID;
@@ -228,8 +233,21 @@ public class ReadActivity extends MVPBaseActivity<ReadPresenter> {
         lpbrght.width= (int) (UIUtils.dip2px(200)*(brightness/255f));
         view_process_hover_bright.setLayoutParams(lpbrght);
         lpJindu= (RelativeLayout.LayoutParams)view_download_jindu_new.getLayoutParams();
+        scrollview_read.setScrollViewListener(new ScrollViewListener() {
+            @Override
+            public void onScrollChanged(ObservableScrollView observableScrollView, int x, int y, int oldx, int oldy) {
+                currentX=x;currentY=y;
+            }
+        });
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.saveXY();
+    }
+
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {

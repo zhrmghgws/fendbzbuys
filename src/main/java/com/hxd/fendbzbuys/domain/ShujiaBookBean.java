@@ -36,12 +36,15 @@ public class ShujiaBookBean  {
     public int bookTotakCount;
     public boolean isZhudong;
     public long jiaruDate;
-    @Generated(hash = 970344993)
+    public int currentX;
+    public int currentY;
+    @Generated(hash = 1300156331)
     public ShujiaBookBean(String bookId, String bookName, String cover,
             String minorCate, String author, boolean isSerial, String shuqian,
             String bookSourceID, String currentZhangjie, String lastChapter,
             String longIntro, int manyDownload, int bookpathBean,
-            int bookTotakCount, boolean isZhudong, long jiaruDate) {
+            int bookTotakCount, boolean isZhudong, long jiaruDate, int currentX,
+            int currentY) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.cover = cover;
@@ -58,6 +61,8 @@ public class ShujiaBookBean  {
         this.bookTotakCount = bookTotakCount;
         this.isZhudong = isZhudong;
         this.jiaruDate = jiaruDate;
+        this.currentX = currentX;
+        this.currentY = currentY;
     }
     @Generated(hash = 340162246)
     public ShujiaBookBean() {
@@ -158,6 +163,16 @@ public class ShujiaBookBean  {
     public void setJiaruDate(long jiaruDate) {
         this.jiaruDate = jiaruDate;
     }
-
-
+    public int getCurrentX() {
+        return this.currentX;
+    }
+    public void setCurrentX(int currentX) {
+        this.currentX = currentX;
+    }
+    public int getCurrentY() {
+        return this.currentY;
+    }
+    public void setCurrentY(int currentY) {
+        this.currentY = currentY;
+    }
 }
