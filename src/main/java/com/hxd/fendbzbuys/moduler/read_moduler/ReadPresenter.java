@@ -507,6 +507,8 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
             shujiaBookBean.isZhudong = true;
             shujiaBookBean.jiaruDate = System.currentTimeMillis();
             shujiaBookBean.bookpathBean = bookpathid;
+            shujiaBookBean.currentX=view.currentX;
+            shujiaBookBean.currentY=view.currentY;
             List<BookPathBean> beanlist = BookPathBeanDaoManager.bookPathBeanDao.loadAll();
             shujiaBookBean.manyDownload = beanlist.size();
             shujiaBookBean.bookTotakCount = Constant.muluList.size();
@@ -613,6 +615,8 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
         //int bookpathid = DaoManager.getInstance().getKongXianBookPathBeanDao();
         if (view.bookPathid != 0) {
             shujiaBookBean.currentZhangjie = currentCount + "";
+            shujiaBookBean.currentX=view.currentX;
+            shujiaBookBean.currentY=view.currentY;
             shujiaBookBean.manyDownload = (int) BookPathBeanDaoManager.getDuiyingTitleCount(view.bookPathid);
             DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
         }
@@ -1266,7 +1270,10 @@ public class ReadPresenter extends BasePresenter<ReadActivity> {
     public void saveXY() {
         shujiaBookBean.currentX = view.currentX;
         shujiaBookBean.currentY = view.currentY;
-        Log.e("滑动位置", "currentx::::" + view.currentX + "::::currenty::::" + view.currentY);
+        shujiaBookBean.currentZhangjie = currentCount + "";
+        shujiaBookBean.currentX=view.currentX;
+        shujiaBookBean.currentY=view.currentY;
+        DaoManager.getInstance().getShujiaBookBeanDao().update(shujiaBookBean);
     }
 
     private class MuluReadAdapter extends BaseAdapter {
