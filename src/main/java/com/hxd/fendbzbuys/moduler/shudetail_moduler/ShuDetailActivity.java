@@ -143,13 +143,25 @@ public class ShuDetailActivity extends MVPBaseActivity<ShuDetailPresenter> {
 
                 break;
             case R.id.bt_jiarushujia_shudetail:
-                presenter.clickJiarushujia(false);
+                if(presenter.canRead){
+                    presenter.clickJiarushujia(false);
+                }else{
+                    UIUtils.showToast("没找到此书,或者是没有免费版");
+                }
                 break;
             case R.id.bt_lijiyuedu_shudetail:
-                presenter.clickLijiyuedu();
+                if(presenter.canRead){
+                    presenter.clickLijiyuedu();
+                }else{
+                    UIUtils.showToast("没找到此书,或者是没有免费版");
+                }
                 break;
             case R.id.bt_xiazai_shudetail:
-                presenter.clickXiazai();
+                if(presenter.canRead){
+                    presenter.clickXiazai();
+                }else{
+                    UIUtils.showToast("没找到此书,或者是没有免费版");
+                }
                 break;
             case R.id.iv_back_detail:
             case R.id.tv_back_shudetail:

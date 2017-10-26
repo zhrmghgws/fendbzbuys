@@ -124,7 +124,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
             }
         });
     }
-
+    boolean canRead=true;
     public void getShuSources() {
         FBNetwork.getInstance().getShuSources(view.bookInfo.bookID).subscribe(new ProcressSubsciber<List<ShuSourceInfo>>(false, false) {
             @Override
@@ -141,6 +141,7 @@ public class ShuDetailPresenter extends BasePresenter<ShuDetailActivity> {
                 }else{
                     if((httpResult.size()==1&& httpResult.get(0).source.contains("vip"))|| httpResult.size()==0){
                         UIUtils.showToast("没找到此书,或者是没有免费版");
+                        canRead=false;
                     }
                 }
 
