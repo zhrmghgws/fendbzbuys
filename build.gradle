@@ -1,24 +1,28 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'org.greenrobot.greendao'
 
-allprojects {
+
+buildscript {
+
     repositories {
         google()
         jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
+
     }
+
 }
+
 greendao {
     schemaVersion 1
     daoPackage 'com.hxd.fendbzbuys.domain.gen'
     targetGenDir 'src/main/java'
 }
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.hxd.fendbzbuys"
@@ -66,7 +70,7 @@ dependencies {
     compile ('com.android.support:appcompat-v7:25.3.1')
     testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.apkfuns.logutils:library:1.4.2'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
